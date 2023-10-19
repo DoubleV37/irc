@@ -6,14 +6,14 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:23:39 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:53:57 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <string>
-#include <vector>
+#include <map>
 
 class Channel;
 
@@ -22,7 +22,7 @@ class User {
     private:
         std::string _userName;
         std::string _nickName;
-        std::vector<Channel*> _channels;
+        std::map<std::string, Channel*> _channels;
 
     public:
         User();
@@ -36,7 +36,7 @@ class User {
         std::string const & getNickname() const;
         void setNickName( std::string const & nickName );
         void addChannel( Channel* channel );
-        void removeChannel( Channel* channel );
-        std::vector<Channel*> getChannels();
+        void removeChannel( std::string const & name );
+        std::map<std::string, Channel*> getChannels();
              
 };

@@ -6,10 +6,11 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 14:52:23 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:17:28 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "Channel.hpp"
 #include "User.hpp"
 
 User::User() {
@@ -53,15 +54,16 @@ void User::setNickName( std::string const & nickName ) {
 
 void User::addChannel( Channel* channel ) {
     
-    this->_channels.push_back(channel);
+    // Vérifier en amont si le channel existe déjà
+    this->_channels[channel->getName()] = channel;
 }
 
-void User::removeChannel( Channel* channel ) {
-
-    (void)channel;
+void User::removeChannel( std::string const & name ) {
+    
+    this->_channels.erase(name);    
 }
 
-std::vector<Channel*> User::getChannels() {
+std::map<std::string, Channel*> User::getChannels() {
     
     return this->_channels;
 }

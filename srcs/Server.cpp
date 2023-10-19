@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:26:06 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/19 17:10:12 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ std::vector<User*> Server::getUsers() {
     return this->_users;
 }
 
-std::vector<Channel*> Server::getChannels() {
+std::map<std::string, Channel*> Server::getChannels() {
 
     return this->_channels;
 }
