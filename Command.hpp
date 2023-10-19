@@ -25,7 +25,7 @@ class Command {
         std::string _usage;
 
     public:
-        Command( std::string name, std::string usage );
+        Command( std::string const & name, std::string const & usage );
         virtual ~Command();
 
         virtual bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) = 0;

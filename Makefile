@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/10/19 11:20:51 by gazzopar         ###   ########.fr        #
+#    Updated: 2023/10/19 15:30:38 by gazzopar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ NAME 		= ircserv
 SRC			:=	main.cpp \
 				User.cpp \
 				Server.cpp \
-				Channel.cpp
+				Channel.cpp \
+				Command.cpp
 				
 OBJ			:= $(SRC:.cpp=.o)
 

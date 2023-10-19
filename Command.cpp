@@ -12,10 +12,6 @@
 
 #include "Command.hpp"
 
-Command::Command() {
-    
-}
-
 Command::Command( std::string const & name, std::string const & usage ) : _name(name), _usage(usage) {
 
     (void)name;
@@ -27,12 +23,13 @@ Command::~Command() {
     
 }
 
-virtual bool Command::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
+bool Command::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
 
     (void)args;
     (void)user;
     (void)channel;
     (void)server;
+    return true;
 }
 
 std::string const & Command::getName() const {

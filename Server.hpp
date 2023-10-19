@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 14:38:09 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:31:21 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 #include "User.hpp"
 #include "Channel.hpp"
 #include "Command.hpp"
+
+class Command;
 
 class Server {
     
