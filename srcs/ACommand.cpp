@@ -1,21 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Command.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:24:12 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/19 13:54:03 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
-#include "Channel.hpp"
-#include "Server.hpp"
 #include "ACommand.hpp"
 
-int main(void) {
+ACommand::ACommand( std::string const & name, std::string const & usage ) : _name(name), _usage(usage) {
+
+    (void)name;
+    (void)usage;
+ 
+}
+
+ACommand::~ACommand() {
     
-    return 0;
+}
+
+bool ACommand::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
+
+    (void)args;
+    (void)user;
+    (void)channel;
+    (void)server;
+    return true;
+}
+
+std::string const & ACommand::getName() const {
+
+    return this->_name;
+}
+
+std::string const & ACommand::getUsage() const {
+
+    return this->_usage;
 }

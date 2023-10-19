@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 15:31:21 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:26:38 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <vector>
 #include "User.hpp"
 #include "Channel.hpp"
-#include "Command.hpp"
+#include "ACommand.hpp"
 
-class Command;
+class ACommand;
 
 class Server {
     
@@ -26,7 +26,7 @@ class Server {
         std::string _password;
         std::vector<User*> _users;
         std::vector<Channel*> _channels;
-        std::map<std::string, Command*> _command;
+        std::map<std::string, ACommand*> _command;
 
     public:
         Server();
@@ -43,6 +43,6 @@ class Server {
         User* getUserByUsername( std::string const & userName ) const;
         Channel* getChannelByName( std::string const & channel ) const;
         void deleteUser(User*);
-        Command* getCommand( std::string const & command ) const;      
+        ACommand* getCommand( std::string const & command ) const;      
 
 };

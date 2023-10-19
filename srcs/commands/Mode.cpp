@@ -1,21 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:24:12 by gazzopar         ###   ########.fr       */
+/*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
+/*   Updated: 2023/10/19 16:33:00 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "User.hpp"
-#include "Channel.hpp"
-#include "Server.hpp"
-#include "ACommand.hpp"
+#include "Mode.hpp"
 
-int main(void) {
+Mode::Mode( std::string const & name, std::string const & usage ) : ACommand( name, usage)  {
     
-    return 0;
+}
+
+Mode::~Mode() {
+    
+}
+
+bool Mode::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
+
+    (void)args;
+    (void)user;
+    (void)channel;
+    (void)server;
+    return true; 
 }

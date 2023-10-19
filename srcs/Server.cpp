@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 14:58:04 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/19 16:26:06 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void Server::deleteUser(User* user) {
     (void)user;
 }
 
-Command* Server::getCommand( std::string const & command ) const  {
+ACommand* Server::getCommand( std::string const & command ) const  {
 
     (void)command;
     return NULL;

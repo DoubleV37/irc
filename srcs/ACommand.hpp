@@ -18,15 +18,15 @@
 
 class Server;
 
-class Command {
+class ACommand {
     
     private:
         std::string _name;
         std::string _usage;
 
     public:
-        Command( std::string const & name, std::string const & usage );
-        virtual ~Command();
+        ACommand( std::string const & name, std::string const & usage );
+        virtual ~ACommand();
 
         virtual bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) = 0;
         std::string const & getName() const;
