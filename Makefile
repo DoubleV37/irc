@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/10/19 15:30:38 by gazzopar         ###   ########.fr        #
+#    Updated: 2023/10/19 15:46:09 by gazzopar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,14 @@ NAME 		= ircserv
 #									INGREDIENTS								  #
 #-----------------------------------------------------------------------------#
 
-SRC			:=	main.cpp \
-				User.cpp \
-				Server.cpp \
-				Channel.cpp \
-				Command.cpp
+SRC			:=	srcs/main.cpp \
+				srcs/User.cpp \
+				srcs/Server.cpp \
+				srcs/Channel.cpp \
+				srcs/Command.cpp \
+				srcs/exceptions/InvalidPortException.cpp \
+				srcs/exceptions/InvalidPasswordException.cpp \
+				srcs/exceptions/NotNullException.cpp
 				
 OBJ			:= $(SRC:.cpp=.o)
 
