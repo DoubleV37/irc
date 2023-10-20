@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:22 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:37:33 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/20 11:02:43 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@
 
 class Topic : public ACommand {
     
-    Topic( std::string const & name, std::string const & usage );
-    ~Topic();
-    bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
+	public:
+		Topic( std::string const & name, std::string const & usage );
+		~Topic();
+		bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
     
 };
