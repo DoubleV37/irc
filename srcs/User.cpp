@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 17:17:28 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:36:44 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ User::User() {
     
 }
 
-User::User( std::string const & userName ) : _userName(userName) {
+User::User( std::string const & userName, int fd ) : _userName(userName), _fd(fd) {
     
 }
 

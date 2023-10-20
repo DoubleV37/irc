@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 15:00:40 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:41:51 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,19 @@ bool Channel::sendInvite( std::string user ) {
 
     (void)user;
     return true;    
+}
+
+void Channel::broadcast( std::string message ) {
+    
+    (void)message;
+}
+
+std::string Channel::getPassword() {
+
+    return this->_password;
+}
+
+bool Channel::isPrivate() {
+
+    return this->_isPrivate;
 }

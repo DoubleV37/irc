@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 15:00:48 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:41:06 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,16 @@ class Channel {
         std::string const & getName();
         void addUser( User* user, int isAdmin );
         void removeUser( User* user );
+        void setTopic( std::string topic );
         void setOp( User* user );
         void deOp( User* user );
         bool isOp( User* user );
+        std::string getPassword();
+        bool isPrivate();
         bool hasLimit();
         int  getLimit();
         void setLimit( int limit );
         bool sendInvite( std::string user );
+        void broadcast( std::string message );
 
 };

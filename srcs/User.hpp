@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:53:57 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/20 12:21:06 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ class User {
     private:
         std::string _userName;
         std::string _nickName;
+        int _fd;
         std::map<std::string, Channel*> _channels;
 
     public:
         User();
-        User( std::string const & userName );
+        User( std::string const & userName, int fd );
         // Ajouter constructeur paramètres
         User( const User& obj );
         User& operator=( const User& obj );
@@ -38,5 +39,7 @@ class User {
         void addChannel( Channel* channel );
         void removeChannel( std::string const & name );
         std::map<std::string, Channel*> getChannels();
+        int getFd();
+        void send( std::string const & message );
              
 };

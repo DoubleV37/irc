@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 17:10:12 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/20 13:37:15 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,10 @@ ACommand* Server::getCommand( std::string const & command ) const  {
 
     (void)command;
     return NULL;
-}  
+}
+
+void Server::addCommand( std::string const & name, ACommand* command ) {
+    
+    (void)name;
+    (void)command;
+}
