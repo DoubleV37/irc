@@ -6,13 +6,15 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:33:07 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/21 17:45:37 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Invite.hpp"
+#include <cstddef>
 
-Invite::Invite( std::string const & name, std::string const & usage ) : ACommand( name, usage) {
+Invite::Invite() : ACommand( "invite", "/invite <user>" )
+{
     
 }
 
@@ -21,10 +23,17 @@ Invite::~Invite() {
 }
 
 bool Invite::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
-    (void)args;
     (void)user;
-    (void)channel;
-    (void)server;
-    return true;
+	if (args.size() != 1)
+	{
+		return false;
+	}
+	User* userInvite = server->getUserByUsername(args[0]);
+	if (userInvite != NULL)
+	{
+		channel->addUser(userInvite, 0);
+		userInvite->addChannel(channel);
+		return true;
+	}
+    return false;
 }
