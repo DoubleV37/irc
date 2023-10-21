@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 12:55:12 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/21 14:07:23 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ int main(int argc, char** argv)
 		return (1);
 	}
 	Server serv(atoi(argv[1]));
+	serv.run();
 	return (0);
 }

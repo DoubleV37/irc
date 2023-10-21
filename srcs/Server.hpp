@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 13:30:16 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/21 14:07:44 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ class Server {
 		ACommand* getCommand( std::string const & command ) const;
 		void addCommand( std::string const & name, ACommand* command );
 		bool isCommand( std::string const & name );
-		void run();
 		// SWITCH CASE POUR DISPATCH
 		void dispatch( std::string const & buffer);
 		int create_socket_server();
@@ -67,5 +66,6 @@ class Server {
 		User* getUserByUsername( std::string const & userName ) const;
 		Channel* getChannelByName( std::string const & channel ) const;
 		void addChannel( Channel* channel );
+		void run();
 
 };

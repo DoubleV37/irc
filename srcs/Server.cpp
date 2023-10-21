@@ -6,11 +6,13 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 13:30:29 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/21 13:58:28 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+
+#include <unistd.h>
 
 Server::Server() {
 
@@ -92,12 +94,52 @@ int	Server::add_new_connections()
 
 int	Server::recv_messages()
 {
+	char	buf[BUFFER];
+
+	for (int i = 1 ; i < MAX_CONNECTIONS; i++) {
+		if ((this->all_connections[i] > 0) && (FD_ISSET(this->all_connections[i], &fd_to_read))) {
+			/* read incoming data */
+			int recv_val = recv(all_connections[i], buf, BUFFER, 0);
+			if (recv_val == 0) {
+				close(all_connections[i]);
+				all_connections[i] = -1; /* Connection is now closed */
+			}
+			if (recv_val > 0) {
+				std::cout << "cli nb : " << i << " msg : " << buf << std::endl;
+			}
+			if (recv_val == -1) {
+				break;
+			}
+		}
+	}
 	return (1);
 }
 
 int	Server::send_messages()
 {
 	return (1);
+}
+
+void Server::run()
+{
+	while (1)
+	{
+		FD_ZERO(&this->fd_to_read);
+		for (int i = 0 ; i < MAX_CONNECTIONS; i++) {
+			if (all_connections[i] >= 0) {
+				FD_SET(all_connections[i], &this->fd_to_read);
+			}
+		}
+		int nb_cli = select(FD_SETSIZE, &this->fd_to_read, NULL, NULL, NULL);
+		if (nb_cli >= 0)
+		{
+			add_new_connections();
+			}
+			if (nb_cli != 0)
+			{
+				recv_messages();
+			}
+		}
 }
 
 void Server::addUser( User* user ) {
