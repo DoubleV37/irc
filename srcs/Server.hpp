@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 12:07:15 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/21 13:30:16 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "ACommand.hpp"
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/select.h>
 #include <netinet/in.h>
 
 #define BUFFER 5000
@@ -32,8 +33,7 @@ class Server {
 		int	_socket;
 		int	all_connections[MAX_CONNECTIONS];
 		int	nb_connections;
-
-
+		fd_set	fd_to_read;
 
 		std::string	_password;
 		std::vector<User*>	_users;
@@ -52,6 +52,9 @@ class Server {
 		// SWITCH CASE POUR DISPATCH
 		void dispatch( std::string const & buffer);
 		int create_socket_server();
+		int	add_new_connections();
+		int	recv_messages();
+		int	send_messages();
 
 	public:
 		Server();

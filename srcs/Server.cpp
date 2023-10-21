@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 12:34:12 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/21 13:30:29 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ Server::Server() {
 }
 
 Server::Server(int port) {
-	this->_port = port;
+	this->_port = port; //verifier le port
 	create_socket_server();
 	for (int i = 0 ; i < MAX_CONNECTIONS ; i++)
 		this->all_connections[i] = -1;
@@ -57,6 +57,46 @@ int Server::create_socket_server()
 		return (0);
 	if (listen(this->_socket, MAX_CONNECTIONS))
 		return (0);
+	return (1);
+}
+
+int	Server::add_new_connections()
+{
+	int new_fd;
+	struct sockaddr_in new_addr;
+	socklen_t addrlen;
+
+	if (FD_ISSET(this->_socket, &this->fd_to_read))
+	{
+		/* accept the new connection */
+		std::cout << "Returned fd is %d (server's fd)\n" << this->_socket << std::endl;
+		new_fd = accept(this->_socket, (struct sockaddr*)&new_addr, &addrlen);
+		if (new_fd >= 0 && this->nb_connections != MAX_CONNECTIONS) {
+			std::cout << "Accepted a new connection with fd: %d\n" << new_fd << std::endl;
+			for (int i = 0 ; i < MAX_CONNECTIONS ; i++) {
+				if (all_connections[i] < 0) {
+					all_connections[i] = new_fd;
+					nb_connections++;
+					break;
+				}
+			}
+		}
+		else
+		{
+			std::cerr << "ERROR" << std::endl;
+			return (0);
+		}
+	}
+	return (1);
+}
+
+int	Server::recv_messages()
+{
+	return (1);
+}
+
+int	Server::send_messages()
+{
 	return (1);
 }
 
