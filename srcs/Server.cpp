@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 13:58:28 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/21 18:34:12 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ Server::Server() {
 
 Server::Server(int port) {
 	this->_port = port; //verifier le port
-	create_socket_server();
+	createSocketServer();
 	for (int i = 0 ; i < MAX_CONNECTIONS ; i++)
-		this->all_connections[i] = -1;
-	this->nb_connections = 1;
-	this->all_connections[0] = this->_socket;
+		this->_all_connections[i] = -1;
+	this->_nb_connections = 1;
+	this->_all_connections[0] = this->_socket;
 }
 
 Server::Server( const Server& obj ) {
@@ -43,7 +43,7 @@ Server::~Server() {
 
 }
 
-int Server::create_socket_server()
+int Server::createSocketServer()
 {
 	struct sockaddr_in addr;
 
@@ -62,23 +62,23 @@ int Server::create_socket_server()
 	return (1);
 }
 
-int	Server::add_new_connections()
+int	Server::addNewConnections()
 {
 	int new_fd;
 	struct sockaddr_in new_addr;
 	socklen_t addrlen;
 
-	if (FD_ISSET(this->_socket, &this->fd_to_read))
+	if (FD_ISSET(this->_socket, &this->_fd_to_read))
 	{
 		/* accept the new connection */
 		std::cout << "Returned fd is %d (server's fd)\n" << this->_socket << std::endl;
 		new_fd = accept(this->_socket, (struct sockaddr*)&new_addr, &addrlen);
-		if (new_fd >= 0 && this->nb_connections != MAX_CONNECTIONS) {
+		if (new_fd >= 0 && this->_nb_connections != MAX_CONNECTIONS) {
 			std::cout << "Accepted a new connection with fd: %d\n" << new_fd << std::endl;
 			for (int i = 0 ; i < MAX_CONNECTIONS ; i++) {
-				if (all_connections[i] < 0) {
-					all_connections[i] = new_fd;
-					nb_connections++;
+				if (this->_all_connections[i] < 0) {
+					this->_all_connections[i] = new_fd;
+					this->_nb_connections++;
 					break;
 				}
 			}
@@ -92,17 +92,17 @@ int	Server::add_new_connections()
 	return (1);
 }
 
-int	Server::recv_messages()
+int	Server::recvMessages()
 {
 	char	buf[BUFFER];
 
 	for (int i = 1 ; i < MAX_CONNECTIONS; i++) {
-		if ((this->all_connections[i] > 0) && (FD_ISSET(this->all_connections[i], &fd_to_read))) {
+		if ((this->_all_connections[i] > 0) && (FD_ISSET(this->_all_connections[i], &this->_fd_to_read))) {
 			/* read incoming data */
-			int recv_val = recv(all_connections[i], buf, BUFFER, 0);
+			int recv_val = recv(this->_all_connections[i], buf, BUFFER, 0);
 			if (recv_val == 0) {
-				close(all_connections[i]);
-				all_connections[i] = -1; /* Connection is now closed */
+				close(this->_all_connections[i]);
+				this->_all_connections[i] = -1; /* Connection is now closed */
 			}
 			if (recv_val > 0) {
 				std::cout << "cli nb : " << i << " msg : " << buf << std::endl;
@@ -115,7 +115,7 @@ int	Server::recv_messages()
 	return (1);
 }
 
-int	Server::send_messages()
+int	Server::sendMessages()
 {
 	return (1);
 }
@@ -124,20 +124,20 @@ void Server::run()
 {
 	while (1)
 	{
-		FD_ZERO(&this->fd_to_read);
+		FD_ZERO(&this->_fd_to_read);
 		for (int i = 0 ; i < MAX_CONNECTIONS; i++) {
-			if (all_connections[i] >= 0) {
-				FD_SET(all_connections[i], &this->fd_to_read);
+			if (this->_all_connections[i] >= 0) {
+				FD_SET(this->_all_connections[i], &this->_fd_to_read);
 			}
 		}
-		int nb_cli = select(FD_SETSIZE, &this->fd_to_read, NULL, NULL, NULL);
+		int nb_cli = select(FD_SETSIZE, &this->_fd_to_read, NULL, NULL, NULL);
 		if (nb_cli >= 0)
 		{
-			add_new_connections();
+			addNewConnections();
 			}
 			if (nb_cli != 0)
 			{
-				recv_messages();
+				recvMessages();
 			}
 		}
 }

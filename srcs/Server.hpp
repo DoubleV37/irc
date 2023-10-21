@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 14:07:44 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/21 18:29:59 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ class Server {
 	private:
 		int	_port;
 		int	_socket;
-		int	all_connections[MAX_CONNECTIONS];
-		int	nb_connections;
-		fd_set	fd_to_read;
+		int	_all_connections[MAX_CONNECTIONS];
+		int	_nb_connections;
+		fd_set	_fd_to_read;
 
 		std::string	_password;
 		std::vector<User*>	_users;
@@ -50,10 +50,10 @@ class Server {
 		bool isCommand( std::string const & name );
 		// SWITCH CASE POUR DISPATCH
 		void dispatch( std::string const & buffer);
-		int create_socket_server();
-		int	add_new_connections();
-		int	recv_messages();
-		int	send_messages();
+		int createSocketServer();
+		int	addNewConnections();
+		int	recvMessages();
+		int	sendMessages();
 
 	public:
 		Server();
