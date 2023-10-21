@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:22 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/20 11:02:00 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/21 11:03:49 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 class Join : public ACommand {
     
 	public:
-		Join( std::string const & name, std::string const & usage );
+		Join();
 		~Join();
 		bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
     
