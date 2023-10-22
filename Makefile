@@ -29,7 +29,8 @@ SRC			:=	srcs/main.cpp \
 				srcs/commands/Mode.cpp \
 				srcs/commands/Topic.cpp \
 				srcs/commands/Join.cpp	\
-				srcs/commands/Message.cpp
+				srcs/commands/Message.cpp \
+				srcs/utils/CmdUtils.cpp
 				
 OBJ			:= $(SRC:.cpp=.o)
 

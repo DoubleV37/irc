@@ -6,40 +6,46 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 11:06:59 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/22 15:04:45 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Join.hpp"
+#include "../utils/CmdUtils.hpp"
 #include <cstddef>
+#include <string>
 
 Join::Join() : ACommand( "join", "/join <channel>" )
 {
-    
 }
 
 Join::~Join()
 {
-    
 }
 
 bool Join::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
 {
-	(void)channel;
-	if (args.size() != 1)
-	{
-		return false;
-	}
-	Channel* joinChannel = server->getChannelByName(args[0]);
-	if (joinChannel != NULL)
-	{
-		joinChannel->addUser(user, 0);
-	}
-	else
-	{
-		joinChannel = new Channel();
-		joinChannel->addUser(user, 1);
-	}
-	user->addChannel(joinChannel);
-	return true;
+    (void)channel;
+	if (args.empty() || args.size() > 2)
+        return false;
+
+    std::vector<Channel *> *channels = CmdUtils::getChannelsOf(args[0], server);
+
+    for (std::vector<Channel *>::iterator it = channels->begin(); it != channels->end(); ++it)
+    {
+        if (*it == NULL)
+        {
+            Channel *newChannel = new Channel();
+            newChannel->addUser(user, 1);
+            user->addChannel(newChannel);
+            server->addChannel(newChannel);
+        }
+        else
+        {
+            ((Channel *) *it)->addUser(user, 0);
+            user->addChannel(*it);
+        }
+    }
+    delete channels;
+    return true;
 }
