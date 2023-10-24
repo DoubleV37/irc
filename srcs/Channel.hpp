@@ -46,7 +46,7 @@ class Channel {
         std::string getPassword();
         bool isPrivate();
         bool hasLimit();
-        int  getLimit();
+        size_t getLimit();
         void setLimit( int limit );
         bool sendInvite( std::string user );
         void broadcast( std::string message );
