@@ -38,6 +38,7 @@ class Channel {
         std::string const & getName();
         void addUser( User* user, int isAdmin );
         void removeUser( User* user );
+        std::map<User*, int> getUsers();
         void setTopic( std::string topic );
         void setOp( User* user );
         void deOp( User* user );

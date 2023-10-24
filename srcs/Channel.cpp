@@ -110,3 +110,8 @@ bool Channel::containsUser(User *user)
 {
     return this->_users.find(user) != this->_users.end();
 }
+
+std::map<User *, int> Channel::getUsers()
+{
+    return this->_users;
+}
