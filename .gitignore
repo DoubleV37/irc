@@ -34,3 +34,6 @@
 # IDE
 .idea
 *.vscode
+
+# Custom
+ircserv
