@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/20 13:36:44 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:21:40 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ User::User() {
     
 }
 
-User::User( std::string const & userName, int fd ) : _userName(userName), _fd(fd) {
+User::User( int fd ) : _fd(fd) {
     
 }
 
@@ -47,9 +47,24 @@ std::string const & User::getNickname() const {
     return this->_nickName;
 }
 
+int User::getFd() {
+    
+    return this->_fd;
+}
+
+void User::setUserName( std::string const & userName ) {
+    
+    this->_userName = userName;
+}
+
 void User::setNickName( std::string const & nickName ) {
     
     this->_nickName = nickName;
+}
+
+void User::setPassToggle( bool status ) {
+    
+    this->_passIsSet = status;
 }
 
 void User::addChannel( Channel* channel ) {

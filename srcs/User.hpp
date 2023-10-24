@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/20 12:21:06 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:11:53 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ class User {
     private:
         std::string _userName;
         std::string _nickName;
+        bool        _passIsSet;
         int _fd;
         std::map<std::string, Channel*> _channels;
 
     public:
         User();
-        User( std::string const & userName, int fd );
+        User( int fd );
         // Ajouter constructeur paramètres
         User( const User& obj );
         User& operator=( const User& obj );
@@ -35,7 +36,9 @@ class User {
 
         std::string const & getUsername() const;
         std::string const & getNickname() const;
+        void setUserName( std::string const & userName );
         void setNickName( std::string const & nickName );
+        void setPassToggle( bool status );
         void addChannel( Channel* channel );
         void removeChannel( std::string const & name );
         std::map<std::string, Channel*> getChannels();

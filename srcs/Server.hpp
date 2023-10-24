@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 18:29:59 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/24 17:20:19 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 
 #define BUFFER 5000
 #define MAX_CONNECTIONS 10
+#define info [3] = {"PASS", "NICK", "USER"}
 
 class ACommand;
 
@@ -49,11 +50,12 @@ class Server {
 		void addCommand( std::string const & name, ACommand* command );
 		bool isCommand( std::string const & name );
 		// SWITCH CASE POUR DISPATCH
+		void login( std::string const & buffer, int step, int cli_fd );
 		void dispatch( std::string const & buffer);
 		int createSocketServer();
 		int	addNewConnections();
-		int	recvMessages();
-		int	sendMessages();
+		int	recvMessage();
+		int	sendMessage( int cli_fd, std::string const & message );
 
 	public:
 		Server();
@@ -64,6 +66,7 @@ class Server {
 		~Server();
 
 		User* getUserByUsername( std::string const & userName ) const;
+		User* getUserByFd( int fd ) const;
 		Channel* getChannelByName( std::string const & channel ) const;
 		void addChannel( Channel* channel );
 		void run();

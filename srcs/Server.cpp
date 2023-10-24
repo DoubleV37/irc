@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 18:34:12 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/24 17:20:01 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 
 #include <unistd.h>
+#include <string.h>
 
 Server::Server() {
 
@@ -49,7 +50,7 @@ int Server::createSocketServer()
 
 	this->_socket = socket(AF_INET, SOCK_STREAM, 0); // ici on recupère le FD du socket
 	if (this->_socket == -1)
-		return (0);//erreur socket
+		return (0); //erreur socket
 	int opt = 1; // Verifier pourquoi 1
 	setsockopt(this->_socket, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	addr.sin_family = AF_INET; // IPV4
@@ -71,13 +72,15 @@ int	Server::addNewConnections()
 	if (FD_ISSET(this->_socket, &this->_fd_to_read))
 	{
 		/* accept the new connection */
-		std::cout << "Returned fd is %d (server's fd)\n" << this->_socket << std::endl;
 		new_fd = accept(this->_socket, (struct sockaddr*)&new_addr, &addrlen);
 		if (new_fd >= 0 && this->_nb_connections != MAX_CONNECTIONS) {
-			std::cout << "Accepted a new connection with fd: %d\n" << new_fd << std::endl;
+			std::cout << "Accepted a new connection with fd: " << new_fd << std::endl;
 			for (int i = 0 ; i < MAX_CONNECTIONS ; i++) {
 				if (this->_all_connections[i] < 0) {
+					// fd du User qu on vient d'accepter
 					this->_all_connections[i] = new_fd;
+					User* user = new User(new_fd);
+					_users.push_back(user);
 					this->_nb_connections++;
 					break;
 				}
@@ -92,7 +95,7 @@ int	Server::addNewConnections()
 	return (1);
 }
 
-int	Server::recvMessages()
+int	Server::recvMessage()
 {
 	char	buf[BUFFER];
 
@@ -105,7 +108,11 @@ int	Server::recvMessages()
 				this->_all_connections[i] = -1; /* Connection is now closed */
 			}
 			if (recv_val > 0) {
-				std::cout << "cli nb : " << i << " msg : " << buf << std::endl;
+				std::cout << "cli nb : " << i << " | msg : " << buf << std::endl;
+				// Parsing / Dispatch				
+				memset(buf, 0, BUFFER);
+				// REMPLIR LE USER QUI EST DEJA STOCKE AVEC ADDUSER
+				// Utiliser la fonction ADDUSER ou équivalent en trouvant le USER dans le vector
 			}
 			if (recv_val == -1) {
 				break;
@@ -115,10 +122,50 @@ int	Server::recvMessages()
 	return (1);
 }
 
-int	Server::sendMessages()
+int	Server::sendMessage( int cli_fd, std::string const & message )
 {
+	send(cli_fd, message.c_str(), message.size(), 0);
 	return (1);
 }
+
+void Server::login( std::string const & arg, int step, int cli_fd )
+{
+	//1. Vérifier si mdp du user valide sinon déconnecter et supprimer user de la liste
+	//Switch case avec int + string pour valider en cascade
+	switch(step) {
+		
+		default:
+        {
+            break ;
+        }
+        case 0:
+		{
+			//verif password
+            getUserByFd(cli_fd)->setPassToggle(true);
+			break; 
+		}
+        case 1:
+		{
+			// verif argument
+            getUserByFd(cli_fd)->setNickName(arg);
+			break; 
+		}
+        case 2:
+		{
+			// verif argument
+            getUserByFd(cli_fd)->setUserName(arg);
+			break;
+		}
+	}
+}
+
+// void Server::dispatch( std::string const & buffer, int cli_fd )
+// {
+		
+		//1. Skip CAP LS de Hexchat puis vérifier si chaine commence par USER ou PASS. Sinon déconnecter et supprimer user de la liste
+		//2. Gérer mdp / username / nickname en une fonction
+		//3. Autres commandes
+// }
 
 void Server::run()
 {
@@ -137,7 +184,7 @@ void Server::run()
 			}
 			if (nb_cli != 0)
 			{
-				recvMessages();
+				recvMessage();
 			}
 		}
 }
@@ -165,6 +212,19 @@ std::map<std::string, Channel*> Server::getChannels() {
 User* Server::getUserByUsername( std::string const & userName ) const {
 
 	(void)userName;
+	return NULL;
+}
+
+User* Server::getUserByFd( int fd ) const {
+
+	for ( size_t i = 0 ; i < this->_users.size() ; i++ )
+	{
+		if ( this->_users[i]->getFd() == fd )
+		{
+			User* userName = this->_users[i];
+			return userName;
+		}
+	}
 	return NULL;
 }
 
