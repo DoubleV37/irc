@@ -101,3 +101,7 @@ bool Channel::isPrivate() {
 
     return this->_isPrivate;
 }
+
+void Channel::setTopic(std::string topic) {
+    (void)topic;
+}
