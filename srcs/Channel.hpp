@@ -49,5 +49,6 @@ class Channel {
         void setLimit( int limit );
         bool sendInvite( std::string user );
         void broadcast( std::string message );
+        bool containsUser( User* user );
 
 };

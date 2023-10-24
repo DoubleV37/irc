@@ -45,8 +45,8 @@ void Channel::addUser( User* user, int isAdmin ) {
     (void)isAdmin;
 }
 
-void Channel::removeUser( User* user ) {
-    
+void Channel::removeUser( User* user )
+{
     (void)user;
 }
 
@@ -104,4 +104,9 @@ bool Channel::isPrivate() {
 
 void Channel::setTopic(std::string topic) {
     (void)topic;
+}
+
+bool Channel::containsUser(User *user)
+{
+    return this->_users.find(user) != this->_users.end();
 }

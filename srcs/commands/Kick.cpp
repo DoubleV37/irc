@@ -13,27 +13,32 @@
 #include "Kick.hpp"
 #include <cstddef>
 
-Kick::Kick() : ACommand( "kick", "/kick <user>", true )
+Kick::Kick() : ACommand( "kick", "/kick <channel> <user> [message]", true )
 {
-    
 }
 
 Kick::~Kick()
 {
-    
 }
 
 bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
 {
     (void)user;
-	if (args.size() != 1)
+	if (args.size() < 2)
 	{
 		return false;
 	}
-	User* userKick = server->getUserByUsername(args[0]);
-	if (userKick != NULL)
+
+	Channel* channelTarget = server->getChannelByName(args[0]);
+    User* userTarget = server->getUserByUsername(args[1]);
+
+    if (channelTarget == NULL)
+    {
+        return false;
+    }
+	if (channelTarget->containsUser(userTarget))
 	{
-		channel->removeUser(userKick);
+        channelTarget->removeUser(userTarget);
     	return true;  
 	}
 	return false;
