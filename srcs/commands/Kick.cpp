@@ -13,7 +13,7 @@
 #include "Kick.hpp"
 #include <cstddef>
 
-Kick::Kick() : ACommand( "kick", "/kick <user>" )
+Kick::Kick() : ACommand( "kick", "/kick <user>", true )
 {
     
 }

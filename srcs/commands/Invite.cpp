@@ -6,14 +6,14 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 17:45:37 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:03:19 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Invite.hpp"
 #include <cstddef>
 
-Invite::Invite() : ACommand( "invite", "/invite <user>" )
+Invite::Invite() : ACommand( "invite", "/invite <user>", true )
 {
     
 }

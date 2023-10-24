@@ -15,7 +15,7 @@
 #include <cstddef>
 #include <string>
 
-Join::Join() : ACommand( "join", "/join <channel>" )
+Join::Join() : ACommand( "join", "/join <channel>", false )
 {
 }
 

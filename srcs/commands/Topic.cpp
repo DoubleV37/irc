@@ -12,7 +12,7 @@
 
 #include "Topic.hpp"
 
-Topic::Topic() : ACommand( "topic", "/topic <topic>" )
+Topic::Topic() : ACommand( "topic", "/topic <topic>", true )
 {
 }
 

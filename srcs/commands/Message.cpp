@@ -1,7 +1,7 @@
 #include "Message.hpp"
 #include <string>
 
-Message::Message() : ACommand("message", "/message <user> <message>")
+Message::Message() : ACommand( "message", "/message <user> <message>", false )
 {
 }
 

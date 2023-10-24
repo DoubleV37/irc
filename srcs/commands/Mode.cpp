@@ -12,7 +12,8 @@
 
 #include "Mode.hpp"
 
-Mode::Mode( std::string const & name, std::string const & usage ) : ACommand( name, usage)  {
+Mode::Mode() : ACommand( "mode", "/mode <channel> <+ | -> <mode> [params]", true )
+{
     
 }
 
