@@ -24,6 +24,7 @@ Kick::~Kick()
 bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
 {
     (void)user;
+    (void)channel;
 	if (args.size() < 2)
 	{
 		return false;
