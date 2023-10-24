@@ -22,11 +22,12 @@ Topic::~Topic()
 
 bool Topic::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
     (void)user;
-    (void)server;
-	if (args.size() != 1)
+    (void)channel;
+	if (args.size() < 2)
 	{
 		return false;
 	}
-	channel->setTopic(args[0]);
+    Channel* channelTarget = server->getChannelByName(args[0]);
+	channelTarget->setTopic(args[1]);
     return true;
 }
