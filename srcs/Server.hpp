@@ -3,53 +3,69 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/20 13:35:23 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/21 18:29:59 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include <string>
+#include <iostream>
 #include <vector>
 #include "User.hpp"
 #include "Channel.hpp"
 #include "ACommand.hpp"
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <sys/select.h>
+#include <netinet/in.h>
+
+#define BUFFER 5000
+#define MAX_CONNECTIONS 10
 
 class ACommand;
 
 class Server {
-    
-    private:
-        int _port;
-        std::string _password;
-        std::vector<User*> _users;
-        std::map<std::string, Channel*> _channels;
-        std::map<std::string, ACommand*> _command;
-        
-        void addUser( User* user );
-        std::vector<User*> getUsers();
-        std::map<std::string, Channel*> getChannels();
-        void deleteUser(User*);
-        void deleteChannel(Channel*);
-        ACommand* getCommand( std::string const & command ) const;
-        void addCommand( std::string const & name, ACommand* command );
-        bool isCommand( std::string const & name );
-        void run();
-        // SWITCH CASE POUR DISPATCH
-        void dispatch( std::string const & buffer);
 
-    public:
-        Server();
-        Server( std::string ServerName );
-        // Ajouter constructeur paramètres
-        Server( const Server& obj );
-        Server& operator=( const Server& obj );
-        ~Server(); 
+	private:
+		int	_port;
+		int	_socket;
+		int	_all_connections[MAX_CONNECTIONS];
+		int	_nb_connections;
+		fd_set	_fd_to_read;
 
-        User* getUserByUsername( std::string const & userName ) const;
-        Channel* getChannelByName( std::string const & channel ) const;    
-        void addChannel( Channel* channel );
+		std::string	_password;
+		std::vector<User*>	_users;
+		std::map<std::string, Channel*>		_channels;
+		std::map<std::string, ACommand*>	_command;
+
+		void addUser( User* user );
+		std::vector<User*> getUsers();
+		std::map<std::string, Channel*> getChannels();
+		void deleteUser(User*);
+		void deleteChannel(Channel*);
+		ACommand* getCommand( std::string const & command ) const;
+		void addCommand( std::string const & name, ACommand* command );
+		bool isCommand( std::string const & name );
+		// SWITCH CASE POUR DISPATCH
+		void dispatch( std::string const & buffer);
+		int createSocketServer();
+		int	addNewConnections();
+		int	recvMessages();
+		int	sendMessages();
+
+	public:
+		Server();
+		Server(int port);
+		// Ajouter constructeur paramètres
+		Server( const Server& obj );
+		Server& operator=( const Server& obj );
+		~Server();
+
+		User* getUserByUsername( std::string const & userName ) const;
+		Channel* getChannelByName( std::string const & channel ) const;
+		void addChannel( Channel* channel );
+		void run();
 
 };
