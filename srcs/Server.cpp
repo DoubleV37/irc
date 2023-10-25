@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/24 17:20:01 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/25 15:56:51 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <unistd.h>
 #include <string.h>
+#include <fcntl.h>
 
 Server::Server() {
 
@@ -56,6 +57,7 @@ int Server::createSocketServer()
 	addr.sin_family = AF_INET; // IPV4
 	addr.sin_addr.s_addr = INADDR_ANY; // 0.0.0.0
 	addr.sin_port = htons(this->_port); // Port
+	// fcntl(this->_socket, F_SETFL, O_NONBLOCK);
 	if (bind(this->_socket, (struct sockaddr *)&addr, sizeof(addr)) != 0)
 		return (0);
 	if (listen(this->_socket, MAX_CONNECTIONS))
@@ -97,26 +99,39 @@ int	Server::addNewConnections()
 
 int	Server::recvMessage()
 {
-	char	buf[BUFFER];
+	std::vector<char> buffer(MAX_BUF_LENGTH);
+	std::string	rcv_msg;
+	int recv_val = 1;
 
 	for (int i = 1 ; i < MAX_CONNECTIONS; i++) {
 		if ((this->_all_connections[i] > 0) && (FD_ISSET(this->_all_connections[i], &this->_fd_to_read))) {
-			/* read incoming data */
-			int recv_val = recv(this->_all_connections[i], buf, BUFFER, 0);
-			if (recv_val == 0) {
-				close(this->_all_connections[i]);
-				this->_all_connections[i] = -1; /* Connection is now closed */
+			while (rcv_msg[rcv_msg.size() - 2] != '\r' && rcv_msg[rcv_msg.size() - 1] != '\n')
+			{
+				recv_val = recv(this->_all_connections[i], &buffer[0] , buffer.size(), 0);
+				if (recv_val > 0)
+				{
+					for (int i = 0; i < recv_val; i++)
+						rcv_msg.push_back(buffer[i]);
+				}
+				else if (recv_val == 0)
+				{
+					std::cout << "Client " << this->_all_connections[i] << " disconnected" << std::endl;
+					close(this->_all_connections[i]);
+					this->_all_connections[i] = -1;
+					this->_nb_connections--;
+					break;
+				}
+				else
+				{
+					std::cerr << "ERROR" << std::endl;
+					break;
+				}
 			}
-			if (recv_val > 0) {
-				std::cout << "cli nb : " << i << " | msg : " << buf << std::endl;
-				// Parsing / Dispatch				
-				memset(buf, 0, BUFFER);
-				// REMPLIR LE USER QUI EST DEJA STOCKE AVEC ADDUSER
-				// Utiliser la fonction ADDUSER ou équivalent en trouvant le USER dans le vector
-			}
-			if (recv_val == -1) {
-				break;
-			}
+			if (rcv_msg.size() > 0)
+				std::cout << "num_cli " << this->_all_connections[i] << " | rcv_msg : " << rcv_msg << std::endl;
+			// Parsing / Dispatch
+			// REMPLIR LE USER QUI EST DEJA STOCKE AVEC ADDUSER
+			// Utiliser la fonction ADDUSER ou équivalent en trouvant le USER dans le vector
 		}
 	}
 	return (1);
@@ -133,7 +148,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 	//1. Vérifier si mdp du user valide sinon déconnecter et supprimer user de la liste
 	//Switch case avec int + string pour valider en cascade
 	switch(step) {
-		
+
 		default:
         {
             break ;
@@ -142,13 +157,13 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 		{
 			//verif password
             getUserByFd(cli_fd)->setPassToggle(true);
-			break; 
+			break;
 		}
         case 1:
 		{
 			// verif argument
             getUserByFd(cli_fd)->setNickName(arg);
-			break; 
+			break;
 		}
         case 2:
 		{
@@ -161,7 +176,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 
 // void Server::dispatch( std::string const & buffer, int cli_fd )
 // {
-		
+
 		//1. Skip CAP LS de Hexchat puis vérifier si chaine commence par USER ou PASS. Sinon déconnecter et supprimer user de la liste
 		//2. Gérer mdp / username / nickname en une fonction
 		//3. Autres commandes
