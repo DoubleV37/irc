@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/25 15:56:51 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/25 18:06:26 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,10 @@ int	Server::recvMessage()
 				}
 			}
 			if (rcv_msg.size() > 0)
+			{
 				std::cout << "num_cli " << this->_all_connections[i] << " | rcv_msg : " << rcv_msg << std::endl;
+				dispatch(rcv_msg, this->_all_connections[i]);
+			}
 			// Parsing / Dispatch
 			// REMPLIR LE USER QUI EST DEJA STOCKE AVEC ADDUSER
 			// Utiliser la fonction ADDUSER ou équivalent en trouvant le USER dans le vector
@@ -147,6 +150,8 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 {
 	//1. Vérifier si mdp du user valide sinon déconnecter et supprimer user de la liste
 	//Switch case avec int + string pour valider en cascade
+	(void)arg;
+	(void)cli_fd;
 	switch(step) {
 
 		default:
@@ -156,31 +161,131 @@ void Server::login( std::string const & arg, int step, int cli_fd )
         case 0:
 		{
 			//verif password
-            getUserByFd(cli_fd)->setPassToggle(true);
+			std::cout << "password : " << arg << std::endl;
+            //getUserByFd(cli_fd)->setPassToggle(true);
 			break;
 		}
         case 1:
 		{
 			// verif argument
-            getUserByFd(cli_fd)->setNickName(arg);
+            //getUserByFd(cli_fd)->setNickName(arg);
+			std::cout << "nickname : " << arg << std::endl;
 			break;
 		}
         case 2:
 		{
 			// verif argument
-            getUserByFd(cli_fd)->setUserName(arg);
+            // getUserByFd(cli_fd)->setUserName(arg);
+			std::cout << "username : " << arg << std::endl;
 			break;
 		}
 	}
 }
 
-// void Server::dispatch( std::string const & buffer, int cli_fd )
-// {
+void Server::dispatch( std::string const & recv_msg, int cli_fd )
+{
+	std::vector<std::string> split_msg;
+	std::string arg;
+	std::string info[3] = {"PASS", "NICK", "USER"};
 
-		//1. Skip CAP LS de Hexchat puis vérifier si chaine commence par USER ou PASS. Sinon déconnecter et supprimer user de la liste
-		//2. Gérer mdp / username / nickname en une fonction
-		//3. Autres commandes
-// }
+	if (recv_msg == "CAP LS 302\r\n")
+		return ;
+	std::cout << "recv_msg : " << recv_msg << std::endl;
+	for (size_t i = 0; i < recv_msg.size(); i++)
+	{
+		if (recv_msg[i] == '\r' && (recv_msg.size() > (i + 1) && recv_msg[i + 1] == '\n'))
+		{
+			if (arg != "CAP LS 302")
+				split_msg.push_back(arg);
+			arg.clear();
+			i++;
+		}
+		else if (recv_msg[i] == '\n')
+		{
+			split_msg.push_back(arg);
+			arg.clear();
+		}
+		else
+			arg.push_back(recv_msg[i]);
+	}
+	// std::cout << "===========================================" << std::endl;
+	// for (size_t i = 0; i < split_msg.size(); i++)
+	// 	std::cout << "split_msg[" << i << "] : |" << split_msg[i] << "|" << std::endl;
+	// std::cout << "===========================================" << std::endl;
+	for (size_t i = 0; i < split_msg.size(); i++)
+	{
+		std::string	cmd;
+		for (size_t j = 0; j < split_msg[i].size(); j++)
+		{
+			if (split_msg[i][j] == ' ')
+				break;
+			cmd.push_back(split_msg[i][j]);
+		}
+		switch (isCommand(cmd))
+		{
+			default:
+			{
+				break ;
+			}
+			case 0:
+			{
+				login(split_msg[i].substr(cmd.size() + 1), 0, cli_fd);
+				break;
+			}
+			case 1:
+			{
+				login(split_msg[i].substr(cmd.size() + 1), 1, cli_fd);
+				break;
+			}
+			case 2:
+			{
+				login(split_msg[i].substr(cmd.size() + 1), 2, cli_fd);
+				break;
+			}
+			case 3:
+			{
+				// verif argument
+				break;
+			}
+			case 4:
+			{
+				// verif argument
+				break;
+			}
+			case 5:
+			{
+				// verif argument
+				break;
+			}
+			case 6:
+			{
+				// verif argument
+				break;
+			}
+		}
+
+	}
+	// 1. Skip CAP LS de Hexchat puis vérifier si chaine commence par USER ou PASS. Sinon déconnecter et supprimer user de la liste
+	// 2. Gérer mdp / username / nickname en une fonction
+	// 3. Autres commandes
+}
+
+int Server::isCommand( std::string const & name )
+{
+	std::string command[8] = {"PASS", "NICK", "USER", "MODE", "JOIN", "QUIT", "PRIVMSG"};
+	for (int i = 0; i < 8; i++)
+	{
+		if (name == command[i])
+			return i;
+	}
+	return -1;
+}
+
+// CLI MACHIN \n
+// PASS coucou \n
+// NICK lol lol \n
+// USER user \n
+// MSG #chan coucou\n
 
 void Server::run()
 {

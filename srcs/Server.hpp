@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/25 09:35:02 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/25 17:58:27 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #define BUFFER 5000
 #define MAX_CONNECTIONS 10
 #define MAX_BUF_LENGTH 4096
-#define info [3] = {"PASS", "NICK", "USER"}
+// #define info [3] = {"PASS", "NICK", "USER"}
 
 class ACommand;
 
@@ -49,10 +49,10 @@ class Server {
 		void deleteChannel(Channel*);
 		ACommand* getCommand( std::string const & command ) const;
 		void addCommand( std::string const & name, ACommand* command );
-		bool isCommand( std::string const & name );
+		int isCommand( std::string const & name );
 		// SWITCH CASE POUR DISPATCH
 		void login( std::string const & buffer, int step, int cli_fd );
-		void dispatch( std::string const & buffer);
+		void dispatch( std::string const & recv_msg, int cli_fd );
 		int createSocketServer();
 		int	addNewConnections();
 		int	recvMessage();
