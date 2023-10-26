@@ -35,7 +35,7 @@ bool Invite::execute( std::vector<std::string> args, User* user, Channel* channe
 
 	if (channelTarget != NULL)
 	{
-        if (channelTarget->hasLimit() && channelTarget->getLimit() >= channelTarget->getUsers().size())
+        if (channelTarget->isFull())
         {
             user->send("The channel is full");
             return true;

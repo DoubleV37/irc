@@ -42,6 +42,12 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
         }
         else
         {
+            Channel *channelTarget = (Channel *)*it;
+            if (channelTarget->isFull())
+            {
+                user->send(channelTarget->getName() + " is Full.");
+                continue;
+            }
             ((Channel *) *it)->addUser(user, 0);
             user->addChannel(*it);
         }

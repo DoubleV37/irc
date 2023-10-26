@@ -48,6 +48,7 @@ class Channel {
         bool hasLimit();
         size_t getLimit();
         void setLimit( int limit );
+        bool isFull();
         bool sendInvite( std::string user );
         void broadcast( std::string message );
         bool containsUser( User* user );

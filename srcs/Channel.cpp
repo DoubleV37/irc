@@ -71,7 +71,7 @@ bool Channel::hasLimit() {
     return this->_hasLimit;
 }
 
-int  Channel::getLimit() {
+size_t  Channel::getLimit() {
 
    return this->_limit; 
 }
@@ -114,4 +114,9 @@ bool Channel::containsUser(User *user)
 std::map<User *, int> Channel::getUsers()
 {
     return this->_users;
+}
+
+bool Channel::isFull()
+{
+    return this->hasLimit() && this->getUsers().size() == this->getLimit();
 }
