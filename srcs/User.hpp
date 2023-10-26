@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/24 17:11:53 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/26 15:35:31 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ class User {
     private:
         std::string _userName;
         std::string _nickName;
-        bool        _passIsSet;
         int _fd;
         std::map<std::string, Channel*> _channels;
 
@@ -44,5 +43,7 @@ class User {
         std::map<std::string, Channel*> getChannels();
         int getFd();
         void send( std::string const & message );
+
+        bool    _passIsSet;
              
 };

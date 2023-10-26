@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/24 17:21:40 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/26 16:34:58 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ User::User() {
 
 User::User( int fd ) : _fd(fd) {
     
+    this->_userName = "";
+    this->_nickName = "";
+    this->_passIsSet = false;
 }
 
 User::User( const User& obj ) {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/26 13:38:06 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/26 15:43:48 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 #define BUFFER 5000
 #define MAX_CONNECTIONS 10
 #define MAX_BUF_LENGTH 4096
+#define MAX_NICK_LENGTH 12
 
 class ACommand;
 
@@ -57,6 +58,8 @@ class Server {
 		int	addNewConnections();
 		int	recvMessage();
 		int	sendMessage( int cli_fd, std::string const & message );
+		void loginError( int cli_fd, std::string message );
+		int	isValidUsername(std::string const & str);
 
 	public:
 		Server();

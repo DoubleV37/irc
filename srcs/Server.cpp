@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/26 13:56:02 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/26 16:32:41 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,12 +145,25 @@ int	Server::sendMessage( int cli_fd, std::string const & message )
 	return (1);
 }
 
+void Server::loginError( int cli_fd, std::string message )
+{
+	sendMessage(cli_fd, message);
+	deleteUser(cli_fd);
+}
+
+int	Server::isValidUsername(std::string const & str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (!isalnum(str[i]))
+			return (0);
+	}
+	return (1);
+}
+
 void Server::login( std::string const & arg, int step, int cli_fd )
 {
-	//1. Vérifier si mdp du user valide sinon déconnecter et supprimer user de la liste
-	//Switch case avec int + string pour valider en cascade
-	(void)arg;
-	(void)cli_fd;
+	std::string parameter;
 	switch(step) {
 
 		default:
@@ -172,28 +185,59 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 				getUserByFd(cli_fd)->setPassToggle(true);
 			}
 			else
-			{
-				sendMessage(cli_fd, "ERROR :password nok\r\n");
-				deleteUser(cli_fd);
-			}
-            //getUserByFd(cli_fd)->setPassToggle(true);
+				loginError(cli_fd, ":password nok\r\n");
 			break;
 		}
         case 1:
 		{
-			// verif argument
-            //getUserByFd(cli_fd)->setNickName(arg);
-			//mdp ok si ya mdp ou pas de mdp
-			//verif si nickname existe deja
-			//verif si nickname valide
+			if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false) 
+				loginError(cli_fd, ":[code erreur]password required\r\n");
+			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
+			{
+				if (arg != "" && arg.size() <= MAX_NICK_LENGTH)
+				{
+					for (size_t i = 0 ; i < this->_users.size() ; i++)
+					{
+						if (arg == this->_users[i]->getNickname())
+						{
+							loginError(cli_fd, ":[code erreur]nickname already taken\r\n");
+							break;
+						}
+						else
+						{
+							//autre vérifs de nickname valide ?
+							sendMessage(cli_fd, "nickname ok\r\n");
+							getUserByFd(cli_fd)->setNickName(arg);
+						}
+					}
+				}
+				else if (arg.size() > MAX_NICK_LENGTH)
+					loginError(cli_fd, ":[code erreur]nickname is more than 12 characters\r\n");
+				else if (arg == "")
+					loginError(cli_fd, ":[code erreur]nickname is empty\r\n");
+			}			
 			std::cout << "nickname : " << arg << std::endl;
 			break;
 		}
         case 2:
 		{
-			// verif argument
-            // getUserByFd(cli_fd)->setUserName(arg);
-			std::cout << "username : " << arg << std::endl;
+			for (int i = 0; arg[i] != ' '; i++)
+			{
+				parameter = arg.substr(i);
+				break;
+			}
+			if (getUserByFd(cli_fd)->getNickname() == "")
+				loginError(cli_fd, "ERROR :[code erreur]nickname required\r\n");
+			else if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false) 
+				loginError(cli_fd, "ERROR :[code erreur]password required\r\n");
+			else if (isValidUsername(parameter) == 0)
+				loginError(cli_fd, "ERROR :[code erreur]username must contain only alphanumeric characters\r\n");
+			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
+			{
+				sendMessage(cli_fd, "username ok\r\n");
+				getUserByFd(cli_fd)->setUserName(parameter);
+			}
+			std::cout << "username : " << parameter << std::endl;
 			break;
 		}
 	}
