@@ -120,3 +120,23 @@ bool Channel::isFull()
 {
     return this->hasLimit() && this->getUsers().size() == this->getLimit();
 }
+
+void Channel::setPrivate(bool isPrivate)
+{
+    this->_isPrivate = isPrivate;
+}
+
+bool Channel::hasTopicProtection() const
+{
+    return this->_hasTopicProtection;
+}
+
+void Channel::setTopicProtection(bool protection)
+{
+    this->_hasTopicProtection = protection;
+}
+
+void Channel::setPassword(const std::string& password)
+{
+    this->_password = password;
+}
