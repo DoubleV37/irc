@@ -384,3 +384,9 @@ void Server::addCommand( std::string const & name, ACommand* command ) {
 	(void)name;
 	(void)command;
 }
+
+void Server::exit()
+{
+    // TODO: Clean _users, _channels, _command
+    std::cout << "Good Bye" << std::endl;
+}
