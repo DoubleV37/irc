@@ -12,7 +12,7 @@
 
 #include "Topic.hpp"
 
-Topic::Topic() : ACommand( "topic", "/topic <topic>", true )
+Topic::Topic() : ACommand( "topic", "/topic <topic>", false )
 {
 }
 
@@ -21,13 +21,23 @@ Topic::~Topic()
 }
 
 bool Topic::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-    (void)user;
     (void)channel;
 	if (args.size() < 2)
 	{
 		return false;
 	}
     Channel* channelTarget = server->getChannelByName(args[0]);
+
+    if (channelTarget == NULL)
+    {
+        return false;
+    }
+    if (channelTarget->hasTopicProtection() && !channelTarget->isOp(user))
+    {
+        user->send("you need to be op to make this order in this channel");
+        return true;
+    }
+
 	channelTarget->setTopic(args[1]);
     return true;
 }
