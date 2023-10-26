@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/25 17:58:27 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/26 13:38:06 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 #define BUFFER 5000
 #define MAX_CONNECTIONS 10
 #define MAX_BUF_LENGTH 4096
-// #define info [3] = {"PASS", "NICK", "USER"}
 
 class ACommand;
 
@@ -46,6 +45,7 @@ class Server {
 		std::vector<User*> getUsers();
 		std::map<std::string, Channel*> getChannels();
 		void deleteUser(User*);
+		void deleteUser(int cli_fd);
 		void deleteChannel(Channel*);
 		ACommand* getCommand( std::string const & command ) const;
 		void addCommand( std::string const & name, ACommand* command );
@@ -60,7 +60,7 @@ class Server {
 
 	public:
 		Server();
-		Server(int port);
+		Server(int port, std::string const & password);
 		// Ajouter constructeur paramètres
 		Server( const Server& obj );
 		Server& operator=( const Server& obj );

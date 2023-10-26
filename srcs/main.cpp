@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/24 13:53:02 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/26 13:19:56 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,15 @@ int main(int argc, char** argv)
 		std::cerr << "./ircserv [port] [password]" << std::endl;
 		return (1);
 	}
-	Server serv(atoi(argv[1]));
-	serv.run();
+	if (argc == 2)
+	{
+		Server serv(atoi(argv[1]), "");
+		serv.run();
+	}
+	else
+	{
+		Server serv(atoi(argv[1]), argv[2]);
+		serv.run();
+	}
 	return (0);
 }

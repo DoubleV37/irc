@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/25 18:06:26 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/10/26 13:56:02 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,14 @@ Server::Server() {
 
 }
 
-Server::Server(int port) {
+Server::Server(int port, std::string const & password) {
 	this->_port = port; //verifier le port
 	createSocketServer();
 	for (int i = 0 ; i < MAX_CONNECTIONS ; i++)
 		this->_all_connections[i] = -1;
 	this->_nb_connections = 1;
 	this->_all_connections[0] = this->_socket;
+	this->_password = password;
 }
 
 Server::Server( const Server& obj ) {
@@ -116,9 +117,7 @@ int	Server::recvMessage()
 				else if (recv_val == 0)
 				{
 					std::cout << "Client " << this->_all_connections[i] << " disconnected" << std::endl;
-					close(this->_all_connections[i]);
-					this->_all_connections[i] = -1;
-					this->_nb_connections--;
+					deleteUser(this->_all_connections[i]);
 					break;
 				}
 				else
@@ -162,6 +161,21 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 		{
 			//verif password
 			std::cout << "password : " << arg << std::endl;
+			if (this->_password != "" && arg == this->_password)
+			{
+				sendMessage(cli_fd, "password ok\r\n");
+				getUserByFd(cli_fd)->setPassToggle(true);
+			}
+			else if (this->_password == "")
+			{
+				sendMessage(cli_fd, "password ok : no require\r\n");
+				getUserByFd(cli_fd)->setPassToggle(true);
+			}
+			else
+			{
+				sendMessage(cli_fd, "ERROR :password nok\r\n");
+				deleteUser(cli_fd);
+			}
             //getUserByFd(cli_fd)->setPassToggle(true);
 			break;
 		}
@@ -169,6 +183,9 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 		{
 			// verif argument
             //getUserByFd(cli_fd)->setNickName(arg);
+			//mdp ok si ya mdp ou pas de mdp
+			//verif si nickname existe deja
+			//verif si nickname valide
 			std::cout << "nickname : " << arg << std::endl;
 			break;
 		}
@@ -225,6 +242,8 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 		{
 			default:
 			{
+				std::cout << "Commande inconnue : " << split_msg[0] << std::endl;
+				sendMessage(cli_fd, "421 :invalid command\r\n");
 				break ;
 			}
 			case 0:
@@ -240,26 +259,6 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 			case 2:
 			{
 				login(split_msg[i].substr(cmd.size() + 1), 2, cli_fd);
-				break;
-			}
-			case 3:
-			{
-				// verif argument
-				break;
-			}
-			case 4:
-			{
-				// verif argument
-				break;
-			}
-			case 5:
-			{
-				// verif argument
-				break;
-			}
-			case 6:
-			{
-				// verif argument
 				break;
 			}
 		}
@@ -357,6 +356,21 @@ Channel* Server::getChannelByName( std::string const & channel ) const {
 void Server::deleteUser(User* user) {
 
 	(void)user;
+}
+
+void Server::deleteUser(int cli_fd) {
+
+	delete getUserByFd(cli_fd);
+	close(cli_fd);
+	for (int i = 0; i < MAX_CONNECTIONS; i++)
+	{
+		if (this->_all_connections[i] == cli_fd)
+		{
+			this->_all_connections[i] = -1;
+			this->_nb_connections--;
+			break;
+		}
+	}
 }
 
 ACommand* Server::getCommand( std::string const & command ) const  {
