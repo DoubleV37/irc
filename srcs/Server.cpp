@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/26 16:32:41 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/26 17:00:43 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -332,8 +332,15 @@ int Server::isCommand( std::string const & name )
 
 void Server::run()
 {
-	while (1)
+	std::string input;
+	
+	while (!std::cin.eof())
 	{
+		while (getline(std::cin, input))
+		{
+			if (input == "exit")
+				return;
+		}
 		FD_ZERO(&this->_fd_to_read);
 		for (int i = 0 ; i < MAX_CONNECTIONS; i++) {
 			if (this->_all_connections[i] >= 0) {
