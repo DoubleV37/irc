@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:05 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/20 11:01:47 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/21 17:42:39 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 class Invite : public ACommand {
     
 	public:
-		Invite( std::string const & name, std::string const & usage );
+		Invite();
 		~Invite();
 		bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
 

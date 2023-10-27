@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.cpp                                           :+:      :+:    :+:   */
+/*   ACommand.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 13:54:03 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:05:25 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ACommand.hpp"
 
-ACommand::ACommand( std::string const & name, std::string const & usage ) : _name(name), _usage(usage) {
-
-    (void)name;
-    (void)usage;
- 
+ACommand::ACommand( std::string const & name, std::string const & usage, bool opOnly ) : _name(name), _usage(usage), _opOnly(opOnly)
+{
 }
 
-ACommand::~ACommand() {
-    
+ACommand::~ACommand()
+{    
 }
 
-bool ACommand::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
+bool ACommand::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
+{
     (void)args;
     (void)user;
     (void)channel;
@@ -32,12 +29,17 @@ bool ACommand::execute( std::vector<std::string> args, User* user, Channel* chan
     return true;
 }
 
-std::string const & ACommand::getName() const {
-
+std::string const & ACommand::getName() const
+{
     return this->_name;
 }
 
-std::string const & ACommand::getUsage() const {
-
+std::string const & ACommand::getUsage() const
+{
     return this->_usage;
+}
+
+bool ACommand::opOnly() const
+{
+    return this->_opOnly;
 }
