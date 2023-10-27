@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 00:03:58 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/28 00:18:12 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 							//autre vérifs de nickname valide ?
 							sendMessage(cli_fd, "nickname ok\r\n");
 							getUserByFd(cli_fd)->setNickName(arg);
+							break;
 						}
 					}
 				}
@@ -344,7 +345,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 
 int Server::isCommand( std::string const & name )
 {
-	std::string command[8] = {"PASS", "NICK", "USER", "MSG", "JOIN", "QUIT", "MODE"};
+	std::string command[8] = {"PASS", "NICK", "USER", "PRIVMSG", "JOIN", "QUIT", "MODE"};
 	for (int i = 0; i < 8; i++)
 	{
 		if (name == command[i])
