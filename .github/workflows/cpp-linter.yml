@@ -19,6 +19,7 @@ jobs:
         with:
           style: file
           files-changed-only: false
+          extra-args: "-std=c++98"
 
       - name: Fail fast?!
         if: steps.linter.outputs.checks-failed != 0
