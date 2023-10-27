@@ -6,11 +6,12 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/27 22:10:01 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/27 23:49:25 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
+#include "commands/Message.hpp"
 
 #include <unistd.h>
 #include <string.h>
@@ -324,13 +325,19 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				login(split_msg[i].substr(cmd.size() + 1), 2, cli_fd);
 				break;
 			}
+			case 3:
+			{
+				ACommand* command = new Message();
+				command->execute(split_msg, getUserByFd(cli_fd), NULL, this);
+				break;
+			}
 		}
 	}
 }
 
 int Server::isCommand( std::string const & name )
 {
-	std::string command[8] = {"PASS", "NICK", "USER", "MODE", "JOIN", "QUIT", "PRIVMSG"};
+	std::string command[8] = {"PASS", "NICK", "USER", "MSG", "JOIN", "QUIT", "MODE"};
 	for (int i = 0; i < 8; i++)
 	{
 		if (name == command[i])
