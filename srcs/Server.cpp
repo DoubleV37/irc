@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/27 16:28:02 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/27 16:42:13 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,6 +165,7 @@ void Server::loginError( int cli_fd, std::string message )
 
 int	Server::isValidUsername(std::string const & str)
 {
+	std::cout << "============str : " << str << std::endl;
 	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (!isalnum(str[i]))
@@ -235,7 +236,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 		{
 			for (int i = 0; arg[i] != ' '; i++)
 			{
-				parameter = arg.substr(i);
+				parameter.push_back(arg[i]);
 				break;
 			}
 			if (getUserByFd(cli_fd)->getNickname() == "")
@@ -418,7 +419,7 @@ void Server::deleteUser(int cli_fd) {
 
 	delete getUserByFd(cli_fd);
 	//le supprimer de tous les channels
-	
+
 	close(cli_fd);
 	for (int i = 0; i < MAX_CONNECTIONS; i++)
 	{
