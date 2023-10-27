@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/26 15:43:48 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/27 21:04:44 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ class Server {
 		int	addNewConnections();
 		int	recvMessage();
 		int	sendMessage( int cli_fd, std::string const & message );
-		void loginError( int cli_fd, std::string message );
+		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
+		void loginError( int cli_fd, std::string num_error, std::string message );
 		int	isValidUsername(std::string const & str);
 
 	public:

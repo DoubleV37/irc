@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/27 17:00:00 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/27 22:10:01 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	Server::addNewConnections()
 		}
 		else
 		{
-			std::cerr << "ERROR" << std::endl;
+			sendMessageError(new_fd, "ERROR", "too many clients");
 			return (0);
 		}
 	}
@@ -154,9 +154,21 @@ int	Server::sendMessage( int cli_fd, std::string const & message )
 	return (1);
 }
 
-void Server::loginError( int cli_fd, std::string message )
+int	Server::sendMessageError( int cli_fd, std::string num_error, std::string const & message )
 {
-	sendMessage(cli_fd, message);
+	std::string num_error_msg;
+	std::string error_msg;
+
+	num_error_msg = ": " + num_error + " " + getUserByFd(cli_fd)->getNickname() + "\r\n";
+	error_msg = "ERROR :" + message + "\r\n";
+	send(cli_fd, num_error_msg.c_str(), num_error_msg.size(), 0);
+	send(cli_fd, error_msg.c_str(), error_msg.size(), 0);
+	return (1);
+}
+
+void Server::loginError( int cli_fd, std::string num_error, std::string message)
+{
+	sendMessageError(cli_fd, num_error, message);
 	deleteUser(cli_fd);
 }
 
@@ -194,13 +206,13 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 				getUserByFd(cli_fd)->setPassToggle(true);
 			}
 			else
-				loginError(cli_fd, ":password nok\r\n");
+				loginError(cli_fd, "code", "password nok");
 			break;
 		}
         case 1:
 		{
 			if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false)
-				loginError(cli_fd, ":[code erreur]password required\r\n");
+				loginError(cli_fd, "code", "password required");
 			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
 			{
 				if (arg != "" && arg.size() <= MAX_NICK_LENGTH)
@@ -209,7 +221,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 					{
 						if (arg == this->_users[i]->getNickname())
 						{
-							loginError(cli_fd, ":[code erreur]nickname already taken\r\n");
+							loginError(cli_fd, "433", "nickname already taken");
 							break;
 						}
 						else
@@ -221,11 +233,10 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 					}
 				}
 				else if (arg.size() > MAX_NICK_LENGTH)
-					loginError(cli_fd, ":[code erreur]nickname is more than 12 characters\r\n");
+					loginError(cli_fd, "432", "nickname is more than 12 characters");
 				else if (arg == "")
-					loginError(cli_fd, ":[code erreur]nickname is empty\r\n");
+					loginError(cli_fd, "431", "nickname is empty");
 			}
-			std::cout << "nickname : " << arg << std::endl;
 			break;
 		}
         case 2:
@@ -236,17 +247,16 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 				break;
 			}
 			if (getUserByFd(cli_fd)->getNickname() == "")
-				loginError(cli_fd, "ERROR :[code erreur]nickname required\r\n");
+				loginError(cli_fd, "code", "nickname required");
 			else if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false)
-				loginError(cli_fd, "ERROR :[code erreur]password required\r\n");
+				loginError(cli_fd, "code", "password required");
 			else if (isValidUsername(parameter) == 0)
-				loginError(cli_fd, "ERROR :[code erreur]username must contain only alphanumeric characters\r\n");
+				loginError(cli_fd, "code", "username must contain only alphanumeric characters");
 			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
 			{
 				sendMessage(cli_fd, "username ok\r\n");
 				getUserByFd(cli_fd)->setUserName(parameter);
 			}
-			std::cout << "username : " << parameter << std::endl;
 			break;
 		}
 	}
@@ -296,7 +306,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 			default:
 			{
 				std::cout << "Commande inconnue : " << split_msg[0] << std::endl;
-				sendMessage(cli_fd, "421 :invalid command\r\n");
+				sendMessageError(cli_fd, "421", "invalid command");
 				break ;
 			}
 			case 0:
@@ -315,11 +325,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				break;
 			}
 		}
-
 	}
-	// 1. Skip CAP LS de Hexchat puis vérifier si chaine commence par USER ou PASS. Sinon déconnecter et supprimer user de la liste
-	// 2. Gérer mdp / username / nickname en une fonction
-	// 3. Autres commandes
 }
 
 int Server::isCommand( std::string const & name )
@@ -332,12 +338,6 @@ int Server::isCommand( std::string const & name )
 	}
 	return -1;
 }
-
-// CLI MACHIN \n
-// PASS coucou \n
-// NICK lol lol \n
-// USER user \n
-// MSG #chan coucou\n
 
 void Server::run()
 {
