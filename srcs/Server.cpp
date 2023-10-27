@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/26 17:00:43 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:28:02 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 		}
         case 1:
 		{
-			if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false) 
+			if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false)
 				loginError(cli_fd, ":[code erreur]password required\r\n");
 			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
 			{
@@ -227,7 +227,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 					loginError(cli_fd, ":[code erreur]nickname is more than 12 characters\r\n");
 				else if (arg == "")
 					loginError(cli_fd, ":[code erreur]nickname is empty\r\n");
-			}			
+			}
 			std::cout << "nickname : " << arg << std::endl;
 			break;
 		}
@@ -240,7 +240,7 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 			}
 			if (getUserByFd(cli_fd)->getNickname() == "")
 				loginError(cli_fd, "ERROR :[code erreur]nickname required\r\n");
-			else if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false) 
+			else if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false)
 				loginError(cli_fd, "ERROR :[code erreur]password required\r\n");
 			else if (isValidUsername(parameter) == 0)
 				loginError(cli_fd, "ERROR :[code erreur]username must contain only alphanumeric characters\r\n");
@@ -344,15 +344,8 @@ int Server::isCommand( std::string const & name )
 
 void Server::run()
 {
-	std::string input;
-	
-	while (!std::cin.eof())
+	while (1)
 	{
-		while (getline(std::cin, input))
-		{
-			if (input == "exit")
-				return;
-		}
 		FD_ZERO(&this->_fd_to_read);
 		for (int i = 0 ; i < MAX_CONNECTIONS; i++) {
 			if (this->_all_connections[i] >= 0) {
@@ -424,6 +417,8 @@ void Server::deleteUser(User* user) {
 void Server::deleteUser(int cli_fd) {
 
 	delete getUserByFd(cli_fd);
+	//le supprimer de tous les channels
+	
 	close(cli_fd);
 	for (int i = 0; i < MAX_CONNECTIONS; i++)
 	{
