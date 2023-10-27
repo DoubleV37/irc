@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/27 23:49:25 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/28 00:03:58 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,13 @@ int	Server::recvMessage()
 int	Server::sendMessage( int cli_fd, std::string const & message )
 {
 	send(cli_fd, message.c_str(), message.size(), 0);
+	return (1);
+}
+
+int Server::sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message)
+{
+	std::string msg = ":" + getUserByFd(start_fd)->getNickname() + " " + "PRIVMSG " + target + " :" + message + "\r\n";
+	sendMessage(getUserByUsername(target)->getFd(), msg);
 	return (1);
 }
 

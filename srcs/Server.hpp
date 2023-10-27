@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/27 21:04:44 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/27 23:58:16 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ class Server {
 		int	addNewConnections();
 		int	recvMessage();
 		int	sendMessage( int cli_fd, std::string const & message );
+		int	sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message);
 		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
 		void loginError( int cli_fd, std::string num_error, std::string message );
 		int	isValidUsername(std::string const & str);
