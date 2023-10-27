@@ -37,8 +37,20 @@ Server::Server( const Server& obj ) {
 
 Server& Server::operator=( const Server& obj ) {
 
-	if (this != &obj )
+	if (this == &obj )
 		return *this;
+    for (int i = 0; i < MAX_CONNECTIONS; ++i) {
+        this->_all_connections[i] = obj._all_connections[i];
+    }
+    this->_socket = obj._socket;
+    this->_users = obj._users;
+    this->_fd_to_read = obj._fd_to_read;
+    this->_password = obj._password;
+    this->_nb_connections = obj._nb_connections;
+    this->_port = obj._port;
+    this->_command = obj._command;
+    this->_channels = obj._channels;
+
 	return *this;
 }
 
@@ -434,4 +446,10 @@ void Server::addCommand( std::string const & name, ACommand* command ) {
 
 	(void)name;
 	(void)command;
+}
+
+void Server::exit()
+{
+    // TODO: Clean _users, _channels, _command
+    std::cout << "Good Bye" << std::endl;
 }

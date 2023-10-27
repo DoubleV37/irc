@@ -16,6 +16,28 @@
 #include "ACommand.hpp"
 
 #include <stdlib.h>
+#include <csignal>
+#include <bits/types/siginfo_t.h>
+
+static Server serv;
+
+static void	listen(int sig, siginfo_t *info, void *unused)
+{
+    (void)sig;
+    (void)info;
+    (void)unused;
+    serv.exit();
+    exit(0);
+}
+
+static void init_ctrl_c()
+{
+    struct sigaction sig;
+
+    sig.sa_sigaction = listen;
+    sigemptyset(&sig.sa_mask);
+    sigaction(SIGINT, &sig, NULL);
+}
 
 int main(int argc, char** argv)
 {
@@ -25,15 +47,8 @@ int main(int argc, char** argv)
 		std::cerr << "./ircserv [port] [password]" << std::endl;
 		return (1);
 	}
-	if (argc == 2)
-	{
-		Server serv(atoi(argv[1]), "");
-		serv.run();
-	}
-	else
-	{
-		Server serv(atoi(argv[1]), argv[2]);
-		serv.run();
-	}
+    init_ctrl_c();
+    serv = Server(atoi(argv[1]), argv[2]);
+	serv.run();
 	return (0);
 }

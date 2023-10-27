@@ -74,5 +74,6 @@ class Server {
 		Channel* getChannelByName( std::string const & channel ) const;
 		void addChannel( Channel* channel );
 		void run();
+        void exit();
 
 };
