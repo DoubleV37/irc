@@ -19,7 +19,7 @@
 #include <csignal>
 #include <bits/types/siginfo_t.h>
 
-Server serv;
+static Server serv;
 
 static void	listen(int sig, siginfo_t *info, void *unused)
 {
@@ -48,15 +48,7 @@ int main(int argc, char** argv)
 		return (1);
 	}
     init_ctrl_c();
-	if (argc == 2)
-	{
-		serv = Server(atoi(argv[1]), "");
-		serv.run();
-	}
-	else
-	{
-		serv = Server(atoi(argv[1]), argv[2]);
-		serv.run();
-	}
+    serv = Server(atoi(argv[1]), argv[2]);
+	serv.run();
 	return (0);
 }
