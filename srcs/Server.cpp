@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/27 16:42:13 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/27 17:00:00 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	Server::addNewConnections()
 {
 	int new_fd;
 	struct sockaddr_in new_addr;
-	socklen_t addrlen;
+	unsigned int addrlen = sizeof(new_addr);
 
 	if (FD_ISSET(this->_socket, &this->_fd_to_read))
 	{
@@ -139,10 +139,7 @@ int	Server::recvMessage()
 				}
 			}
 			if (rcv_msg.size() > 0)
-			{
-				std::cout << "num_cli " << this->_all_connections[i] << " | rcv_msg : " << rcv_msg << std::endl;
 				dispatch(rcv_msg, this->_all_connections[i]);
-			}
 			// Parsing / Dispatch
 			// REMPLIR LE USER QUI EST DEJA STOCKE AVEC ADDUSER
 			// Utiliser la fonction ADDUSER ou équivalent en trouvant le USER dans le vector
@@ -165,7 +162,6 @@ void Server::loginError( int cli_fd, std::string message )
 
 int	Server::isValidUsername(std::string const & str)
 {
-	std::cout << "============str : " << str << std::endl;
 	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (!isalnum(str[i]))
@@ -419,7 +415,6 @@ void Server::deleteUser(int cli_fd) {
 
 	delete getUserByFd(cli_fd);
 	//le supprimer de tous les channels
-
 	close(cli_fd);
 	for (int i = 0; i < MAX_CONNECTIONS; i++)
 	{
