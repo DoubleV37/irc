@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Command.cpp                                           :+:      :+:    :+:   */
+/*   ACommand.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 13:54:03 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:03:18 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ACommand.hpp"
 
 ACommand::ACommand( std::string const & name, std::string const & usage ) : _name(name), _usage(usage) {
-
     (void)name;
     (void)usage;
- 
 }
 
 ACommand::~ACommand() {
