@@ -31,5 +31,9 @@
 *.out
 *.app
 
-#vscode
+# IDE
+.idea
 *.vscode
+
+# Custom
+ircserv

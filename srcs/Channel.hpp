@@ -25,6 +25,7 @@ class Channel {
         std::string _password;
         bool _isPrivate;
         bool _hasLimit;
+        bool _hasTopicProtection;
         int  _limit;
         
 
@@ -38,16 +39,23 @@ class Channel {
         std::string const & getName();
         void addUser( User* user, int isAdmin );
         void removeUser( User* user );
+        std::map<User*, int> getUsers();
         void setTopic( std::string topic );
         void setOp( User* user );
         void deOp( User* user );
         bool isOp( User* user );
         std::string getPassword();
+        void setPassword(const std::string& password);
         bool isPrivate();
+        void setPrivate(bool isPrivate);
         bool hasLimit();
-        int  getLimit();
+        size_t getLimit();
+        bool hasTopicProtection() const;
+        void setTopicProtection(bool protection);
         void setLimit( int limit );
+        bool isFull();
         bool sendInvite( std::string user );
         void broadcast( std::string message );
+        bool containsUser( User* user );
 
 };

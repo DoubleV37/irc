@@ -12,19 +12,55 @@
 
 #include "Mode.hpp"
 
-Mode::Mode( std::string const & name, std::string const & usage ) : ACommand( name, usage)  {
-    
+Mode::Mode() : ACommand( "mode", "/mode <channel> <+ | -> <mode> [params]", true )
+{
 }
 
-Mode::~Mode() {
-    
+Mode::~Mode()
+{
 }
 
-bool Mode::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
-    (void)args;
-    (void)user;
+bool Mode::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
+{
     (void)channel;
-    (void)server;
+    if (args.size() < 2)
+    {
+        return false;
+    }
+
+    Channel *channelTarget = server->getChannelByName(args[0]);
+
+    if (channelTarget == NULL)
+    {
+        return false;
+    }
+
+    if (args[1] == "+i" || args[1] == "-i")
+    {
+        channelTarget->setPrivate(args[1] == "+i");
+    }
+    else if (args[1] == "+t" || args[1] == "-t")
+    {
+        channelTarget->setTopicProtection(args[1] == "+t");
+    }
+    else if (args[1] == "+k" || args[1] == "-k")
+    {
+        if (args.size() < 3)
+        {
+            user->send(args[1] + " needs a password");
+            return true;
+        }
+        channelTarget->setPassword(args[1] == "+k" ? args[2] : "");
+    }
+    else if (args[1] == "+o" || args[1] == "-o")
+    {
+        if (args.size() < 3)
+        {
+            user->send(args[1] + " needs a user");
+            return true;
+        }
+        User *userTarget = server->getUserByUsername(args[2]);
+        args[1] == "+o" ? channelTarget->setOp(userTarget) : channelTarget->deOp(userTarget);
+    }
     return true; 
 }

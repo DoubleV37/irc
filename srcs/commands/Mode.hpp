@@ -21,7 +21,7 @@
 class Mode : public ACommand {
     
 	public:
-		Mode( std::string const & name, std::string const & usage );
+		Mode();
 		~Mode();
 		bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
 

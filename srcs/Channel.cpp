@@ -45,8 +45,8 @@ void Channel::addUser( User* user, int isAdmin ) {
     (void)isAdmin;
 }
 
-void Channel::removeUser( User* user ) {
-    
+void Channel::removeUser( User* user )
+{
     (void)user;
 }
 
@@ -71,7 +71,7 @@ bool Channel::hasLimit() {
     return this->_hasLimit;
 }
 
-int  Channel::getLimit() {
+size_t  Channel::getLimit() {
 
    return this->_limit; 
 }
@@ -100,4 +100,43 @@ std::string Channel::getPassword() {
 bool Channel::isPrivate() {
 
     return this->_isPrivate;
+}
+
+void Channel::setTopic(std::string topic) {
+    (void)topic;
+}
+
+bool Channel::containsUser(User *user)
+{
+    return this->_users.find(user) != this->_users.end();
+}
+
+std::map<User *, int> Channel::getUsers()
+{
+    return this->_users;
+}
+
+bool Channel::isFull()
+{
+    return this->hasLimit() && this->getUsers().size() == this->getLimit();
+}
+
+void Channel::setPrivate(bool isPrivate)
+{
+    this->_isPrivate = isPrivate;
+}
+
+bool Channel::hasTopicProtection() const
+{
+    return this->_hasTopicProtection;
+}
+
+void Channel::setTopicProtection(bool protection)
+{
+    this->_hasTopicProtection = protection;
+}
+
+void Channel::setPassword(const std::string& password)
+{
+    this->_password = password;
 }
