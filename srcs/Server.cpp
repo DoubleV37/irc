@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 17:57:35 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/28 19:42:08 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int	Server::sendMessage( int cli_fd, std::string const & message )
 int Server::sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message)
 {
 	std::string msg = ":" + getUserByFd(start_fd)->getNickname() + " " + "PRIVMSG " + target + " :" + message + "\r\n";
-	sendMessage(getUserByUsername(target)->getFd(), msg);
+	sendMessage(getUserByNickname(target)->getFd(), msg);
 	return (1);
 }
 
@@ -336,7 +336,22 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 			case 3:
 			{
 				ACommand* command = new Message();
-				command->execute(split_msg, getUserByFd(cli_fd), NULL, this);
+				std::vector<std::string> split_msg_tmp;
+				std::string tmp;
+				for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
+				{
+					if (split_msg[i][j] == ' ')
+					{
+						split_msg_tmp.push_back(tmp);
+						tmp.clear();
+					}
+					else
+						tmp.push_back(split_msg[i][j]);
+				}
+				if (tmp[0] == ':')
+					tmp.erase(0, 1);
+				split_msg_tmp.push_back(tmp);
+				command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
 				break;
 			}
 		}
@@ -396,15 +411,12 @@ std::map<std::string, Channel*> Server::getChannels() {
 	return this->_channels;
 }
 
-User* Server::getUserByUsername( std::string const & userName ) const {
+User* Server::getUserByNickname( std::string const & nickname ) const {
 
 	for ( size_t i = 0 ; i < this->_users.size() ; i++ )
 	{
-		if ( this->_users[i]->getUsername() == userName )
-		{
-			User* userName = this->_users[i];
-			return userName;
-		}
+		if ( this->_users[i]->getNickname() == nickname )
+			return this->_users[i];
 	}
 	return NULL;
 }

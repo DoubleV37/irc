@@ -1,7 +1,7 @@
 #include "Message.hpp"
 #include <string>
 
-Message::Message() : ACommand( "msg", "/msg <user | channel> <message>", false )
+Message::Message() : ACommand( "msg", "PRIVMSG <user | channel> <message>", false )
 {
 }
 
@@ -14,9 +14,14 @@ bool Message::execute(std::vector<std::string> args, User *user, Channel *channe
 	std::string message = "";
 
 	(void)channel;
-    (void)user;
+
+	for (size_t i = 0; i < args.size(); i++)
+	{
+		std::cout << "arg[" << i << "] = " << args[i] << std::endl;
+	}
 	if (args.size() < 2)
 	{
+		server->sendMessage(user->getFd(), "Usage: PRIVMSG <user | channel> <message> \r\n");
 		return false;
 	}
 
@@ -24,17 +29,20 @@ bool Message::execute(std::vector<std::string> args, User *user, Channel *channe
 	{
 		message.append(args.at(i));
 	}
-
     if (server->getChannelByName(args[0]) != NULL)
     {
         server->getChannelByName(args[0])->broadcast(message);
     }
-    else if (server->getUserByUsername(args[0]) != NULL)
+    else if (server->getUserByNickname(args[0]) != NULL)
     {
-        server->getUserByUsername(args[0])->send(message);
+		std::cout << "Sending message to " << args[0] << std::endl;
+		std::cout << "Message: " << message << std::endl;
+		server->sendMessageBetweenUsers(user->getFd(), args[0], message);
+        // server->getUserByUsername(args[0])->send(message);
     }
     else
     {
+		server->sendMessageError(user->getFd(), "401", args[0] + " :No such nick/channel");
         return false;
     }
 	return true;

@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 00:11:25 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/28 19:47:03 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ class Server {
 		int createSocketServer();
 		int	addNewConnections();
 		int	recvMessage();
-		int	sendMessage( int cli_fd, std::string const & message );
-		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
 		void loginError( int cli_fd, std::string num_error, std::string message );
 		int	isValidUsername(std::string const & str);
 
@@ -70,8 +68,10 @@ class Server {
 		Server& operator=( const Server& obj );
 		~Server();
 
-		User* getUserByUsername( std::string const & userName ) const;
+		User* getUserByNickname( std::string const & nickname ) const;
 		User* getUserByFd( int fd ) const;
+		int	sendMessage( int cli_fd, std::string const & message );
+		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
 		int	sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message);
 		Channel* getChannelByName( std::string const & channel ) const;
 		void addChannel( Channel* channel );
