@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 00:18:12 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/28 17:55:10 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -398,7 +398,14 @@ std::map<std::string, Channel*> Server::getChannels() {
 
 User* Server::getUserByUsername( std::string const & userName ) const {
 
-	(void)userName;
+	for ( size_t i = 0 ; i < this->_users.size() ; i++ )
+	{
+		if ( this->_users[i]->getUsername() == userName )
+		{
+			User* userName = this->_users[i];
+			return userName;
+		}
+	}
 	return NULL;
 }
 
