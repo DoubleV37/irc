@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 17:55:10 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/28 17:57:35 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -424,13 +424,21 @@ User* Server::getUserByFd( int fd ) const {
 
 Channel* Server::getChannelByName( std::string const & channel ) const {
 
-	(void)channel;
+	if (this->_channels.find(channel) != this->_channels.end())
+		return this->_channels.find(channel)->second;
 	return NULL;
 }
 
 void Server::deleteUser(User* user) {
 
-	(void)user;
+	for (size_t i = 0; i < this->_users.size(); i++)
+	{
+		if (this->_users[i] == user)
+		{
+			this->_users.erase(this->_users.begin() + i);
+			break;
+		}
+	}
 }
 
 void Server::deleteUser(int cli_fd) {
