@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 19:47:03 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/29 19:09:20 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ class Server {
 		void deleteUser(int cli_fd);
 		void deleteChannel(Channel*);
 		ACommand* getCommand( std::string const & command ) const;
-		void addCommand( std::string const & name, ACommand* command );
+		void addCommand( ACommand* command );
 		int isCommand( std::string const & name );
 		// SWITCH CASE POUR DISPATCH
 		void login( std::string const & buffer, int step, int cli_fd );
