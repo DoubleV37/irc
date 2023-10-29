@@ -63,8 +63,7 @@ std::string const & User::getNickname() const {
 
 int User::getFd() const
 {
-//    return this->_fd;
-    return 4;
+    return this->_fd;
 }
 
 void User::setUserName( std::string const & userName ) {

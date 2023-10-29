@@ -425,7 +425,6 @@ User* Server::getUserByFd( int fd ) const {
 
 	for ( size_t i = 0 ; i < this->_users.size() ; i++ )
 	{
-        std::cout << "fd : " << fd << " | i : " << i  << " | user fd : " << this->_users[i] << std::endl;
 		if ( this->_users[i]->getFd() == fd )
 			return this->_users[i];
 	}
