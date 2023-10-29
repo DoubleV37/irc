@@ -96,7 +96,7 @@ int	Server::addNewConnections()
 					// fd du User qu on vient d'accepter
 					this->_all_connections[i] = new_fd;
 					User* user = new User(new_fd);
-					_users.push_back(user);
+					this->_users.push_back(user);
 					this->_nb_connections++;
 					break;
 				}
@@ -203,12 +203,12 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 		{
 			//verif password
 			std::cout << "password : " << arg << std::endl;
-			if (this->_password != "" && arg == this->_password)
+			if (!this->_password.empty() && arg == this->_password)
 			{
 				sendMessage(cli_fd, "password ok\r\n");
 				getUserByFd(cli_fd)->setPassToggle(true);
 			}
-			else if (this->_password == "")
+			else if (this->_password.empty())
 			{
 				sendMessage(cli_fd, "password ok : no require\r\n");
 				getUserByFd(cli_fd)->setPassToggle(true);
@@ -219,11 +219,11 @@ void Server::login( std::string const & arg, int step, int cli_fd )
 		}
         case 1:
 		{
-			if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false)
+			if (!this->_password.empty() && !this->getUserByFd(cli_fd)->_passIsSet)
 				loginError(cli_fd, "code", "password required");
-			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
+			else if ((getUserByFd(cli_fd)->_passIsSet && !this->_password.empty()) || (!getUserByFd(cli_fd)->_passIsSet && this->_password.empty()))
 			{
-				if (arg != "" && arg.size() <= MAX_NICK_LENGTH)
+				if (!arg.empty() && arg.size() <= MAX_NICK_LENGTH)
 				{
 					for (size_t i = 0 ; i < this->_users.size() ; i++)
 					{
@@ -383,12 +383,12 @@ void Server::run()
 		if (nb_cli >= 0)
 		{
 			addNewConnections();
-			}
-			if (nb_cli != 0)
-			{
-				recvMessage();
-			}
-		}
+        }
+        if (nb_cli != 0)
+		{
+			recvMessage();
+        }
+    }
 }
 
 void Server::addUser( User* user ) {
@@ -426,10 +426,7 @@ User* Server::getUserByFd( int fd ) const {
 	for ( size_t i = 0 ; i < this->_users.size() ; i++ )
 	{
 		if ( this->_users[i]->getFd() == fd )
-		{
-			User* userName = this->_users[i];
-			return userName;
-		}
+			return this->_users[i];
 	}
 	return NULL;
 }
@@ -455,7 +452,15 @@ void Server::deleteUser(User* user) {
 
 void Server::deleteUser(int cli_fd) {
 
-	delete getUserByFd(cli_fd);
+	User* user = this->getUserByFd(cli_fd);
+    for (size_t i = 0; i < this->_users.size(); i++)
+    {
+        if (&this->_users[i] == &user)
+        {
+            this->_users.erase(this->_users.begin() + i);
+            delete user;
+        }
+    }
 	//le supprimer de tous les channels
 	close(cli_fd);
 	for (int i = 0; i < MAX_CONNECTIONS; i++)

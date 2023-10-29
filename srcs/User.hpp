@@ -41,7 +41,7 @@ class User {
         void addChannel( Channel* channel );
         void removeChannel( std::string const & name );
         std::map<std::string, Channel*> getChannels();
-        int getFd();
+        int getFd() const;
         void send( std::string const & message );
 
         bool    _passIsSet;
