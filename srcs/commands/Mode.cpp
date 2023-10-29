@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/19 16:33:00 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:39:44 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ bool Mode::execute( std::vector<std::string> args, User* user, Channel* channel,
             user->send(args[1] + " needs a user");
             return true;
         }
-        User *userTarget = server->getUserByUsername(args[2]);
+        User *userTarget = server->getUserByNickname(args[2]);
         args[1] == "+o" ? channelTarget->setOp(userTarget) : channelTarget->deOp(userTarget);
     }
-    return true; 
+    return true;
 }

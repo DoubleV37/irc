@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/24 15:03:19 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:38:56 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 
 Invite::Invite() : ACommand( "invite", "/invite <channel> <user>", true )
 {
-    
+
 }
 
 Invite::~Invite() {
-    
+
 }
 
 bool Invite::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
@@ -30,7 +30,7 @@ bool Invite::execute( std::vector<std::string> args, User* user, Channel* channe
 		return false;
 	}
 
-    User* userInvite = server->getUserByUsername(args[1]);
+    User* userInvite = server->getUserByNickname(args[1]);
     Channel* channelTarget = server->getChannelByName(args[0]);
 
 	if (channelTarget != NULL)

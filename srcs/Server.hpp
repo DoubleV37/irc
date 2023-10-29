@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 18:29:59 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/28 19:47:03 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 
 #define BUFFER 5000
 #define MAX_CONNECTIONS 10
+#define MAX_BUF_LENGTH 4096
+#define MAX_NICK_LENGTH 12
 
 class ACommand;
 
@@ -44,28 +46,36 @@ class Server {
 		std::vector<User*> getUsers();
 		std::map<std::string, Channel*> getChannels();
 		void deleteUser(User*);
+		void deleteUser(int cli_fd);
 		void deleteChannel(Channel*);
 		ACommand* getCommand( std::string const & command ) const;
 		void addCommand( std::string const & name, ACommand* command );
-		bool isCommand( std::string const & name );
+		int isCommand( std::string const & name );
 		// SWITCH CASE POUR DISPATCH
-		void dispatch( std::string const & buffer);
+		void login( std::string const & buffer, int step, int cli_fd );
+		void dispatch( std::string const & recv_msg, int cli_fd );
 		int createSocketServer();
 		int	addNewConnections();
-		int	recvMessages();
-		int	sendMessages();
+		int	recvMessage();
+		void loginError( int cli_fd, std::string num_error, std::string message );
+		int	isValidUsername(std::string const & str);
 
 	public:
 		Server();
-		Server(int port);
+		Server(int port, std::string const & password);
 		// Ajouter constructeur paramètres
 		Server( const Server& obj );
 		Server& operator=( const Server& obj );
 		~Server();
 
-		User* getUserByUsername( std::string const & userName ) const;
+		User* getUserByNickname( std::string const & nickname ) const;
+		User* getUserByFd( int fd ) const;
+		int	sendMessage( int cli_fd, std::string const & message );
+		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
+		int	sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message);
 		Channel* getChannelByName( std::string const & channel ) const;
 		void addChannel( Channel* channel );
 		void run();
+        void exit();
 
 };
