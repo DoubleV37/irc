@@ -6,12 +6,13 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 19:42:08 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/30 16:09:48 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "commands/Message.hpp"
+#include "commands/Join.hpp"
 
 #include <unistd.h>
 #include <string.h>
@@ -354,6 +355,27 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
 				break;
 			}
+			case 4:
+			{
+				ACommand* command = new Join();
+				std::vector<std::string> split_msg_tmp;
+				std::string tmp;
+				for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
+				{
+					if (split_msg[i][j] == ' ')
+					{
+						split_msg_tmp.push_back(tmp);
+						tmp.clear();
+					}
+					else
+						tmp.push_back(split_msg[i][j]);
+				}
+				if (tmp[0] == ':')
+					tmp.erase(0, 1);
+				split_msg_tmp.push_back(tmp);
+				command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
+				break;
+			}
 		}
 	}
 }
@@ -393,12 +415,12 @@ void Server::run()
 
 void Server::addUser( User* user ) {
 
-	(void)user;
+	this->_users.push_back(user);
 }
 
 void Server::addChannel( Channel* channel ) {
 
-	(void)channel;
+	this->_channels[channel->getName()] = channel;
 }
 
 std::vector<User*> Server::getUsers() {

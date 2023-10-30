@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/30 12:25:18 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/30 15:45:04 by doublev          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ std::string const & Channel::getName() {
 
 void Channel::addUser( User* user, int isAdmin ) {
 
-    (void)user;
-    (void)isAdmin;
+	this->_users[user] = isAdmin;
 }
 
 void Channel::removeUser( User* user )
