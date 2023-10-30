@@ -353,6 +353,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 					tmp.erase(0, 1);
 				split_msg_tmp.push_back(tmp);
 				command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
+                delete command;
 				break;
 			}
 			case 4:
@@ -510,6 +511,16 @@ void Server::addCommand( std::string const & name, ACommand* command ) {
 
 void Server::exit()
 {
-    // TODO: Clean _users, _channels, _command
     std::cout << "Good Bye" << std::endl;
+    for (size_t i = 0; i < this->_users.size(); i++)
+    {
+        delete this->_users[i];
+    }
+    this->_users.clear();
+    std::map<std::string, Channel*>::iterator it;
+    for (it = this->_channels.begin(); it != this->_channels.end(); it++)
+    {
+        delete it->second;
+    }
+    this->_channels.clear();
 }
