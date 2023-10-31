@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/31 15:02:29 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/31 19:12:59 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <string>
 #include "../ACommand.hpp"
 
-Join::Join() : ACommand( "join", "/join <channel>", false )
+Join::Join() : ACommand( "JOIN", "/join <channel>", false )
 {
 }
 

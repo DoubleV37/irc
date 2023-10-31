@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Kick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 19:39:24 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/31 19:12:55 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Kick.hpp"
 #include <cstddef>
 
-Kick::Kick() : ACommand( "kick", "/kick <channel> <user> [message]", true )
+Kick::Kick() : ACommand( "KICK", "/kick <channel> <user> [message]", true )
 {
 }
 

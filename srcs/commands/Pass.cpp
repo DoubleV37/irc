@@ -12,7 +12,7 @@
 
 #include "Pass.hpp"
 
-Pass::Pass() : ACommand( "Pass", "/Pass <Pass>", false )
+Pass::Pass() : ACommand( "PASS", "/Pass <Pass>", false )
 {
 }
 

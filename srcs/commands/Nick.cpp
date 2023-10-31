@@ -12,7 +12,7 @@
 
 #include "Nick.hpp"
 
-Nick::Nick() : ACommand( "Nick", "/Nick <Nick>", false )
+Nick::Nick() : ACommand( "NICK", "/Nick <Nick>", false )
 {
 }
 
@@ -23,34 +23,33 @@ Nick::~Nick()
 bool Nick::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
 
     (void)channel;
-    (void)server;
 
-    if (this->_password != "" && user->_passIsSet == false)
-        loginError(user->getFd(), "code", "password required");
-    else if ((user->_passIsSet == true && this->_password != "") || (user->_passIsSet == false && this->_password == ""))
+    if (server->getPassword() != "" && user->_passIsSet == false)
+        server->loginError(user->getFd(), "code", "password required");
+    else if ((user->_passIsSet == true && server->getPassword() != "") || (user->_passIsSet == false && server->getPassword() == ""))
     {
-        if (args != "" && args.size() <= MAX_NICK_LENGTH)
+        if (args[0] != "" && args[0].size() <= MAX_NICK_LENGTH)
         {
-            for (size_t i = 0 ; i < this->_users.size() ; i++)
+            for (size_t i = 0 ; i < server->getUserList().size() ; i++)
             {
-                if (args == this->_users[i]->getNickname())
+                if (args[0] == server->getUserList()[i]->getNickname())
                 {
-                    loginError(user->getFd(), "433", "nickname already taken");
+                    server->loginError(user->getFd(), "433", "nickname already taken");
                     break;
                 }
                 else
                 {
                     //autre vérifs de nickname valide ?
-                    sendMessage(user->getFd(), "nickname ok\r\n");
-                    user->setNickName(args);
+                    server->sendMessage(user->getFd(), "nickname ok\r\n");
+                    user->setNickName(args[0]);
                     break;
                 }
             }
         }
-        else if (args.size() > MAX_NICK_LENGTH)
-            loginError(user->getFd(), "432", "nickname is more than 12 characters");
-        else if (args == "")
-            loginError(user->getFd(), "431", "nickname is empty");
+        else if (args[0].size() > MAX_NICK_LENGTH)
+            server->loginError(user->getFd(), "432", "nickname is more than 12 characters");
+        else if (args[0] == "")
+            server->loginError(user->getFd(), "431", "nickname is empty");
     }
     return true;
 }

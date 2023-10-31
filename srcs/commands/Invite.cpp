@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 19:38:56 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/31 19:13:05 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Invite.hpp"
 #include <cstddef>
 
-Invite::Invite() : ACommand( "invite", "/invite <channel> <user>", true )
+Invite::Invite() : ACommand( "INVITE", "/invite <channel> <user>", true )
 {
 
 }
