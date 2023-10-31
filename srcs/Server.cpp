@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/29 19:31:55 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:48:47 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,8 +333,6 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				split_msg_tmp.push_back(tmp);
 				command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
 			}
-			args = split_msg[i].substr(cmd.size() + 1);
-			command->execute(args, getUserByFd(cli_fd), NULL, this);
 		}
 		else
 		{
@@ -391,14 +389,14 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 // 	}
 // }
 
-ACommand* Server::getCommand( std::string const & name )
-{
-	if _command.find(name) != _command.end()
-		return (_command[name]);
+ACommand* Server::getCommand( std::string const & name ) const {
+	
+	if (_command.find(name) != _command.end())
+		return (_command.find(name)->second);
 	return (NULL);
 }
 
-int Server::isCommand( std::string const & command ) const  {
+int Server::isCommand( std::string const & name ) const  {
 
 	if (_command.find(name) != _command.end())
 		return (1);
@@ -412,16 +410,16 @@ void Server::addCommand(ACommand* command ) {
 
 void Server::run()
 {
-	addCommand(new Pass());
-	addCommand(new Nick());
-	addCommand(new UserName());
+	
+	// addCommand(new Pass());
+	// addCommand(new Nick());
+	// addCommand(new UserName());
 	addCommand(new Join());
-	addCommand(new Quit());
-	addCommand(new Topic());
-	addCommand(new Message());
-	addCommand(new Mode());
-	addCommand(new Invite());
-	addCommand(new Kick());
+	// addCommand(new Topic());
+	// addCommand(new Message());
+	// addCommand(new Mode());
+	// addCommand(new Invite());
+	// addCommand(new Kick());
 
 	while (1)
 	{
@@ -491,6 +489,11 @@ Channel* Server::getChannelByName( std::string const & channel ) const {
 	if (this->_channels.find(channel) != this->_channels.end())
 		return this->_channels.find(channel)->second;
 	return NULL;
+}
+
+std::string const & Server::getPassword() const {
+
+	return this->_password;
 }
 
 void Server::deleteUser(User* user) {

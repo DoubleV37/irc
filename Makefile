@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/10/21 10:49:50 by ltuffery         ###   ########.fr        #
+#    Updated: 2023/10/31 16:52:15 by gazzopar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,8 @@ SRC			:=	srcs/main.cpp \
 				srcs/exceptions/InvalidPasswordException.cpp \
 				srcs/exceptions/NotNullException.cpp \
 				srcs/commands/Invite.cpp \
+				srcs/commands/Pass.cpp \
+				srcs/commands/UserName.cpp \
 				srcs/commands/Kick.cpp \
 				srcs/commands/Mode.cpp \
 				srcs/commands/Topic.cpp \

@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   Message.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ltuffery <ltuffery@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 10:59:15 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/10/20 11:00:43 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:03:19 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
+#include "../Channel.hpp"
+#include "../Server.hpp"
+#include "../User.hpp"
 #include "../ACommand.hpp"
 
 class Message : public ACommand

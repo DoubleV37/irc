@@ -23,20 +23,19 @@ Pass::~Pass()
 bool Pass::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
     
     (void)channel;
-    (void)server;
     
-    std::cout << "password : " << args << std::endl;
-    if (this->_password != "" && args == this->_password)
+    std::cout << "password : " << args[0] << std::endl;
+    if (server->getPassword() != "" && args[0] == server->getPassword())
     {
-        sendMessage(user->getFd(), "password ok\r\n");
+        server->sendMessage(user->getFd(), "password ok\r\n");
         user->setPassToggle(true);
     }
-    else if (this->_password == "")
+    else if (server->getPassword() == "")
     {
-        sendMessage(user->getFd(), "password ok : no require\r\n");
+        server->sendMessage(user->getFd(), "password ok : no require\r\n");
         user->setPassToggle(true);
     }
     else
-        loginError(user->getFd(), "code", "password nok");
+        server->loginError(user->getFd(), "code", "password nok");
     return true;
 }

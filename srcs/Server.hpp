@@ -6,16 +6,27 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/29 19:09:20 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:59:49 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+
 #include <iostream>
 #include <vector>
+// #include "ACommand.hpp"
 #include "User.hpp"
 #include "Channel.hpp"
-#include "ACommand.hpp"
+#include "commands/Join.hpp"
+// #include "commands/Kick.hpp"
+// #include "commands/Message.hpp"
+// #include "commands/Mode.hpp"
+// #include "commands/Nick.hpp"
+// #include "commands/Invite.hpp"
+// #include "commands/UserName.hpp"
+// #include "commands/Pass.hpp"
+// #include "commands/Topic.hpp"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/select.h>
@@ -49,16 +60,14 @@ class Server {
 		void deleteUser(int cli_fd);
 		void deleteChannel(Channel*);
 		ACommand* getCommand( std::string const & command ) const;
-		void addCommand( ACommand* command );
-		int isCommand( std::string const & name );
+		void addCommand( ACommand* name );
+		int isCommand( std::string const & name ) const;
 		// SWITCH CASE POUR DISPATCH
 		void login( std::string const & buffer, int step, int cli_fd );
 		void dispatch( std::string const & recv_msg, int cli_fd );
 		int createSocketServer();
 		int	addNewConnections();
 		int	recvMessage();
-		void loginError( int cli_fd, std::string num_error, std::string message );
-		int	isValidUsername(std::string const & str);
 
 	public:
 		Server();
@@ -70,10 +79,13 @@ class Server {
 
 		User* getUserByNickname( std::string const & nickname ) const;
 		User* getUserByFd( int fd ) const;
+		std::string const & getPassword() const;
 		int	sendMessage( int cli_fd, std::string const & message );
 		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
 		int	sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message);
+		int	isValidUsername(std::string const & str);
 		Channel* getChannelByName( std::string const & channel ) const;
+		void loginError( int cli_fd, std::string num_error, std::string message );
 		void addChannel( Channel* channel );
 		void run();
         void exit();

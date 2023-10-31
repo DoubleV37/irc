@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/29 17:08:45 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:00:18 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,17 @@ bool UserName::execute( std::vector<std::string> args, User* user, Channel* chan
     (void)channel;
     (void)server;
     
-    for (int i = 0; args[i] != ' '; i++)
-    {
-        parameter.push_back(args[i]);
-        break;
-    }
+    parameter = args[0];
+
     if (user->getNickname() == "")
-        loginError(user->getFd(), "code", "nickname required");
-    else if (this->_password != "" && user->_passIsSet == false)
-        loginError(user->getFd(), "code", "password required");
-    else if (isValidUsername(parameter) == 0)
-        loginError(user->getFd(), "code", "username must contain only alphanumeric characters");
-    else if (user->_passIsSet == true && this->_password != "") || (guser->_passIsSet == false && this->_password == ""))
+        server->loginError(user->getFd(), "code", "nickname required");
+    else if (server->getPassword() != "" && user->_passIsSet == false)
+        server->loginError(user->getFd(), "code", "password required");
+    else if (server->isValidUsername(parameter) == 0)
+        server->loginError(user->getFd(), "code", "username must contain only alphanumeric characters");
+    else if ((user->_passIsSet == true && server->getPassword() != "") || (user->_passIsSet == false && server->getPassword() == ""))
     {
-        sendMessage(user->getFd(), "username ok\r\n");
+        server->sendMessage(user->getFd(), "username ok\r\n");
         user->setUserName(parameter);
     }
     return true;
