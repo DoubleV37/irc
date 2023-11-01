@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/30 15:45:44 by doublev          ###   ########.fr       */
+/*   Updated: 2023/11/01 13:53:52 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <cstddef>
 #include <string>
 
-Join::Join() : ACommand( "join", "/join <channel>", false )
+Join::Join() : ACommand( "join", "/join <channel> [password]", false )
 {
 }
 
@@ -80,11 +80,11 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
 		channels_password.push_back(channel_password);
 	}
 
-	Channel *channeltarget;
+	Channel *channelTarget;
 	for (size_t i = 0; i < channels_name.size(); i++)
 	{
-		channeltarget = server->getChannelByName(channels_name[i]);
-		if (channeltarget == NULL)
+		channelTarget = server->getChannelByName(channels_name[i]);
+		if (channelTarget == NULL)
 		{
 			std::cout << "channeltarget == NULL" << std::endl;
 			if (user->getChannels().size() >= 10)
@@ -93,44 +93,39 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
 				continue;
 			}
 			if (channels_password.size() > 0 && channels_password.size() > i)
-				channeltarget = new Channel(channels_name[i], channels_password[i]);
+				channelTarget = new Channel(channels_name[i], channels_password[i]);
 			else
-				channeltarget = new Channel(channels_name[i]);
-			channeltarget->addUser(user, 1);
-			user->addChannel(channeltarget);
-			server->addChannel(channeltarget);
-			sendJoinMessage(user, channeltarget, server);
+				channelTarget = new Channel(channels_name[i]);
+			channelTarget->addUser(user, 1);
+			user->addChannel(channelTarget);
+			server->addChannel(channelTarget);
+			sendJoinMessage(user, channelTarget, server);
+		}
+		else if (channelTarget->isFull())
+		{
+			server->sendMessageError(user->getFd(), "471", channels_name[i] + " :Cannot join channel, server full");
+		}
+		else if (channels_password.size() > 0 && channels_password.size() > i && channelTarget->getPassword() != channels_password[i])
+		{
+			server->sendMessageError(user->getFd(), "475", channels_name[i] + " :Cannot join channel, wrong password");
+		}
+		else if (channelTarget->isPrivate() && !channelTarget->sendInvite(user->getNickname()))
+		{
+			server->sendMessageError(user->getFd(), "473", channels_name[i] + " :Cannot join channel, invite only");
+		}
+		else if (channelTarget->containsUser(user))
+		{
+			server->sendMessageError(user->getFd(), "443", channels_name[i] + " :is already on channel");
+		}
+		else if (user->getChannels().size() >= 10)
+		{
+			server->sendMessageError(user->getFd(), "405", channels_name[i] + " :You have joined too many channels");
 		}
 		else
 		{
-			if (channeltarget->isFull())
-			{
-				server->sendMessageError(user->getFd(), "471", channels_name[i] + " :Cannot join channel, server full");
-				continue;
-			}
-			if (channels_password.size() > 0 && channels_password.size() > i && channeltarget->getPassword() != channels_password[i])
-			{
-				server->sendMessageError(user->getFd(), "475", channels_name[i] + " :Cannot join channel, wrong password");
-				continue;
-			}
-			if (channeltarget->isPrivate() && !channeltarget->sendInvite(user->getNickname()))
-			{
-				server->sendMessageError(user->getFd(), "473", channels_name[i] + " :Cannot join channel, invite only");
-				continue;
-			}
-			if (channeltarget->containsUser(user))
-			{
-				server->sendMessageError(user->getFd(), "443", channels_name[i] + " :is already on channel");
-				continue;
-			}
-			if (user->getChannels().size() >= 10)
-			{
-				server->sendMessageError(user->getFd(), "405", channels_name[i] + " :You have joined too many channels");
-				continue;
-			}
-			channeltarget->addUser(user, 0);
-			user->addChannel(channeltarget);
-			sendJoinMessage(user, channeltarget, server);
+			channelTarget->addUser(user, 0);
+			user->addChannel(channelTarget);
+			sendJoinMessage(user, channelTarget, server);
 		}
 	}
 	return true;
