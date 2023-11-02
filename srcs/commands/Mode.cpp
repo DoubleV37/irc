@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/31 19:12:42 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:49:56 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@ Mode::~Mode()
 bool Mode::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
 {
     (void)channel;
+
+    if (!user->isLog())
+	{
+		server->sendMessageError(user->getFd(), "451", "You have not registered");
+		return false;
+	}
     if (args.size() < 2)
     {
         return false;

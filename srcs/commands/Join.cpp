@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 11:24:49 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/02 14:49:44 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,14 @@ void Join::sendJoinMessage( User* user, Channel* channel, Server* server )
 bool Join::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
 {
     (void)channel;
+    
 	if (args.empty() || args.size() > 2)
         return false;
+    if (!user->isLog())
+	{
+		server->sendMessageError(user->getFd(), "451", "You have not registered");
+		return false;
+	}
 
 	std::vector<std::string> channels_name;
 	std::vector<std::string> channels_password;

@@ -24,7 +24,11 @@ bool Message::execute(std::vector<std::string> args, User *user, Channel *channe
 	std::string message = "";
 
 	(void)channel;
-
+	if (!user->isLog())
+	{
+		server->sendMessageError(user->getFd(), "451", "You have not registered");
+		return false;
+	}
 	for (size_t i = 0; i < args.size(); i++)
 	{
 		std::cout << "arg[" << i << "] = " << args[i] << std::endl;

@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:59:39 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:45:05 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,9 @@ std::map<std::string, Channel*> User::getChannels() {
 
 void User::send( std::string const & message ) {
 	(void)message;
+}
+
+bool User::isLog() {
+
+    return (this->_userName != "" && this->_nickName != "");
 }

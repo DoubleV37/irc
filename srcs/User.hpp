@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 13:57:42 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:43:58 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ class User {
         std::map<std::string, Channel*> getChannels();
         int getFd() const;
         void send( std::string const & message );
+        bool isLog();
 
         bool    passIsSet;
              

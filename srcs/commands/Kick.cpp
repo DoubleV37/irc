@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/31 19:12:55 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:48:55 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel,
 {
     (void)user;
     (void)channel;
+
+	if (!user->isLog())
+	{
+		server->sendMessageError(user->getFd(), "451", "You have not registered");
+		return false;
+	}
 	if (args.size() < 2)
 	{
 		return false;
