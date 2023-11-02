@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 11:40:25 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/02 13:38:26 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,9 +243,9 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				else
 					tmp.push_back(split_msg[i][j]);
 			}
-			if (tmp[0] == ':')
-				tmp.erase(0, 1);
 			split_msg_tmp.push_back(tmp);
+			if (split_msg_tmp.size() >= 2 && split_msg_tmp[1][0] == ':')
+				split_msg_tmp[1].erase(0, 1);
 			command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
 		}
 		else
