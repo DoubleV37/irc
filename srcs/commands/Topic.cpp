@@ -6,13 +6,13 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 17:47:36 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/31 18:36:45 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Topic.hpp"
 
-Topic::Topic() : ACommand( "topic", "/topic <topic>", false )
+Topic::Topic() : ACommand( "TOPIC", "/topic <topic>", false )
 {
 }
 

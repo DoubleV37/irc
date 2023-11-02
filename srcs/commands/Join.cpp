@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/22 15:04:45 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/31 19:12:59 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "../utils/CmdUtils.hpp"
 #include <cstddef>
 #include <string>
+#include "../ACommand.hpp"
 
-Join::Join() : ACommand( "join", "/join <channel>", false )
+Join::Join() : ACommand( "JOIN", "/join <channel>", false )
 {
 }
 

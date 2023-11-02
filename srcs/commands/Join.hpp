@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:22 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 11:03:49 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:10:53 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 #include "../Server.hpp"
 #include "../User.hpp"
 #include "../ACommand.hpp"
+
+class Server;
 
 class Join : public ACommand {
     

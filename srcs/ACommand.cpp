@@ -6,11 +6,12 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/24 15:05:25 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/31 16:36:17 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ACommand.hpp"
+#include "Server.hpp"
 
 ACommand::ACommand( std::string const & name, std::string const & usage, bool opOnly ) : _name(name), _usage(usage), _opOnly(opOnly)
 {
