@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/10/31 17:11:51 by gazzopar         ###   ########.fr        #
+#    Updated: 2023/11/02 14:12:53 by gazzopar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC			:=	srcs/main.cpp \
 				srcs/commands/Mode.cpp \
 				srcs/commands/Topic.cpp \
 				srcs/commands/Join.cpp	\
+				srcs/commands/Who.cpp	\
 				srcs/commands/Message.cpp \
 				srcs/utils/CmdUtils.cpp
 				
