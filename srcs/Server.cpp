@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:31:04 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 10:54:25 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,87 +190,6 @@ int	Server::isValidUsername(std::string const & str)
 	return (1);
 }
 
-// void Server::login( std::string const & arg, int step, int cli_fd )
-// {
-// 	std::string parameter;
-// 	switch(step) {
-
-// 		default:
-//         {
-//             break ;
-//         }
-//         case 0:
-// 		{
-// 			//verif password
-// 			std::cout << "password : " << arg << std::endl;
-// 			if (this->_password != "" && arg == this->_password)
-// 			{
-// 				sendMessage(cli_fd, "password ok\r\n");
-// 				getUserByFd(cli_fd)->setPassToggle(true);
-// 			}
-// 			else if (this->_password == "")
-// 			{
-// 				sendMessage(cli_fd, "password ok : no require\r\n");
-// 				getUserByFd(cli_fd)->setPassToggle(true);
-// 			}
-// 			else
-// 				loginError(cli_fd, "code", "password nok");
-// 			break;
-// 		}
-//         case 1:
-// 		{
-// 			if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false)
-// 				loginError(cli_fd, "code", "password required");
-// 			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
-// 			{
-// 				if (arg != "" && arg.size() <= MAX_NICK_LENGTH)
-// 				{
-// 					for (size_t i = 0 ; i < this->_users.size() ; i++)
-// 					{
-// 						if (arg == this->_users[i]->getNickname())
-// 						{
-// 							loginError(cli_fd, "433", "nickname already taken");
-// 							break;
-// 						}
-// 						else
-// 						{
-// 							//autre vérifs de nickname valide ?
-// 							sendMessage(cli_fd, "nickname ok\r\n");
-// 							getUserByFd(cli_fd)->setNickName(arg);
-// 							break;
-// 						}
-// 					}
-// 				}
-// 				else if (arg.size() > MAX_NICK_LENGTH)
-// 					loginError(cli_fd, "432", "nickname is more than 12 characters");
-// 				else if (arg == "")
-// 					loginError(cli_fd, "431", "nickname is empty");
-// 			}
-// 			break;
-// 		}
-//         case 2:
-// 		{
-// 			for (int i = 0; arg[i] != ' '; i++)
-// 			{
-// 				parameter.push_back(arg[i]);
-// 				break;
-// 			}
-// 			if (getUserByFd(cli_fd)->getNickname() == "")
-// 				loginError(cli_fd, "code", "nickname required");
-// 			else if (this->_password != "" && getUserByFd(cli_fd)->_passIsSet == false)
-// 				loginError(cli_fd, "code", "password required");
-// 			else if (isValidUsername(parameter) == 0)
-// 				loginError(cli_fd, "code", "username must contain only alphanumeric characters");
-// 			else if ((getUserByFd(cli_fd)->_passIsSet == true && this->_password != "") || (getUserByFd(cli_fd)->_passIsSet == false && this->_password == ""))
-// 			{
-// 				sendMessage(cli_fd, "username ok\r\n");
-// 				getUserByFd(cli_fd)->setUserName(parameter);
-// 			}
-// 			break;
-// 		}
-// 	}
-// }
-
 void Server::dispatch( std::string const & recv_msg, int cli_fd )
 {
 	std::vector<std::string> split_msg;
@@ -337,53 +256,6 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 		}
 	}
 }
-// 		// switch (isCommand(cmd))
-// 		// {
-// 		// 	default:
-// 		// 	{
-// 		// 		std::cout << "Commande inconnue : " << split_msg[0] << std::endl;
-// 		// 		sendMessageError(cli_fd, "421", "invalid command");
-// 		// 		break ;
-// 		// 	}
-// 		// 	case 0:
-// 		// 	{
-// 		// 		login(split_msg[i].substr(cmd.size() + 1), 0, cli_fd);
-// 		// 		break;
-// 		// 	}
-// 		// 	case 1:
-// 		// 	{
-// 		// 		login(split_msg[i].substr(cmd.size() + 1), 1, cli_fd);
-// 		// 		break;
-// 		// 	}
-// 		// 	case 2:
-// 		// 	{
-// 		// 		login(split_msg[i].substr(cmd.size() + 1), 2, cli_fd);
-// 		// 		break;
-// 		// 	}
-// 			case 3:
-// 			{
-// 				ACommand* command = new Message();
-// 				std::vector<std::string> split_msg_tmp;
-// 				std::string tmp;
-// 				for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
-// 				{
-// 					if (split_msg[i][j] == ' ')
-// 					{
-// 						split_msg_tmp.push_back(tmp);
-// 						tmp.clear();
-// 					}
-// 					else
-// 						tmp.push_back(split_msg[i][j]);
-// 				}
-// 				if (tmp[0] == ':')
-// 					tmp.erase(0, 1);
-// 				split_msg_tmp.push_back(tmp);
-// 				command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
-// 				break;
-// 			}
-// 		}
-// 	}
-// }
 
 ACommand* Server::getCommand( std::string const & name ) const {
 	
@@ -392,13 +264,6 @@ ACommand* Server::getCommand( std::string const & name ) const {
 		return (_command.find(name)->second);
 	std::cout << "NULL" << std::endl;
 	return (NULL);
-}
-
-int Server::isCommand( std::string const & name ) const  {
-
-	if (_command.find(name) != _command.end())
-		return (1);
-	return (0);
 }
 
 void Server::addCommand(ACommand* command ) {
@@ -449,16 +314,6 @@ void Server::addChannel( Channel* channel ) {
 	(void)channel;
 }
 
-std::vector<User*> Server::getUsers() {
-
-	return this->_users;
-}
-
-std::map<std::string, Channel*> Server::getChannels() {
-
-	return this->_channels;
-}
-
 User* Server::getUserByNickname( std::string const & nickname ) const {
 
 	for ( size_t i = 0 ; i < this->_users.size() ; i++ )
@@ -477,6 +332,11 @@ User* Server::getUserByFd( int fd ) const {
 			return this->_users[i];
 	}
 	return NULL;
+}
+
+std::vector<User*> Server::getUserList() const {
+
+	return this->_users;
 }
 
 Channel* Server::getChannelByName( std::string const & channel ) const {
@@ -525,11 +385,6 @@ void Server::deleteUser(int cli_fd) {
 			break;
 		}
 	}
-}
-
-std::vector<User*> Server::getUserList() const {
-
-	return this->_users;
 }
 
 void Server::exit()

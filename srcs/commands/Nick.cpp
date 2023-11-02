@@ -24,9 +24,9 @@ bool Nick::execute( std::vector<std::string> args, User* user, Channel* channel,
 
     (void)channel;
 
-    if (server->getPassword() != "" && user->_passIsSet == false)
+    if (server->getPassword() != "" && user->passIsSet == false)
         server->loginError(user->getFd(), "code", "password required");
-    else if ((user->_passIsSet == true && server->getPassword() != "") || (user->_passIsSet == false && server->getPassword() == ""))
+    else if ((user->passIsSet == true && server->getPassword() != "") || (user->passIsSet == false && server->getPassword() == ""))
     {
         if (args[0] != "" && args[0].size() <= MAX_NICK_LENGTH)
         {
