@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/24 15:04:16 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/10/31 17:01:08 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 #include <string>
 #include <vector>
-#include "Server.hpp"
+#include <iostream>
+#include "User.hpp"
+#include "Channel.hpp"
 
 class Server;
 

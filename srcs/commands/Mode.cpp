@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/28 19:39:44 by doublev          ###   ########.fr       */
+/*   Updated: 2023/10/31 19:12:42 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Mode.hpp"
 
-Mode::Mode() : ACommand( "mode", "/mode <channel> <+ | -> <mode> [params]", true )
+Mode::Mode() : ACommand( "MODE", "/mode <channel> <+ | -> <mode> [params]", true )
 {
 }
 

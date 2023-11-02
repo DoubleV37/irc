@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/27 22:24:47 by doublev          ###   ########.fr       */
+/*   Updated: 2023/11/02 10:59:39 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 
 User::User()
 {
+    this->_fd = -1;
     this->_userName = "";
     this->_nickName = "";
-    this->_passIsSet = false;
-    this->_fd = -1;
+    this->passIsSet = false;
 }
 
 User::User( int fd )
@@ -26,7 +26,7 @@ User::User( int fd )
     this->_fd = fd;
     this->_userName = "";
     this->_nickName = "";
-    this->_passIsSet = false;
+    this->passIsSet = false;
 }
 
 User::User( const User& obj ) {
@@ -43,7 +43,7 @@ User& User::operator=( const User& obj ) {
     this->_nickName = obj._nickName;
     this->_userName = obj._userName;
     this->_fd = obj._fd;
-    this->_passIsSet = obj._passIsSet;
+    this->passIsSet = obj.passIsSet;
     return *this;
 }
 
@@ -78,7 +78,7 @@ void User::setNickName( std::string const & nickName ) {
 
 void User::setPassToggle( bool status ) {
 
-    this->_passIsSet = status;
+    this->passIsSet = status;
 }
 
 void User::addChannel( Channel* channel ) {

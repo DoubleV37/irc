@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/01 13:53:52 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/02 11:15:10 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "../utils/CmdUtils.hpp"
 #include <cstddef>
 #include <string>
+#include "../ACommand.hpp"
 
 Join::Join() : ACommand( "join", "/join <channel> [password]", false )
 {
