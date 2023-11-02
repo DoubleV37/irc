@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:12:26 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:47:00 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 #define MAX_CONNECTIONS 10
 #define MAX_BUF_LENGTH 4096
 #define MAX_NICK_LENGTH 12
+#define MAX_USER_LENGTH 12
 
 class ACommand;
 

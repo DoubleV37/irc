@@ -24,9 +24,14 @@ Who::~Who()
 
 bool Who::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
     
-    std::string parameter;
     (void)channel;
+    std::string parameter;
 
+	if (!user->isLog())
+	{
+		server->sendMessageError(user->getFd(), "451", "You have not registered");
+		return false;
+	}
     channel = server->getChannelByName(args[0]);
     if (channel == NULL)
     {
