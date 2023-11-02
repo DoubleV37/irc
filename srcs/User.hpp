@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:58:03 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:57:42 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class User {
         std::string _userName;
         std::string _nickName;
         std::map<std::string, Channel*> _channels;
+//        bool    _usingHexChat;
         int _fd;
 
     public:

@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:54:25 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:06:06 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,6 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 		if (getCommand(cmd) != NULL)
 		{
 			command = getCommand(cmd);
-			std::cout << "YOUHOU: " << command->getName() << std::endl;
 			std::string tmp;
 			for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
 			{
@@ -244,9 +243,9 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				else
 					tmp.push_back(split_msg[i][j]);
 			}
-			if (tmp[0] == ':')
-				tmp.erase(0, 1);
 			split_msg_tmp.push_back(tmp);
+			// if (tmp[0] == ':')
+			// 	tmp.erase(0, 1);
 			command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
 		}
 		else
