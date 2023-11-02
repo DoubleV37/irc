@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:56:57 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 14:12:26 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 #include "commands/UserName.hpp"
 #include "commands/Pass.hpp"
 #include "commands/Topic.hpp"
+#include "commands/Who.hpp"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/select.h>

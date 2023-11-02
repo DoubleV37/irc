@@ -25,8 +25,15 @@ Who::~Who()
 bool Who::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
     
     std::string parameter;
-    
+    (void)channel;
+
+    channel = server->getChannelByName(args[0]);
+    if (channel == NULL)
+    {
+        server->sendMessage(user->getFd(), ": 403 " + user->getNickname() + " " + args[0] + " :No such channel\r\n");
+        return false;
+    }
     server->sendMessage(user->getFd(), ": 353 " + user->getNickname() + " = " + channel->getName() + " :" + channel->getUsersList() + "\r\n");
     server->sendMessage(user->getFd(), ": 366 " + user->getNickname() + " " + channel->getName() + " :End of /NAMES list.\r\n");
-
+    return true;
 }
