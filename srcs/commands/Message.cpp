@@ -9,6 +9,16 @@ Message::~Message()
 {
 }
 
+void	Message::sendBroadcastMessage(Server *server, Channel *channel, std::string message, User *origin_user)
+{
+	std::map<User*, int> users = channel->getUsers();
+	for (std::map<User*, int>::iterator it = users.begin(); it != users.end(); ++it)
+	{
+		if (it->first != origin_user)
+			server->sendMessage(it->first->getFd(), message);
+	}
+}
+
 bool Message::execute(std::vector<std::string> args, User *user, Channel *channel, Server *server)
 {
 	std::string message = "";
@@ -28,17 +38,18 @@ bool Message::execute(std::vector<std::string> args, User *user, Channel *channe
 	for (size_t i = 1; i < args.size(); i++)
 	{
 		message.append(args.at(i));
+		if (i != args.size() - 1)
+			message.append(" ");
 	}
     if (server->getChannelByName(args[0]) != NULL)
     {
-        server->getChannelByName(args[0])->broadcast(message);
+		sendBroadcastMessage(server, server->getChannelByName(args[0]), ":" + user->getNickname() + " PRIVMSG " + args[0] + " :" + message + "\r\n", user);
     }
     else if (server->getUserByNickname(args[0]) != NULL)
     {
 		std::cout << "Sending message to " << args[0] << std::endl;
 		std::cout << "Message: " << message << std::endl;
 		server->sendMessageBetweenUsers(user->getFd(), args[0], message);
-        // server->getUserByUsername(args[0])->send(message);
     }
     else
     {

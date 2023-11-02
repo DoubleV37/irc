@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:54:25 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 13:38:26 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,6 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 {
 	std::vector<std::string> split_msg;
 	std::string arg;
-	std::string info[3] = {"PASS", "NICK", "USER"};
 
 	if (recv_msg == "CAP LS 302\r\n")
 		return ;
@@ -216,7 +215,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 		else
 			arg.push_back(recv_msg[i]);
 	}
-		
+
 	for (size_t i = 0; i < split_msg.size(); i++)
 	{
 		ACommand* command;
@@ -229,9 +228,9 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				break;
 			cmd.push_back(split_msg[i][j]);
 		}
-		if (getCommand(cmd) != NULL)
+		command = getCommand(cmd);
+		if (command != NULL)
 		{
-			command = getCommand(cmd);
 			std::cout << "YOUHOU: " << command->getName() << std::endl;
 			std::string tmp;
 			for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
@@ -244,9 +243,9 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				else
 					tmp.push_back(split_msg[i][j]);
 			}
-			if (tmp[0] == ':')
-				tmp.erase(0, 1);
 			split_msg_tmp.push_back(tmp);
+			if (split_msg_tmp.size() >= 2 && split_msg_tmp[1][0] == ':')
+				split_msg_tmp[1].erase(0, 1);
 			command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
 		}
 		else
@@ -258,7 +257,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 }
 
 ACommand* Server::getCommand( std::string const & name ) const {
-	
+
 	std::cout << "cmd name : " << name << std::endl;
 	if (_command.find(name) != _command.end())
 		return (_command.find(name)->second);
@@ -273,7 +272,7 @@ void Server::addCommand(ACommand* command ) {
 
 void Server::run()
 {
-		
+
 	addCommand(new Pass());
 	addCommand(new Nick());
 	addCommand(new UserName());
@@ -306,12 +305,12 @@ void Server::run()
 
 void Server::addUser( User* user ) {
 
-	(void)user;
+	this->_users.push_back(user);
 }
 
 void Server::addChannel( Channel* channel ) {
 
-	(void)channel;
+	this->_channels[channel->getName()] = channel;
 }
 
 User* Server::getUserByNickname( std::string const & nickname ) const {
