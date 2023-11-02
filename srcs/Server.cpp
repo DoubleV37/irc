@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 11:14:33 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/02 11:40:25 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,6 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 {
 	std::vector<std::string> split_msg;
 	std::string arg;
-	std::string info[3] = {"PASS", "NICK", "USER"};
 
 	if (recv_msg == "CAP LS 302\r\n")
 		return ;
@@ -229,9 +228,9 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				break;
 			cmd.push_back(split_msg[i][j]);
 		}
-		if (getCommand(cmd) != NULL)
+		command = getCommand(cmd);
+		if (command != NULL)
 		{
-			command = getCommand(cmd);
 			std::cout << "YOUHOU: " << command->getName() << std::endl;
 			std::string tmp;
 			for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
@@ -311,17 +310,7 @@ void Server::addUser( User* user ) {
 
 void Server::addChannel( Channel* channel ) {
 
-	(void)channel;
-}
-
-std::vector<User*> Server::getUsers() {
-
-	return this->_users;
-}
-
-std::map<std::string, Channel*> Server::getChannels() {
-
-	return this->_channels;
+	this->_channels[channel->getName()] = channel;
 }
 
 User* Server::getUserByNickname( std::string const & nickname ) const {

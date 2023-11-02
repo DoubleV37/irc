@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 11:15:10 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/02 11:24:49 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <string>
 #include "../ACommand.hpp"
 
-Join::Join() : ACommand( "join", "/join <channel> [password]", false )
+Join::Join() : ACommand( "JOIN", "/join <channel> [password]", false )
 {
 }
 
