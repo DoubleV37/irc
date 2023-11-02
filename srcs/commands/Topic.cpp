@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 16:21:41 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/02 16:34:51 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ bool Topic::execute( std::vector<std::string> args, User* user, Channel* channel
 	if (args.size() == 1 && channelTarget != NULL)
 	{
 		if (channelTarget->getTopic() == "")
-			server->sendMessage(user->getFd(), ": 331 " + channelTarget->getName() + " :No topic is set\r\n");
+			server->sendMessage(user->getFd(), ": 331 " + user->getNickname() + " " + channelTarget->getName() + " :No topic is set\r\n");
 		else
-			server->sendMessage(user->getFd(), ": 332 " + channelTarget->getName() + " :" + channelTarget->getTopic() + "\r\n");
+			server->sendMessage(user->getFd(), ": 332 " + user->getNickname() + " " + channelTarget->getName() + " :" + channelTarget->getTopic() + "\r\n");
 		return true;
 	}
 
