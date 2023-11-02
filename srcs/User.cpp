@@ -13,12 +13,17 @@
 #include "Channel.hpp"
 #include "User.hpp"
 
-User::User() {
-
+User::User()
+{
+    this->_userName = "";
+    this->_nickName = "";
+    this->_passIsSet = false;
+    this->_fd = -1;
 }
 
-User::User( int fd ) : _fd(fd) {
-
+User::User( int fd )
+{
+    this->_fd = fd;
     this->_userName = "";
     this->_nickName = "";
     this->_passIsSet = false;
@@ -31,8 +36,14 @@ User::User( const User& obj ) {
 
 User& User::operator=( const User& obj ) {
 
-    if (this != &obj )
+    if (this == &obj )
         return *this;
+
+    this->_channels = obj._channels;
+    this->_nickName = obj._nickName;
+    this->_userName = obj._userName;
+    this->_fd = obj._fd;
+    this->_passIsSet = obj._passIsSet;
     return *this;
 }
 
@@ -50,8 +61,8 @@ std::string const & User::getNickname() const {
     return this->_nickName;
 }
 
-int User::getFd() {
-
+int User::getFd() const
+{
     return this->_fd;
 }
 

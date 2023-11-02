@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/31 18:42:39 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 10:31:04 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	Server::addNewConnections()
 					// fd du User qu on vient d'accepter
 					this->_all_connections[i] = new_fd;
 					User* user = new User(new_fd);
-					_users.push_back(user);
+					this->_users.push_back(user);
 					this->_nb_connections++;
 					break;
 				}
@@ -431,12 +431,12 @@ void Server::run()
 		if (nb_cli >= 0)
 		{
 			addNewConnections();
-			}
-			if (nb_cli != 0)
-			{
-				recvMessage();
-			}
-		}
+        }
+        if (nb_cli != 0)
+		{
+			recvMessage();
+        }
+    }
 }
 
 void Server::addUser( User* user ) {
@@ -474,10 +474,7 @@ User* Server::getUserByFd( int fd ) const {
 	for ( size_t i = 0 ; i < this->_users.size() ; i++ )
 	{
 		if ( this->_users[i]->getFd() == fd )
-		{
-			User* userName = this->_users[i];
-			return userName;
-		}
+			return this->_users[i];
 	}
 	return NULL;
 }
@@ -508,7 +505,15 @@ void Server::deleteUser(User* user) {
 
 void Server::deleteUser(int cli_fd) {
 
-	delete getUserByFd(cli_fd);
+	User* user = this->getUserByFd(cli_fd);
+    for (size_t i = 0; i < this->_users.size(); i++)
+    {
+        if (&this->_users[i] == &user)
+        {
+            this->_users.erase(this->_users.begin() + i);
+            delete user;
+        }
+    }
 	//le supprimer de tous les channels
 	close(cli_fd);
 	for (int i = 0; i < MAX_CONNECTIONS; i++)
@@ -529,6 +534,16 @@ std::vector<User*> Server::getUserList() const {
 
 void Server::exit()
 {
-    // TODO: Clean _users, _channels, _command
     std::cout << "Good Bye" << std::endl;
+    for (size_t i = 0; i < this->_users.size(); i++)
+    {
+        delete this->_users[i];
+    }
+    this->_users.clear();
+    std::map<std::string, Channel*>::iterator it;
+    for (it = this->_channels.begin(); it != this->_channels.end(); it++)
+    {
+        delete it->second;
+    }
+    this->_channels.clear();
 }
