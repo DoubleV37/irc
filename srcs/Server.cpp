@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 16:05:16 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/02 16:39:29 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -411,4 +411,10 @@ void Server::exit()
         delete it->second;
     }
     this->_channels.clear();
+	std::map<std::string, ACommand*>::iterator it2;
+	for (it2 = this->_command.begin(); it2 != this->_command.end(); it2++)
+	{
+		delete it2->second;
+	}
+	this->_command.clear();
 }
