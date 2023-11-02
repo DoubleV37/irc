@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:11:39 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:05:16 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,6 +171,16 @@ int	Server::sendMessageError( int cli_fd, std::string num_error, std::string con
 	error_msg = "ERROR :" + message + "\r\n";
 	send(cli_fd, num_error_msg.c_str(), num_error_msg.size(), 0);
 	send(cli_fd, error_msg.c_str(), error_msg.size(), 0);
+	return (1);
+}
+
+int	Server::sendMessageChannel(Channel *channel, std::string const & message )
+{
+	std::map<User*, int> users = channel->getUsers();
+	for (std::map<User*, int>::iterator it = users.begin(); it != users.end(); ++it)
+	{
+		sendMessage((*it).first->getFd(), message);
+	}
 	return (1);
 }
 
