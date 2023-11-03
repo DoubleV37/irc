@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:49:44 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 16:30:27 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,21 +27,17 @@ Join::~Join()
 void Join::sendJoinMessage( User* user, Channel* channel, Server* server )
 {
 	std::string message = ":" + user->getNickname() + " JOIN " + channel->getName() + "\r\n";
-	std::map<User*, int> users = channel->getUsers();
-	for (std::map<User*, int>::iterator it = users.begin(); it != users.end(); ++it)
-		server->sendMessage(it->first->getFd(), message);
+	server->sendMessageChannel(channel, message);
 	if (channel->getTopic() != "")
 		server->sendMessage(user->getFd(), ": 332 " + user->getNickname() + " " + channel->getName() + " :" + channel->getTopic() + "\r\n");
 	else
 		server->sendMessage(user->getFd(), ": 331 " + user->getNickname() + " " + channel->getName() + " :No topic is set\r\n");
-	// server->sendMessage(user->getFd(), ": 353 " + user->getNickname() + " = " + channel->getName() + " :" + channel->getUsersList() + "\r\n");
-	// server->sendMessage(user->getFd(), ": 366 " + user->getNickname() + " " + channel->getName() + " :End of /NAMES list.\r\n");
 }
 
 bool Join::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
 {
     (void)channel;
-    
+
 	if (args.empty() || args.size() > 2)
         return false;
     if (!user->isLog())
