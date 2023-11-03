@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 11:20:45 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/03 11:22:24 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel,
 
 	Channel* channelTarget = server->getChannelByName(args[0]);
     User* userTarget = server->getUserByNickname(args[1]);
-
-	std::cout << "channelTarget: " << args[0] << " | usertarget : " << args[1] << std::endl;
 
     if (channelTarget == NULL)
     {
