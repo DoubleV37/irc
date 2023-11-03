@@ -6,7 +6,7 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/30 12:27:28 by doublev          ###   ########.fr       */
+/*   Updated: 2023/11/03 17:35:51 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ class Channel {
         bool sendInvite( std::string user );
         void broadcast( std::string message );
         bool containsUser( User* user );
+		std::string getModes() const;
 		std::string getUsersList();
 
 };

@@ -6,11 +6,13 @@
 /*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/30 15:45:04 by doublev          ###   ########.fr       */
+/*   Updated: 2023/11/03 18:01:32 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
+#include <string>
+#include <sstream>
 
 Channel::Channel(std::string name) : _name(name) {
     this->_hasLimit = false;
@@ -178,4 +180,27 @@ std::string Channel::getUsersList()
 			usersList += " ";
 	}
 	return usersList;
+}
+
+std::string Channel::getModes() const
+{
+	std::string modes = "";
+
+	!this->_password.empty() ? modes.append("k") : modes;
+	this->_limit > 0 ? modes.append("l") : modes;
+	this->_isPrivate ? modes.append("i") : modes;
+
+	if (modes.empty())
+		return modes;
+	modes.find("k") ? modes.append(" " + this->_password) : modes;
+
+	if (modes.find("l"))
+	{
+		std::ostringstream os;
+
+		os << " " << this->_limit;
+		modes.append(os.str());
+	}
+
+	return modes;
 }

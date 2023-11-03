@@ -6,12 +6,13 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:45:05 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:22:22 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
 #include "User.hpp"
+#include <cstddef>
 
 User::User()
 {
@@ -104,4 +105,15 @@ void User::send( std::string const & message ) {
 bool User::isLog() {
 
     return (this->_userName != "" && this->_nickName != "");
+}
+
+bool User::isUnseenFor(Channel *channel)
+{
+    std::map<std::string, Channel*>::iterator it;
+    for (it = this->_channels.begin(); it != this->_channels.end(); it++)
+    {
+		if (&it->second == &channel)
+			return true;
+    }
+	return false;
 }
