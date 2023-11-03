@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 11:15:22 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/03 11:20:45 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel,
 		server->sendMessageError(user->getFd(), "403", "No such channel");
         return false;
     }
-	if (userTarget == NULL )
+	if (userTarget == NULL)
 	{
 		server->sendMessageError(user->getFd(), "401", "No such nick");
 		return false;
