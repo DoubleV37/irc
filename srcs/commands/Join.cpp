@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 16:30:27 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/03 15:19:18 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
     (void)channel;
 
 	if (args.empty() || args.size() > 2)
-        return false;
+	{
+		server->sendMessageError(user->getFd(), "461", this->getUsage());
+		return false;
+	}
     if (!user->isLog())
 	{
 		server->sendMessageError(user->getFd(), "451", "You have not registered");
@@ -57,13 +60,19 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
 		else if (args[0][i] == ',')
 		{
 			if ((channel_name[0] != '#' && channel_name[0] != '&') || channel_name.size() == 0 || channel_name.size() > 200 )
+			{
+				server->sendMessageError(user->getFd(), "403", channel_name + " :No such channel");
 				return false;
+			}
 			channels_name.push_back(channel_name);
 			channel_name.clear();
 		}
 	}
 	if ((channel_name[0] != '#' && channel_name[0] != '&') || channel_name.size() == 0 || channel_name.size() > 200 )
+	{
+		server->sendMessageError(user->getFd(), "403", channel_name + " :No such channel");
 		return false;
+	}
 	else
 		channels_name.push_back(channel_name);
 
@@ -89,7 +98,6 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
 		channelTarget = server->getChannelByName(channels_name[i]);
 		if (channelTarget == NULL)
 		{
-			std::cout << "channeltarget == NULL" << std::endl;
 			if (user->getChannels().size() >= 10)
 			{
 				server->sendMessageError(user->getFd(), "405", channels_name[i] + " :You have joined too many channels");
@@ -108,7 +116,7 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
 		{
 			server->sendMessageError(user->getFd(), "471", channels_name[i] + " :Cannot join channel, server full");
 		}
-		else if (channels_password.size() > 0 && channels_password.size() > i && channelTarget->getPassword() != channels_password[i])
+		else if ((channels_password.size() > 0 && channels_password.size() - 1 >= i && channelTarget->getPassword() != channels_password[i]) || (channelTarget->getPassword() != "" && channels_password.size() <= i) )
 		{
 			server->sendMessageError(user->getFd(), "475", channels_name[i] + " :Cannot join channel, wrong password");
 		}
