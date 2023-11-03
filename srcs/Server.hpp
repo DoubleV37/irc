@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:47:00 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/02 15:50:48 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ class Server {
 		std::map<std::string, ACommand*>	_command;
 
 		ACommand* getCommand( std::string const & command ) const;
-		
+
 		void addUser( User* user );
 		void addCommand( ACommand* name );
 		void deleteUser(User*);
@@ -79,10 +79,11 @@ class Server {
 		Channel* getChannelByName( std::string const & channel ) const;
 		std::vector<User*> getUserList() const;
 		std::string const & getPassword() const;
-		
+
 		int	sendMessage( int cli_fd, std::string const & message );
 		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
 		int	sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message);
+		int	sendMessageChannel(Channel *channel, std::string const & message );
 		int	isValidUsername(std::string const & str);
 		void loginError( int cli_fd, std::string num_error, std::string message );
 		void addChannel( Channel* channel );
