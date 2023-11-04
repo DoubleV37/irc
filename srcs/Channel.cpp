@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/30 15:45:04 by doublev          ###   ########.fr       */
+/*   Updated: 2023/11/04 16:58:30 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ bool Channel::containsUser(User *user)
 
 std::map<User *, int> Channel::getUsers()
 {
-    return this->_users;
+ 	return this->_users;
 }
 
 bool Channel::isFull()

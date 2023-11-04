@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/30 12:27:28 by doublev          ###   ########.fr       */
+/*   Updated: 2023/11/04 14:55:13 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ class Channel {
         bool sendInvite( std::string user );
         void broadcast( std::string message );
         bool containsUser( User* user );
+        
 		std::string getUsersList();
-
+        std::map<User*, int> getUsersMap();
 };

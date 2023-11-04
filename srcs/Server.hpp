@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 15:50:48 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/04 15:25:05 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 #include "commands/Pass.hpp"
 #include "commands/Topic.hpp"
 #include "commands/Who.hpp"
+#include "commands/Part.hpp"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/select.h>
@@ -60,7 +61,6 @@ class Server {
 		void addCommand( ACommand* name );
 		void deleteUser(User*);
 		void deleteUser(int cli_fd);
-		void deleteChannel(Channel*);
 		void login( std::string const & buffer, int step, int cli_fd );
 		void dispatch( std::string const & recv_msg, int cli_fd );
 		int createSocketServer();
@@ -87,6 +87,7 @@ class Server {
 		int	isValidUsername(std::string const & str);
 		void loginError( int cli_fd, std::string num_error, std::string message );
 		void addChannel( Channel* channel );
+		void deleteChannel( std::string const & name );
 		void run();
         void exit();
 
