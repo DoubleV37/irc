@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 17:46:58 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/04 17:57:13 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -402,7 +402,10 @@ void Server::deleteUser(int cli_fd) {
 void Server::deleteChannel( std::string const & name ) {
 
 	if (this->_channels.find(name) != this->_channels.end())
+	{
+		delete this->_channels[name];
 		_channels.erase(name);
+	}
 }
 
 void Server::exit()
