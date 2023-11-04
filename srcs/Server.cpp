@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 16:01:13 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/04 17:46:58 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -294,6 +294,7 @@ void Server::run()
 	addCommand(new Invite());
 	addCommand(new Kick());
 	addCommand(new Who());
+	addCommand(new Part());
 
 	while (1)
 	{
@@ -396,6 +397,12 @@ void Server::deleteUser(int cli_fd) {
 			break;
 		}
 	}
+}
+
+void Server::deleteChannel( std::string const & name ) {
+
+	if (this->_channels.find(name) != this->_channels.end())
+		_channels.erase(name);
 }
 
 void Server::exit()

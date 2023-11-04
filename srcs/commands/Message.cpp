@@ -45,7 +45,7 @@ bool Message::execute(std::vector<std::string> args, User *user, Channel *channe
 		if (i != args.size() - 1)
 			message.append(" ");
 	}
-    if (server->getChannelByName(args[0]) != NULL)
+    if (server->getChannelByName(args[0]) != NULL && server->getChannelByName(args[0])->containsUser(user))
     {
 		sendBroadcastMessage(server, server->getChannelByName(args[0]), ":" + user->getNickname() + " PRIVMSG " + args[0] + " :" + message + "\r\n", user);
     }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   CmdUtils.cpp                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/03 11:14:42 by gazzopar          #+#    #+#             */
+/*   Updated: 2023/11/03 11:14:45 by gazzopar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "CmdUtils.hpp"
 
 std::vector<Channel *> *CmdUtils::getChannelsOf(std::string cmd, Server *server)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 15:22:22 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/04 17:47:37 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,17 @@ void User::addChannel( Channel* channel ) {
     this->_channels[channel->getName()] = channel;
 }
 
+#include <iostream>
 void User::removeChannel( std::string const & name ) {
 
-    this->_channels.erase(name);
+    if (this->_channels.find(name) != this->_channels.end())
+    {
+        std::cout << "channel removed" << std::endl;
+        this->_channels.erase(name);
+    }
+    else
+        std::cout << "could not remove channel" << std::endl;
+    return ;
 }
 
 std::map<std::string, Channel*> User::getChannels() {

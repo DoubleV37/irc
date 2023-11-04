@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 16:51:13 by vviovi           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/04 17:45:41 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "Channel.hpp"
 #include <sstream>
@@ -142,7 +143,7 @@ bool Channel::containsUser(User *user)
 
 std::map<User *, int> Channel::getUsers()
 {
-    return this->_users;
+ 	return this->_users;
 }
 
 bool Channel::isFull()
