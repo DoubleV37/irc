@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:45:05 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/04 14:00:04 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,17 @@ void User::addChannel( Channel* channel ) {
     this->_channels[channel->getName()] = channel;
 }
 
+#include <iostream>
 void User::removeChannel( std::string const & name ) {
 
-    this->_channels.erase(name);
+    if (this->_channels.find(name) != this->_channels.end())
+    {
+        std::cout << "channel removed" << std::endl;
+        this->_channels.erase(name);
+    }
+    else
+        std::cout << "could not remove channel" << std::endl;
+    return ;
 }
 
 std::map<std::string, Channel*> User::getChannels() {
