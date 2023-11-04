@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 18:01:32 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/04 16:51:13 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Channel.hpp"
-#include <string>
 #include <sstream>
 
 Channel::Channel(std::string name) : _name(name) {
@@ -100,10 +99,17 @@ void Channel::setLimit( int limit ) {
     this->_limit = limit;
 }
 
-bool Channel::sendInvite( std::string user ) {
+bool Channel::isInvited( std::string user ) {
 
-    (void)user;
-    return true;
+	for (size_t i = 0; i < this->_invitedUsers.size(); i++)
+	{
+		if (this->_invitedUsers[i] == user)
+		{
+			this->_invitedUsers.erase(this->_invitedUsers.begin() + i);
+			return true;
+		}
+   }
+	return false;
 }
 
 void Channel::broadcast( std::string message ) {
@@ -186,21 +192,36 @@ std::string Channel::getModes() const
 {
 	std::string modes = "";
 
-	!this->_password.empty() ? modes.append("k") : modes;
-	this->_limit > 0 ? modes.append("l") : modes;
-	this->_isPrivate ? modes.append("i") : modes;
+	// !this->_password.empty() ? modes.append("k") : modes;
+	// this->_limit > 0 ? modes.append("l") : modes;
+	// this->_isPrivate ? modes.append("i") : modes;
 
-	if (modes.empty())
-		return modes;
-	modes.find("k") ? modes.append(" " + this->_password) : modes;
+	// std::cout << "MODES: " << modes << std::endl;
+	// if (modes.empty())
+	// 	return modes;
+	// modes.find("k") ? modes.append(" " + this->_password) : modes;
 
-	if (modes.find("l"))
+	// if (modes.find("l"))
+	// {
+	// 	std::ostringstream os;
+
+	// 	os << " " << this->_limit;
+	// 	modes.append(os.str());
+	// }
+
+	if (!this->_password.empty())
+		modes.append("+k " + this->_password);
+	if (this->_limit > 0)
 	{
 		std::ostringstream os;
 
-		os << " " << this->_limit;
+		os << " +l " << this->_limit;
 		modes.append(os.str());
 	}
-
+	if (this->_isPrivate)
+		modes.append(" +i");
+	if (this->_hasTopicProtection)
+		modes.append(" +t");
+	std::cout << "======MODES: " << modes << std::endl;
 	return modes;
 }

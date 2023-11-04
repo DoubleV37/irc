@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doublev <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 17:35:51 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/04 16:47:22 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include <string>
+#include <iostream>
+#include <vector>
 #include <map>
 #include "User.hpp"
 
@@ -23,6 +24,7 @@ class Channel {
     private:
         std::string _name;
         std::map<User*, int> _users;
+		std::vector<std::string> _invitedUsers;
         std::string _password;
 		std::string _topic;
         bool _isPrivate;
@@ -58,7 +60,7 @@ class Channel {
         void setTopicProtection(bool protection);
         void setLimit( int limit );
         bool isFull();
-        bool sendInvite( std::string user );
+        bool isInvited( std::string user );
         void broadcast( std::string message );
         bool containsUser( User* user );
 		std::string getModes() const;
