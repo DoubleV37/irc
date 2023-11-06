@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 13:04:13 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/04 17:47:53 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
 		{
 			server->sendMessageError(user->getFd(), "475", channels_name[i] + " :Cannot join channel, wrong password");
 		}
-		else if (channelTarget->isPrivate() && !channelTarget->sendInvite(user->getNickname()))
+		else if (channelTarget->isPrivate() && !channelTarget->isInvited(user->getNickname()))
 		{
 			server->sendMessageError(user->getFd(), "473", channels_name[i] + " :Cannot join channel, invite only");
 		}
@@ -132,11 +132,15 @@ bool Join::execute( std::vector<std::string> args, User* user, Channel* channel,
 		{
 			server->sendMessageError(user->getFd(), "405", channels_name[i] + " :You have joined too many channels");
 		}
-		else
+		else if ((channels_password.size() > i && channelTarget->getPassword() == channels_password[i]) || (channels_password.size() == 0 && channelTarget->getPassword() == ""))
 		{
 			channelTarget->addUser(user, 0);
 			user->addChannel(channelTarget);
 			sendJoinMessage(user, channelTarget, server);
+		}
+		else
+		{
+			server->sendMessageError(user->getFd(), "475", channels_name[i] + " :Cannot join channel, wrong password");
 		}
 	}
 	return true;

@@ -6,13 +6,14 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:18 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/20 11:02:32 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/03 15:43:46 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <string>
+#include <vector>
 #include "../Channel.hpp"
 #include "../Server.hpp"
 #include "../User.hpp"

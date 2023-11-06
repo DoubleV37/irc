@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 17:37:42 by gazzopar         ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/06 09:12:41 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #pragma once
 
-#include <string>
+#include <iostream>
+#include <vector>
 #include <map>
 #include "User.hpp"
 
@@ -23,6 +25,7 @@ class Channel {
     private:
         std::string _name;
         std::map<User*, int> _users;
+		std::vector<std::string> _invitedUsers;
         std::string _password;
 		std::string _topic;
         bool _isPrivate;
@@ -47,21 +50,21 @@ class Channel {
         void setPrivate(bool isPrivate);
         bool hasLimit();
         bool isFull();
-        bool sendInvite( std::string user );
-        void broadcast( std::string message );
+        bool isInvited( std::string user );
         bool containsUser( User* user );
         bool hasTopicProtection() const;
-        
+
         void setTopicProtection(bool protection);
         void setLimit( int limit );
         size_t getLimit();
         bool isOp( User* user );
         void setOp( User* user );
-        
+
         std::map<User*, int> getUsers();
         void setTopic( std::string topic );
 		std::string getTopic();
         void setPassword(const std::string& password);
         std::string getPassword();
+		std::string getModes() const;
 		std::string getUsersList();
 };
