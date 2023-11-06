@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 15:17:06 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/06 09:14:44 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@
 class Channel;
 
 class User {
-    
+
     private:
         std::string _userName;
         std::string _nickName;
         std::map<std::string, Channel*> _channels;
-		std::vector<Channel *> _unseen;
-//        bool    _usingHexChat;
         int _fd;
 
     public:
@@ -46,8 +44,7 @@ class User {
         int getFd() const;
         void send( std::string const & message );
         bool isLog();
-		bool isUnseenFor(Channel *channel);
 
         bool    passIsSet;
-             
+
 };

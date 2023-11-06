@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 17:47:37 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/06 09:13:21 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,16 +88,10 @@ void User::addChannel( Channel* channel ) {
     this->_channels[channel->getName()] = channel;
 }
 
-#include <iostream>
 void User::removeChannel( std::string const & name ) {
 
     if (this->_channels.find(name) != this->_channels.end())
-    {
-        std::cout << "channel removed" << std::endl;
         this->_channels.erase(name);
-    }
-    else
-        std::cout << "could not remove channel" << std::endl;
     return ;
 }
 
@@ -113,15 +107,4 @@ void User::send( std::string const & message ) {
 bool User::isLog() {
 
     return (this->_userName != "" && this->_nickName != "");
-}
-
-bool User::isUnseenFor(Channel *channel)
-{
-    std::map<std::string, Channel*>::iterator it;
-    for (it = this->_channels.begin(); it != this->_channels.end(); it++)
-    {
-		if (&it->second == &channel)
-			return true;
-    }
-	return false;
 }

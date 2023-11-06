@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/04 17:45:41 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/06 09:12:09 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,11 +113,6 @@ bool Channel::isInvited( std::string user ) {
 	return false;
 }
 
-void Channel::broadcast( std::string message ) {
-
-    (void)message;
-}
-
 std::string Channel::getPassword() {
 
     return this->_password;
@@ -193,23 +188,6 @@ std::string Channel::getModes() const
 {
 	std::string modes = "";
 
-	// !this->_password.empty() ? modes.append("k") : modes;
-	// this->_limit > 0 ? modes.append("l") : modes;
-	// this->_isPrivate ? modes.append("i") : modes;
-
-	// std::cout << "MODES: " << modes << std::endl;
-	// if (modes.empty())
-	// 	return modes;
-	// modes.find("k") ? modes.append(" " + this->_password) : modes;
-
-	// if (modes.find("l"))
-	// {
-	// 	std::ostringstream os;
-
-	// 	os << " " << this->_limit;
-	// 	modes.append(os.str());
-	// }
-
 	if (!this->_password.empty())
 		modes.append("+k " + this->_password);
 	if (this->_limit > 0)
@@ -223,6 +201,5 @@ std::string Channel::getModes() const
 		modes.append(" +i");
 	if (this->_hasTopicProtection)
 		modes.append(" +t");
-	std::cout << "======MODES: " << modes << std::endl;
 	return modes;
 }

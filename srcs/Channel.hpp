@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/04 17:46:25 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/06 09:12:41 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ class Channel {
         bool hasLimit();
         bool isFull();
         bool isInvited( std::string user );
-        void broadcast( std::string message );
         bool containsUser( User* user );
         bool hasTopicProtection() const;
 
