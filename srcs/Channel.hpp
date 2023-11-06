@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 17:37:42 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:04:52 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,18 @@ class Channel {
         void broadcast( std::string message );
         bool containsUser( User* user );
         bool hasTopicProtection() const;
-        
+
         void setTopicProtection(bool protection);
         void setLimit( int limit );
         size_t getLimit();
         bool isOp( User* user );
         void setOp( User* user );
-        
+
         std::map<User*, int> getUsers();
         void setTopic( std::string topic );
 		std::string getTopic();
         void setPassword(const std::string& password);
         std::string getPassword();
 		std::string getUsersList();
+		int	getUsersOpCount();
 };

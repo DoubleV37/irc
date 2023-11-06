@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channel.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 16:58:30 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/06 11:06:02 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,4 +178,16 @@ std::string Channel::getUsersList()
 			usersList += " ";
 	}
 	return usersList;
+}
+
+int	Channel::getUsersOpCount()
+{
+	int count = 0;
+	std::map<User*, int>::iterator it = this->_users.begin();
+	for (; it != this->_users.end(); ++it)
+	{
+		if (it->second == 1)
+			count++;
+	}
+	return (count);
 }
