@@ -14,22 +14,27 @@
 
 Who::Who() : ACommand( "WHO", "/who <channel>", false )
 {
-    
+
 }
 
 Who::~Who()
-{ 
-    
+{
+
 }
 
 bool Who::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-    
+
     (void)channel;
     std::string parameter;
 
 	if (!user->isLog())
 	{
 		server->sendMessageError(user->getFd(), "451", "You have not registered");
+		return false;
+	}
+	if (args.size() == 0)
+	{
+		server->sendMessageError(user->getFd(), "461", "WHO :Not enough parameters");
 		return false;
 	}
     channel = server->getChannelByName(args[0]);
