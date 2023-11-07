@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 17:57:13 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 11:08:25 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,6 +378,13 @@ void Server::deleteUser(User* user) {
 void Server::deleteUser(int cli_fd) {
 
 	User* user = this->getUserByFd(cli_fd);
+	for (std::map<std::string, Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
+	{
+		if (it->second->getUsers().find(user) != it->second->getUsers().end())
+		{
+			it->second->getUsers().erase(user);
+		}
+	}
     for (size_t i = 0; i < this->_users.size(); i++)
     {
         if (&this->_users[i] == &user)
@@ -386,7 +393,6 @@ void Server::deleteUser(int cli_fd) {
             delete user;
         }
     }
-	//le supprimer de tous les channels
 	close(cli_fd);
 	for (int i = 0; i < MAX_CONNECTIONS; i++)
 	{
