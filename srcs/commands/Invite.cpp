@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 10:01:30 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 10:08:29 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ bool Invite::execute( std::vector<std::string> args, User* user, Channel* channe
 			return false;
 		}
 		channelTarget->addUserInvited(userInvite->getNickname());
-		server->sendMessage(userInvite->getFd(), ":" + user->getNickname() + " INVITE " + userInvite->getNickname() + " " + args[0]);
+		server->sendMessage(userInvite->getFd(), ":" + user->getNickname() + " INVITE " + userInvite->getNickname() + " " + args[0] + "\r\n");
 		return true;
 	}
 	else if (channelTarget == NULL && userInvite != NULL)
 	{
-		server->sendMessage(userInvite->getFd(), "INVITE " + userInvite->getNickname() + " " + args[0]);
+		server->sendMessage(userInvite->getFd(), "INVITE " + userInvite->getNickname() + " " + args[0] + "\r\n");
 		return true;
 	}
 	server->sendMessageError(user->getFd(), "401", "No such nick");
