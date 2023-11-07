@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 17:33:06 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 13:00:17 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@ bool Mode::execute( std::vector<std::string> args, User* user, Channel* channel,
 {
     (void)channel;
 
-    if (!user->isLog())
-	{
-		server->sendMessageError(user->getFd(), "451", "You have not registered");
-		return false;
-	}
     if (args.size() < 1)
     {
 		server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");

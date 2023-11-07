@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/06 11:55:01 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 12:59:42 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,6 @@ bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel,
     (void)user;
     (void)channel;
 
-	if (!user->isLog())
-	{
-		server->sendMessageError(user->getFd(), "451", "You have not registered");
-		return false;
-	}
 	if (args.size() < 2)
 	{
 		server->sendMessageError(user->getFd(), "461", "Not enough parameters");

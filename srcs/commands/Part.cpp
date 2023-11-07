@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Part.cpp                                       :+:      :+:    :+:   */
+/*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:58:33 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:00:46 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Part.hpp"
 
-Part::Part() : ACommand( "PART", "<canal>{,< canal >} [<reason>]", false )
+Part::Part() : ACommand( "PART", "<canal>{,< canal >} [<reason>]", true )
 {
 
 }
