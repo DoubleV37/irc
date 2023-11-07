@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:07:56 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:00:14 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ Topic::~Topic()
 {
 }
 
-bool Topic::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
-    (void)channel;
-
+bool Topic::execute( std::vector<std::string> args, User* user, Server* server ) {
 	if (args.size() == 0)
 	{
 		server->sendMessageError(user->getFd(), "461", "Not enough parameters");

@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:07:11 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:00:41 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,7 @@ Invite::~Invite() {
 
 }
 
-bool Invite::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
-    (void)channel;
-
+bool Invite::execute( std::vector<std::string> args, User* user, Server* server ) {
 	if (args.size() < 2)
 	{
 		server->sendMessageError(user->getFd(), "461", "Not enough parameters");

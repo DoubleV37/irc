@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 12:56:10 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:56:52 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ ACommand::~ACommand()
 {
 }
 
-bool ACommand::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
+bool ACommand::execute( std::vector<std::string> args, User* user, Server* server )
 {
     (void)args;
     (void)user;
-    (void)channel;
     (void)server;
     return true;
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Nick.cpp                                          :+:      :+:    :+:   */
+/*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/21 17:47:36 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:58:10 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ Nick::~Nick()
 {   
 }
 
-bool Nick::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
-    (void)channel;
-
+bool Nick::execute( std::vector<std::string> args, User* user, Server* server ) {
     if (server->getPassword() != "" && user->passIsSet == false)
         server->loginError(user->getFd(), "464", "password required");
     else if ((user->passIsSet == true && server->getPassword() != "") || (user->passIsSet == false && server->getPassword() == ""))

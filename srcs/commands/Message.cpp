@@ -19,11 +19,10 @@ void	Message::sendBroadcastMessage(Server *server, Channel *channel, std::string
 	}
 }
 
-bool Message::execute(std::vector<std::string> args, User *user, Channel *channel, Server *server)
+bool Message::execute(std::vector<std::string> args, User *user, Server *server)
 {
 	std::string message = "";
 
-	(void)channel;
 	for (size_t i = 0; i < args.size(); i++)
 	{
 		std::cout << "arg[" << i << "] = " << args[i] << std::endl;

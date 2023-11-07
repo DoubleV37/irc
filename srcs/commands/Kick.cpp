@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 12:59:42 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:57:37 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,9 @@ Kick::~Kick()
 {
 }
 
-bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
+bool Kick::execute( std::vector<std::string> args, User* user, Server* server )
 {
     (void)user;
-    (void)channel;
 
 	if (args.size() < 2)
 	{

@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:05:12 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:04:22 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 			if (command->loginRequired() && !user->isLog())
 				this->sendMessageError(cli_fd, "451", "You have not registered");
 			else
-				command->execute(split_msg_tmp, user, NULL, this);
+				command->execute(split_msg_tmp, user, this);
 		}
 		else
 		{

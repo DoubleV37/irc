@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:00:17 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:57:52 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ Mode::~Mode()
 {
 }
 
-bool Mode::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
+bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 {
-    (void)channel;
-
     if (args.size() < 1)
     {
 		server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");

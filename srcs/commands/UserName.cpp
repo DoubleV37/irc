@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:47:13 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:02:11 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,17 @@
 
 UserName::UserName() : ACommand( "USER", "/UserName <UserName>", false )
 {
-    
 }
 
 UserName::~UserName()
 { 
-    
 }
 
-bool UserName::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-    
-    std::string parameter;
-    
-    (void)channel;
+bool UserName::execute( std::vector<std::string> args, User* user, Server* server ) {
     (void)server;
-    
+
+	std::string parameter;
+
     parameter = args[0];
 
     if (user->getNickname() == "")
