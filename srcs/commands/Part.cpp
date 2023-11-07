@@ -1,18 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Part.cpp                                       :+:      :+:    :+:   */
+/*   Part.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 10:58:33 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:21:43 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Part.hpp"
 
-Part::Part() : ACommand( "PART", "<canal>{,< canal >} [<reason>]", false )
+/**
+ * NAME : PART
+ * USAGE : /part <canal>{,<canal>} [<reason>]
+ */
+Part::Part() : ACommand( "PART", true )
 {
 
 }
@@ -22,14 +26,12 @@ Part::~Part()
 
 }
 
-bool Part::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
+bool Part::execute( std::vector<std::string> args, User* user, Server* server ) {
     std::string channelName;
-    (void)channel;
 
 	if (args.empty() || args.size() > 2)
 	{
-		server->sendMessageError(user->getFd(), "461", this->getUsage());
+		server->sendMessageError(user->getFd(), "461", "/part <canal>{,<canal>} [<reason>]");
 		return false;
 	}
     for (size_t i = 0; i < args[0].size(); i++)

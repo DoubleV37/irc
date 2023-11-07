@@ -6,14 +6,18 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 10:08:29 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:25:35 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Invite.hpp"
 #include <cstddef>
 
-Invite::Invite() : ACommand( "INVITE", "/invite <channel> <user>", true )
+/**
+ * NAME : INVITE
+ * USAGE : /invite <channel> <user>
+ */
+Invite::Invite() : ACommand( "INVITE", true )
 {
 
 }
@@ -22,15 +26,7 @@ Invite::~Invite() {
 
 }
 
-bool Invite::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
-    (void)channel;
-
-    if (!user->isLog())
-	{
-		server->sendMessageError(user->getFd(), "451", "You have not registered");
-		return false;
-	}
+bool Invite::execute( std::vector<std::string> args, User* user, Server* server ) {
 	if (args.size() < 2)
 	{
 		server->sendMessageError(user->getFd(), "461", "Not enough parameters");

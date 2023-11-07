@@ -6,13 +6,17 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 16:34:51 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:24:58 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Topic.hpp"
 
-Topic::Topic() : ACommand( "TOPIC", "/topic <topic>", false )
+/**
+ * NAME : TOPC
+ * USAGE : /topic <topic>
+ */
+Topic::Topic() : ACommand( "TOPIC", true )
 {
 }
 
@@ -20,15 +24,7 @@ Topic::~Topic()
 {
 }
 
-bool Topic::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-
-    (void)channel;
-
-	if (!user->isLog())
-	{
-		server->sendMessageError(user->getFd(), "451", "You have not registered");
-		return false;
-	}
+bool Topic::execute( std::vector<std::string> args, User* user, Server* server ) {
 	if (args.size() == 0)
 	{
 		server->sendMessageError(user->getFd(), "461", "Not enough parameters");

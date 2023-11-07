@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 09:47:04 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:13:48 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 #include <string>
 #include "../ACommand.hpp"
 
-Join::Join() : ACommand( "JOIN", "/join <channel> [password]", false )
+/**
+ * NAME : JOIN
+ * USAGE : /join <channel>,{1,} [password]{0,}
+ */
+Join::Join() : ACommand( "JOIN", true )
 {
 }
 
@@ -34,18 +38,11 @@ void Join::sendJoinMessage( User* user, Channel* channel, Server* server )
 		server->sendMessage(user->getFd(), ": 331 " + user->getNickname() + " " + channel->getName() + " :No topic is set\r\n");
 }
 
-bool Join::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
+bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 {
-    (void)channel;
-
 	if (args.empty() || args.size() > 2)
 	{
-		server->sendMessageError(user->getFd(), "461", this->getUsage());
-		return false;
-	}
-    if (!user->isLog())
-	{
-		server->sendMessageError(user->getFd(), "451", "You have not registered");
+		server->sendMessageError(user->getFd(), "461", "/join <channel>,{1,} [password],{0,}");
 		return false;
 	}
 
