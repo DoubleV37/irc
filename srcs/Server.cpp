@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 16:07:34 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/04 17:57:13 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,7 +253,8 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 				else
 					tmp.push_back(split_msg[i][j]);
 			}
-			split_msg_tmp.push_back(tmp);
+			if (tmp.size() > 0)
+				split_msg_tmp.push_back(tmp);
 			if (split_msg_tmp.size() >= 2 && split_msg_tmp[1][0] == ':')
 				split_msg_tmp[1].erase(0, 1);
 			command->execute(split_msg_tmp, getUserByFd(cli_fd), NULL, this);
@@ -401,7 +402,10 @@ void Server::deleteUser(int cli_fd) {
 void Server::deleteChannel( std::string const & name ) {
 
 	if (this->_channels.find(name) != this->_channels.end())
+	{
+		delete this->_channels[name];
 		_channels.erase(name);
+	}
 }
 
 void Server::exit()

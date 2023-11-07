@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   User.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:43:58 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/06 09:14:44 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 class Channel;
 
 class User {
-    
+
     private:
         std::string _userName;
         std::string _nickName;
         std::map<std::string, Channel*> _channels;
-//        bool    _usingHexChat;
         int _fd;
 
     public:
@@ -46,5 +46,5 @@ class User {
         bool isLog();
 
         bool    passIsSet;
-             
+
 };

@@ -5,12 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/19 11:21:29 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/06 11:06:02 by vviovi           ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2023/11/07 09:46:11 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+
+
 #include "Channel.hpp"
+#include <sstream>
 
 Channel::Channel(std::string name) : _name(name) {
     this->_hasLimit = false;
@@ -98,15 +102,17 @@ void Channel::setLimit( int limit ) {
     this->_limit = limit;
 }
 
-bool Channel::sendInvite( std::string user ) {
+bool Channel::isInvited( std::string user ) {
 
-    (void)user;
-    return true;
-}
-
-void Channel::broadcast( std::string message ) {
-
-    (void)message;
+	for (size_t i = 0; i < this->_invitedUsers.size(); i++)
+	{
+		if (this->_invitedUsers[i] == user)
+		{
+			this->_invitedUsers.erase(this->_invitedUsers.begin() + i);
+			return true;
+		}
+   }
+	return false;
 }
 
 std::string Channel::getPassword() {
@@ -178,6 +184,25 @@ std::string Channel::getUsersList()
 			usersList += " ";
 	}
 	return usersList;
+}
+std::string Channel::getModes() const
+{
+	std::string modes = "";
+
+	if (!this->_password.empty())
+		modes.append("+k " + this->_password);
+	if (this->_limit > 0)
+	{
+		std::ostringstream os;
+
+		os << " +l " << this->_limit;
+		modes.append(os.str());
+	}
+	if (this->_isPrivate)
+		modes.append(" +i");
+	if (this->_hasTopicProtection)
+		modes.append(" +t");
+	return modes;
 }
 
 int	Channel::getUsersOpCount()

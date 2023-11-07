@@ -6,13 +6,15 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/06 11:04:52 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 09:46:52 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #pragma once
 
-#include <string>
+#include <iostream>
+#include <vector>
 #include <map>
 #include "User.hpp"
 
@@ -23,6 +25,7 @@ class Channel {
     private:
         std::string _name;
         std::map<User*, int> _users;
+		std::vector<std::string> _invitedUsers;
         std::string _password;
 		std::string _topic;
         bool _isPrivate;
@@ -47,8 +50,7 @@ class Channel {
         void setPrivate(bool isPrivate);
         bool hasLimit();
         bool isFull();
-        bool sendInvite( std::string user );
-        void broadcast( std::string message );
+        bool isInvited( std::string user );
         bool containsUser( User* user );
         bool hasTopicProtection() const;
 
@@ -63,6 +65,7 @@ class Channel {
 		std::string getTopic();
         void setPassword(const std::string& password);
         std::string getPassword();
+		std::string getModes() const;
 		std::string getUsersList();
 		int	getUsersOpCount();
 };
