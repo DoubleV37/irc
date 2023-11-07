@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/07 09:46:11 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 10:04:46 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,4 +215,9 @@ int	Channel::getUsersOpCount()
 			count++;
 	}
 	return (count);
+}
+
+void Channel::addUserInvited(std::string user_nick)
+{
+	this->_invitedUsers.push_back(user_nick);
 }

@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 09:46:52 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 09:52:27 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ class Channel {
 		std::string getModes() const;
 		std::string getUsersList();
 		int	getUsersOpCount();
+		void addUserInvited(std::string user_nick);
 };

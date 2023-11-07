@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/06 13:08:36 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 10:01:30 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ bool Invite::execute( std::vector<std::string> args, User* user, Channel* channe
 		return false;
 	}
 
-    User* userInvite = server->getUserByNickname(args[1]);
-    Channel* channelTarget = server->getChannelByName(args[0]);
+    User* userInvite = server->getUserByNickname(args[0]);
+    Channel* channelTarget = server->getChannelByName(args[1]);
 
 	if (channelTarget != NULL && userInvite != NULL)
 	{
@@ -52,7 +52,7 @@ bool Invite::execute( std::vector<std::string> args, User* user, Channel* channe
 			server->sendMessageError(user->getFd(), "482", "You're not channel operator");
 			return false;
 		}
-		channelTarget->addUserInvited(userInvite);
+		channelTarget->addUserInvited(userInvite->getNickname());
 		server->sendMessage(userInvite->getFd(), ":" + user->getNickname() + " INVITE " + userInvite->getNickname() + " " + args[0]);
 		return true;
 	}

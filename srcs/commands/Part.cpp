@@ -79,7 +79,6 @@ void Part::leaveChannel( User* user, Server* server, std::string channelName )
     server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " PART " + channelName + "\r\n");
     user->removeChannel(channelName);
     if (usersMap.size() == 1)
-	{
         server->deleteChannel(channelName);
     else if (channelTarget->isOp(user) == true && channelTarget->getUsersOpCount() == 1)
     {
