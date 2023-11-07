@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/06 09:14:44 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 11:36:23 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ class User {
         std::string _userName;
         std::string _nickName;
         std::map<std::string, Channel*> _channels;
+		std::string _bufferMsg;
         int _fd;
 
     public:
@@ -41,6 +42,8 @@ class User {
         void addChannel( Channel* channel );
         void removeChannel( std::string const & name );
         std::map<std::string, Channel*> getChannels();
+		std::string &getBufferMsg();
+		void appendBufferMsg(std::string const &msg);
         int getFd() const;
         void send( std::string const & message );
         bool isLog();
