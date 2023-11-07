@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/06 09:13:21 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 11:36:37 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,14 @@ void User::send( std::string const & message ) {
 bool User::isLog() {
 
     return (this->_userName != "" && this->_nickName != "");
+}
+
+std::string &User::getBufferMsg()
+{
+	return this->_bufferMsg;
+}
+
+void User::appendBufferMsg(std::string const &msg)
+{
+	this->_bufferMsg += msg;
 }
