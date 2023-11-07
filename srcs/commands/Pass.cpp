@@ -6,13 +6,17 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:59:52 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:22:11 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Pass.hpp"
 
-Pass::Pass() : ACommand( "PASS", "/Pass <Pass>", false )
+/**
+ * NAME : PASS
+ * USAGE : /pass <pass>
+ */
+Pass::Pass() : ACommand( "PASS", false )
 {
 }
 

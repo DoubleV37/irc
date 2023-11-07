@@ -6,14 +6,14 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:56:52 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:09:07 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ACommand.hpp"
 #include "Server.hpp"
 
-ACommand::ACommand( std::string const & name, std::string const & usage, bool loginRequired ) : _name(name), _usage(usage), _loginRequired(loginRequired)
+ACommand::ACommand( std::string const & name, bool loginRequired ) : _name(name), _loginRequired(loginRequired)
 {
 }
 
@@ -32,11 +32,6 @@ bool ACommand::execute( std::vector<std::string> args, User* user, Server* serve
 std::string const & ACommand::getName() const
 {
     return this->_name;
-}
-
-std::string const & ACommand::getUsage() const
-{
-    return this->_usage;
 }
 
 bool ACommand::loginRequired() const

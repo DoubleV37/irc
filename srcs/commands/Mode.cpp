@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:57:52 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:16:35 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 #include <string>
 #include <vector>
 
-Mode::Mode() : ACommand( "MODE", "/mode <channel> <+ | -> <mode> [params]", true )
+/**
+ * NAME : MODE
+ * USAGE : /mode <channel> <+ | -> <mode> [params]
+ */
+Mode::Mode() : ACommand( "MODE", true )
 {
 }
 

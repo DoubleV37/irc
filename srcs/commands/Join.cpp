@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:57:25 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:13:48 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 #include <string>
 #include "../ACommand.hpp"
 
-Join::Join() : ACommand( "JOIN", "/join <channel> [password]", true )
+/**
+ * NAME : JOIN
+ * USAGE : /join <channel>,{1,} [password]{0,}
+ */
+Join::Join() : ACommand( "JOIN", true )
 {
 }
 
@@ -38,7 +42,7 @@ bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 {
 	if (args.empty() || args.size() > 2)
 	{
-		server->sendMessageError(user->getFd(), "461", this->getUsage());
+		server->sendMessageError(user->getFd(), "461", "/join <channel>,{1,} [password],{0,}");
 		return false;
 	}
 

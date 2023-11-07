@@ -6,14 +6,18 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:00:41 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:25:35 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Invite.hpp"
 #include <cstddef>
 
-Invite::Invite() : ACommand( "INVITE", "/invite <channel> <user>", true )
+/**
+ * NAME : INVITE
+ * USAGE : /invite <channel> <user>
+ */
+Invite::Invite() : ACommand( "INVITE", true )
 {
 
 }

@@ -6,13 +6,17 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:02:11 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:29:53 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "UserName.hpp"
 
-UserName::UserName() : ACommand( "USER", "/UserName <UserName>", false )
+/**
+ * NAME : USER
+ * USAGE : /user <username>
+ */
+UserName::UserName() : ACommand( "USER", false )
 {
 }
 

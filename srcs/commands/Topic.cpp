@@ -6,13 +6,17 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:00:14 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:24:58 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Topic.hpp"
 
-Topic::Topic() : ACommand( "TOPIC", "/topic <topic>", true )
+/**
+ * NAME : TOPC
+ * USAGE : /topic <topic>
+ */
+Topic::Topic() : ACommand( "TOPIC", true )
 {
 }
 

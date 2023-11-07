@@ -6,13 +6,17 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:58:10 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:18:17 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Nick.hpp"
 
-Nick::Nick() : ACommand( "NICK", "/Nick <Nick>", false )
+/**
+ * NAME : NICK
+ * USAGE : /nick <nick>
+ */
+Nick::Nick() : ACommand( "NICK", false )
 {
 }
 

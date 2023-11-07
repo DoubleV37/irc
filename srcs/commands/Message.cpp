@@ -1,7 +1,11 @@
 #include "Message.hpp"
 #include <string>
 
-Message::Message() : ACommand( "PRIVMSG", "PRIVMSG <user | channel> <message>", true )
+/**
+ * NAME : PRIVMSG
+ * USAGE : /privmsg <user | channel> <message>
+ */
+Message::Message() : ACommand( "PRIVMSG", true )
 {
 }
 
