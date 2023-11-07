@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 11:08:25 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 11:45:03 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,36 +114,35 @@ int	Server::addNewConnections()
 int	Server::recvMessage()
 {
 	std::vector<char> buffer(MAX_BUF_LENGTH);
-	std::string	rcv_msg;
+	User* user;
+	std::string rcv_msg;
 	int recv_val = 1;
 
 	for (int i = 1 ; i < MAX_CONNECTIONS; i++) {
 		if ((this->_all_connections[i] > 0) && (FD_ISSET(this->_all_connections[i], &this->_fd_to_read))) {
-			while (rcv_msg[rcv_msg.size() - 2] != '\r' && rcv_msg[rcv_msg.size() - 1] != '\n')
+			recv_val = recv(this->_all_connections[i], &buffer[0] , buffer.size(), 0);
+			user = getUserByFd(this->_all_connections[i]);
+			if (recv_val > 0)
 			{
-				recv_val = recv(this->_all_connections[i], &buffer[0] , buffer.size(), 0);
-				if (recv_val > 0)
-				{
-					for (int i = 0; i < recv_val; i++)
-						rcv_msg.push_back(buffer[i]);
-				}
-				else if (recv_val == 0)
-				{
-					std::cout << "Client " << this->_all_connections[i] << " disconnected" << std::endl;
-					deleteUser(this->_all_connections[i]);
-					break;
-				}
-				else
-				{
-					std::cerr << "ERROR" << std::endl;
-					break;
-				}
+				for (int i = 0; i < recv_val; i++)
+					rcv_msg.push_back(buffer[i]);
+				user->appendBufferMsg(rcv_msg);
+				rcv_msg.clear();
 			}
-			if (rcv_msg.size() > 0)
-				dispatch(rcv_msg, this->_all_connections[i]);
-			// Parsing / Dispatch
-			// REMPLIR LE USER QUI EST DEJA STOCKE AVEC ADDUSER
-			// Utiliser la fonction ADDUSER ou équivalent en trouvant le USER dans le vector
+			else if (recv_val == 0)
+			{
+				std::cout << "Client " << this->_all_connections[i] << " disconnected" << std::endl;
+				deleteUser(this->_all_connections[i]);
+			}
+			else
+			{
+				std::cerr << "ERROR" << std::endl;
+			}
+			if (user->getBufferMsg().size() > 0 && (user->getBufferMsg()[user->getBufferMsg().size() - 2] == '\r' || user->getBufferMsg()[user->getBufferMsg().size() - 1] == '\n'))
+			{
+				dispatch(user->getBufferMsg(), this->_all_connections[i]);
+				user->getBufferMsg().clear();
+			}
 		}
 	}
 	return (1);
@@ -241,7 +240,6 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 		command = getCommand(cmd);
 		if (command != NULL)
 		{
-			std::cout << "YOUHOU: " << command->getName() << std::endl;
 			std::string tmp;
 			for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
 			{
