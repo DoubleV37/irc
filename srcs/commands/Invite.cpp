@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Invite.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:08 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/02 14:49:39 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/07 10:08:29 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ Invite::~Invite() {
 }
 
 bool Invite::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server ) {
-    
+
     (void)channel;
 
     if (!user->isLog())
@@ -33,22 +33,34 @@ bool Invite::execute( std::vector<std::string> args, User* user, Channel* channe
 	}
 	if (args.size() < 2)
 	{
+		server->sendMessageError(user->getFd(), "461", "Not enough parameters");
 		return false;
 	}
 
-    User* userInvite = server->getUserByNickname(args[1]);
-    Channel* channelTarget = server->getChannelByName(args[0]);
+    User* userInvite = server->getUserByNickname(args[0]);
+    Channel* channelTarget = server->getChannelByName(args[1]);
 
-	if (channelTarget != NULL)
+	if (channelTarget != NULL && userInvite != NULL)
 	{
-        if (channelTarget->isFull())
-        {
-            user->send("The channel is full");
-            return true;
-        }
-		channel->addUser(userInvite, 0);
-		userInvite->addChannel(channel);
+		if (channelTarget->containsUser(userInvite))
+		{
+			server->sendMessageError(user->getFd(), "443", "User is already on channel");
+			return false;
+		}
+		else if (!channelTarget->isOp(user))
+		{
+			server->sendMessageError(user->getFd(), "482", "You're not channel operator");
+			return false;
+		}
+		channelTarget->addUserInvited(userInvite->getNickname());
+		server->sendMessage(userInvite->getFd(), ":" + user->getNickname() + " INVITE " + userInvite->getNickname() + " " + args[0] + "\r\n");
 		return true;
 	}
+	else if (channelTarget == NULL && userInvite != NULL)
+	{
+		server->sendMessage(userInvite->getFd(), "INVITE " + userInvite->getNickname() + " " + args[0] + "\r\n");
+		return true;
+	}
+	server->sendMessageError(user->getFd(), "401", "No such nick");
     return false;
 }

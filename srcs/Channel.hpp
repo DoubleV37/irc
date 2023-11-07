@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/06 09:12:41 by vviovi           ###   ########.fr       */
+/*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
+/*   Updated: 2023/11/07 09:52:27 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,6 @@ class Channel {
         std::string getPassword();
 		std::string getModes() const;
 		std::string getUsersList();
+		int	getUsersOpCount();
+		void addUserInvited(std::string user_nick);
 };

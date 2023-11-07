@@ -6,9 +6,11 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/06 09:12:09 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 10:04:46 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+
 
 
 #include "Channel.hpp"
@@ -183,7 +185,6 @@ std::string Channel::getUsersList()
 	}
 	return usersList;
 }
-
 std::string Channel::getModes() const
 {
 	std::string modes = "";
@@ -202,4 +203,21 @@ std::string Channel::getModes() const
 	if (this->_hasTopicProtection)
 		modes.append(" +t");
 	return modes;
+}
+
+int	Channel::getUsersOpCount()
+{
+	int count = 0;
+	std::map<User*, int>::iterator it = this->_users.begin();
+	for (; it != this->_users.end(); ++it)
+	{
+		if (it->second == 1)
+			count++;
+	}
+	return (count);
+}
+
+void Channel::addUserInvited(std::string user_nick)
+{
+	this->_invitedUsers.push_back(user_nick);
 }

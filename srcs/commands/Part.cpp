@@ -79,18 +79,20 @@ void Part::leaveChannel( User* user, Server* server, std::string channelName )
     server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " PART " + channelName + "\r\n");
     user->removeChannel(channelName);
     if (usersMap.size() == 1)
-	{
         server->deleteChannel(channelName);
-		return ;
-	}
-    else if (channelTarget->isOp(user) == true)
+    else if (channelTarget->isOp(user) == true && channelTarget->getUsersOpCount() == 1)
     {
         for (std::map<User*, int>::iterator it = usersMap.begin(); it != usersMap.end(); it++)
         {
-            if (it->first != user && !channelTarget->isOp(it->first))
+            if (it->first != user)
+			{
                 channelTarget->setOp(it->first);
+				server->sendMessageChannel(channelTarget, ": 381 " + it->first->getNickname() + " :You are now an IRC operator\r\n");
+				break ;
+			}
         }
     }
-    channelTarget->removeUser(user);
-    channelTarget = NULL;
+	if (usersMap.size() != 1)
+		channelTarget->removeUser(user);
+	channelTarget = NULL;
 }

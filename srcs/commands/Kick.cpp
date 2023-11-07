@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 11:22:24 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/06 11:55:01 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel,
 		else
 			server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " KICK " + channelTarget->getName() + " " + userTarget->getNickname() + " :" + reasons + "\r\n");
 		channelTarget->removeUser(userTarget);
+		userTarget->removeChannel(channelTarget->getName());
     	return true;
 	}
 	server->sendMessageError(user->getFd(), "441", "User not in channel");
