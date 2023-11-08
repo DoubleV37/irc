@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 11:45:03 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:36:38 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ Server::Server() {
 
 Server::Server(int port, std::string const & password) {
 	this->_port = port; //verifier le port
-	createSocketServer();
+	if (!createSocketServer())
+	{
+		std::cerr << "ERROR: socket creation failed" << std::endl;
+		throw std::exception();
+	}
 	for (int i = 0 ; i < MAX_CONNECTIONS ; i++)
 		this->_all_connections[i] = -1;
 	this->_nb_connections = 1;
@@ -72,7 +76,6 @@ int Server::createSocketServer()
 	addr.sin_family = AF_INET; // IPV4
 	addr.sin_addr.s_addr = INADDR_ANY; // 0.0.0.0
 	addr.sin_port = htons(this->_port); // Port
-	// fcntl(this->_socket, F_SETFL, O_NONBLOCK);
 	if (bind(this->_socket, (struct sockaddr *)&addr, sizeof(addr)) != 0)
 		return (0);
 	if (listen(this->_socket, MAX_CONNECTIONS))

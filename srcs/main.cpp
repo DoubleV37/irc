@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/10/31 18:40:24 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/07 14:39:30 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,24 @@ int main(int argc, char** argv)
 {
 	if (argc != 3)
 	{
-		// vérifiert le port
 		std::cerr << "./ircserv [port] [password]" << std::endl;
 		return (1);
 	}
+	int port = atoi(argv[1]);
+	if (port < 1024 || port > 65535)
+	{
+		std::cerr << "Port must be between 1024 and 65535" << std::endl;
+		return (1);
+	}
     init_ctrl_c();
-    serv = Server(atoi(argv[1]), argv[2]);
-	serv.run();
+	try
+	{
+		serv = Server(port, argv[2]);
+		serv.run();
+	}
+	catch(const std::exception& e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 	return (0);
 }
