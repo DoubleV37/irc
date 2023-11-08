@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:18 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/03 15:43:46 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:58:51 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,6 @@ class Mode : public ACommand {
 	public:
 		Mode();
 		~Mode();
-		bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
+		bool execute( std::vector<std::string> args, User* user, Server* server );
 
 };

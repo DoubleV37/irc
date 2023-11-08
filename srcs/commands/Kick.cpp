@@ -6,14 +6,18 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:10 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/06 11:55:01 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:15:03 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Kick.hpp"
 #include <cstddef>
 
-Kick::Kick() : ACommand( "KICK", "/kick <channel> <user> [message]", true )
+/**
+ * NAME : KICK
+ * USAGE : /kick <channel> <user> [message]
+ */
+Kick::Kick() : ACommand( "KICK", true )
 {
 }
 
@@ -21,16 +25,10 @@ Kick::~Kick()
 {
 }
 
-bool Kick::execute( std::vector<std::string> args, User* user, Channel* channel, Server* server )
+bool Kick::execute( std::vector<std::string> args, User* user, Server* server )
 {
     (void)user;
-    (void)channel;
 
-	if (!user->isLog())
-	{
-		server->sendMessageError(user->getFd(), "451", "You have not registered");
-		return false;
-	}
 	if (args.size() < 2)
 	{
 		server->sendMessageError(user->getFd(), "461", "Not enough parameters");

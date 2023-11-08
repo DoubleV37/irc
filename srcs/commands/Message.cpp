@@ -1,7 +1,11 @@
 #include "Message.hpp"
 #include <string>
 
-Message::Message() : ACommand( "PRIVMSG", "PRIVMSG <user | channel> <message>", false )
+/**
+ * NAME : PRIVMSG
+ * USAGE : /privmsg <user | channel> <message>
+ */
+Message::Message() : ACommand( "PRIVMSG", true )
 {
 }
 
@@ -19,16 +23,10 @@ void	Message::sendBroadcastMessage(Server *server, Channel *channel, std::string
 	}
 }
 
-bool Message::execute(std::vector<std::string> args, User *user, Channel *channel, Server *server)
+bool Message::execute(std::vector<std::string> args, User *user, Server *server)
 {
 	std::string message = "";
 
-	(void)channel;
-	if (!user->isLog())
-	{
-		server->sendMessageError(user->getFd(), "451", "You have not registered");
-		return false;
-	}
 	for (size_t i = 0; i < args.size(); i++)
 	{
 		std::cout << "arg[" << i << "] = " << args[i] << std::endl;

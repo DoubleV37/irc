@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:22 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 16:10:31 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/07 13:59:30 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class Part : public ACommand {
 	public:
 		Part();
 		~Part();
-		bool execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
+		bool execute( std::vector<std::string> args, User* user, Server* server );
 		void leaveChannel( User* user, Server* server, std::string channelName );
     
 };

@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 10:59:15 by ltuffery          #+#    #+#             */
-/*   Updated: 2023/11/02 12:58:25 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/07 14:01:12 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ class Message : public ACommand
 	public:
 		Message();
 		~Message();
-    	bool	execute( std::vector<std::string> args, User* user, Channel* channel, Server* server );
+    	bool	execute( std::vector<std::string> args, User* user, Server* server );
 		void	sendBroadcastMessage(Server *server, Channel *channel, std::string message, User *origin_user);
 
 };
