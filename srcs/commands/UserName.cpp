@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:29:53 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:55:47 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ bool UserName::execute( std::vector<std::string> args, User* user, Server* serve
     (void)server;
 
 	std::string parameter;
+
+	if (args.size() == 0)
+	{
+        server->loginError(user->getFd(), "431", "nickname required");
+		return true;
+	}
 
     parameter = args[0];
 
