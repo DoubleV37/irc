@@ -247,12 +247,12 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 			std::string tmp;
 			for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
 			{
-				if (split_msg[i][j] == ' ')
+				if (split_msg[i][j] == ' ' && !tmp.empty())
 				{
 					split_msg_tmp.push_back(tmp);
 					tmp.clear();
 				}
-				else
+				else if (split_msg[i][j] != ' ')
 					tmp.push_back(split_msg[i][j]);
 			}
 			if (tmp.size() > 0)
