@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/09 15:56:12 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/09 15:58:15 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool Nick::execute( std::vector<std::string> args, User* user, Server* server ) 
 	if (args.size() == 0)
 	{
         server->loginError(user->getFd(), "431", "nickname is empty");
-		return false;
+		return true;
 	}
 
     if (server->getPassword() != "" && user->passIsSet == false)
