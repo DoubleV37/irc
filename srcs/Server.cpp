@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:36:38 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/11 15:10:26 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -442,4 +442,5 @@ void Server::exit()
 		delete it2->second;
 	}
 	this->_command.clear();
+	close(this->_socket);
 }
