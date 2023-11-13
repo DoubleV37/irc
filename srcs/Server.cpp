@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:36:38 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/11 16:44:16 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ int	Server::recvMessage()
 			{
 				std::cout << "Client " << this->_all_connections[i] << " disconnected" << std::endl;
 				deleteUser(this->_all_connections[i]);
+				continue;
 			}
 			else
 			{
@@ -389,13 +390,13 @@ void Server::deleteUser(int cli_fd) {
 	for (std::map<std::string, Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
 	{
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
-		{
 			it->second->getUsers().erase(user);
-		}
+		if (it->second->getUsers().size() == 0)
+			deleteChannel(it->first);
 	}
     for (size_t i = 0; i < this->_users.size(); i++)
     {
-        if (&this->_users[i] == &user)
+        if (&this->_users[i]->getNickname() == &user->getNickname())
         {
             this->_users.erase(this->_users.begin() + i);
             delete user;
@@ -427,6 +428,7 @@ void Server::exit()
     std::cout << "Good Bye" << std::endl;
     for (size_t i = 0; i < this->_users.size(); i++)
     {
+		close(this->_users[i]->getFd());
         delete this->_users[i];
     }
     this->_users.clear();
@@ -442,4 +444,5 @@ void Server::exit()
 		delete it2->second;
 	}
 	this->_command.clear();
+	close(this->_socket);
 }
