@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/13 17:01:44 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:05:46 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ class Server {
 		int	_all_connections[MAX_CONNECTIONS];
 		int	_nb_connections;
 		fd_set	_fd_to_read;
-		Bot *_bot;
 
 		std::string	_password;
 		std::vector<User*>	_users;

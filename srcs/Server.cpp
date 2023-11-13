@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/13 17:43:51 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/13 18:05:41 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,8 +305,6 @@ void Server::run()
 	addCommand(new Who());
 	addCommand(new Part());
 
-	this->_bot = new Bot(this->_port);
-
 	while (1)
 	{
 		FD_ZERO(&this->_fd_to_read);
@@ -447,6 +445,4 @@ void Server::exit()
 	}
 	this->_command.clear();
 	close(this->_socket);
-	this->_bot->close();
-	delete this->_bot;
 }

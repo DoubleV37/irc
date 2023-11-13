@@ -3,11 +3,20 @@
 #include <iostream>
 #include <netinet/in.h>
 #include <ostream>
+#include <string>
 #include <sys/socket.h>
 #include <unistd.h>
 #include <vector>
 
 Bot::Bot(int port) : _port(port)
+{
+}
+
+Bot::~Bot()
+{
+}
+
+void Bot::run()
 {
 	struct sockaddr_in addr;
 
@@ -23,24 +32,34 @@ Bot::Bot(int port) : _port(port)
 	this->on();
 }
 
-Bot::~Bot()
-{
-}
-
 void Bot::on()
 {
+	int rec;
 	std::vector<char> buffer(MAX_BUF_LENGTH);
-
 	listen(this->_socket, 42); // TODO : 42 est une valeur a changer
-	//int rec = recv(this->_socket, &buffer[0], buffer.size(), 0);
-	//std::cout << "value : " << rec << std::endl;
-	//std::cout << "buff : " << buffer[0] << std::endl;
+	
+	std::string tmp = "/PASS pass";
+	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
+	std::cout << tmp << std::endl;
+	tmp = "/NICK bot";
+	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
+	tmp = "/USER bot_";
+	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
+	tmp = "/JOIN #bot";
+	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
+
+	for (;;)
+	{
+		rec = recv(this->_socket, &buffer[0], buffer.size(), 0);
+		std::cout << "value : " << rec << std::endl;
+		std::cout << "buff : " << buffer[0] << std::endl;
+	}
 }
 
-void Bot::send(const std::string & channel, const std::string & msg)
+void Bot::send(const std::string & channel, const std::string & content)
 {
 	(void) channel;
-	(void) msg;
+	(void) content;
 }
 
 void Bot::close()

@@ -15,6 +15,7 @@ class Bot {
 	public:
 		Bot(int port);
 		~Bot();
+		void run();
 		void close();
 
 };

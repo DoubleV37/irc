@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/11/13 17:02:51 by ltuffery         ###   ########.fr        #
+#    Updated: 2023/11/13 18:21:56 by ltuffery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ SRC			:=	srcs/main.cpp \
 				srcs/Server.cpp \
 				srcs/Channel.cpp \
 				srcs/ACommand.cpp \
-				srcs/Bot.cpp \
 				srcs/exceptions/InvalidPortException.cpp \
 				srcs/exceptions/InvalidPasswordException.cpp \
 				srcs/exceptions/NotNullException.cpp \
@@ -37,8 +36,13 @@ SRC			:=	srcs/main.cpp \
 				srcs/commands/Message.cpp \
 				srcs/commands/Part.cpp \
 				srcs/utils/CmdUtils.cpp
-				
+
+SRC_BOT		:= srcs/main_bot.cpp \
+			   srcs/Bot.cpp
+
 OBJ			:= $(SRC:.cpp=.o)
+
+OBJ_BOT		:= $(SRC_BOT:.cpp=.o)
 
 CXXFLAGS	:= -Wall -Wextra -Werror -ggdb3 -std=c++98
 
@@ -58,14 +62,17 @@ all:		$(NAME)
 $(NAME):	$(OBJ)
 			@$(CXX) $(CXXFLAGS) $(OBJ) -o $(NAME)
 
+bot:		$(OBJ_BOT)
+			@$(CXX) $(CXXFLAGS) $(OBJ_BOT) -o bot
+
 clean:		
 			$(RM) $(OBJ)
 			@echo "Suppression des fichiers .o"
 
 fclean:		
-			$(RM) $(OBJ) $(NAME)
+			$(RM) $(OBJ) $(OBJ_BOT) $(NAME) bot
 			@echo "Supression des fichiers .o et .a"
 
-re:			fclean all
+re:			fclean all bot
 
-.PHONY:		all clean fclean re
+.PHONY:		all clean fclean re bot
