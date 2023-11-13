@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:22:11 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/09 16:53:43 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@ Pass::~Pass()
 }
 
 bool Pass::execute( std::vector<std::string> args, User* user, Server* server ) {
+	if (args.size() == 0)
+	{
+        server->loginError(user->getFd(), "461", "not enough parameters");
+		return true;
+	}
+
     std::cout << "password : " << args[0] << std::endl;
 
     if (server->getPassword() != "" && args[0] == server->getPassword())
@@ -38,6 +44,6 @@ bool Pass::execute( std::vector<std::string> args, User* user, Server* server ) 
         user->setPassToggle(true);
     }
     else
-        server->loginError(user->getFd(), "code", "password nok");
+        server->loginError(user->getFd(), "464", "password incorrect");
     return true;
 }
