@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 15:25:05 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/13 17:01:44 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Bot.hpp"
 #include "User.hpp"
 #include "Channel.hpp"
 #include "commands/Join.hpp"
@@ -49,6 +50,7 @@ class Server {
 		int	_all_connections[MAX_CONNECTIONS];
 		int	_nb_connections;
 		fd_set	_fd_to_read;
+		Bot *_bot;
 
 		std::string	_password;
 		std::vector<User*>	_users;

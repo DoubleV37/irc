@@ -6,12 +6,13 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/11 16:44:16 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/13 17:43:51 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "ACommand.hpp"
+#include "Bot.hpp"
 #include "User.hpp"
 
 #include <unistd.h>
@@ -26,7 +27,7 @@ Server::Server(int port, std::string const & password) {
 	this->_port = port; //verifier le port
 	if (!createSocketServer())
 	{
-		std::cerr << "ERROR: socket creation failed" << std::endl;
+	std::cerr << "ERROR: socket creation failed" << std::endl;
 		throw std::exception();
 	}
 	for (int i = 0 ; i < MAX_CONNECTIONS ; i++)
@@ -292,7 +293,6 @@ void Server::addCommand(ACommand* command ) {
 
 void Server::run()
 {
-
 	addCommand(new Pass());
 	addCommand(new Nick());
 	addCommand(new UserName());
@@ -304,6 +304,8 @@ void Server::run()
 	addCommand(new Kick());
 	addCommand(new Who());
 	addCommand(new Part());
+
+	this->_bot = new Bot(this->_port);
 
 	while (1)
 	{
@@ -445,4 +447,6 @@ void Server::exit()
 	}
 	this->_command.clear();
 	close(this->_socket);
+	this->_bot->close();
+	delete this->_bot;
 }

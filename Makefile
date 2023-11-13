@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/11/04 13:17:06 by gazzopar         ###   ########.fr        #
+#    Updated: 2023/11/13 17:02:51 by ltuffery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC			:=	srcs/main.cpp \
 				srcs/Server.cpp \
 				srcs/Channel.cpp \
 				srcs/ACommand.cpp \
+				srcs/Bot.cpp \
 				srcs/exceptions/InvalidPortException.cpp \
 				srcs/exceptions/InvalidPasswordException.cpp \
 				srcs/exceptions/NotNullException.cpp \
