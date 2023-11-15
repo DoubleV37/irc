@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/11 16:44:16 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/15 15:14:23 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,7 @@ void Server::run()
 	addCommand(new Kick());
 	addCommand(new Who());
 	addCommand(new Part());
+	addCommand(new Quit());
 
 	while (1)
 	{
