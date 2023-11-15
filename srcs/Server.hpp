@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/04 15:25:05 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:14:35 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #include "commands/Topic.hpp"
 #include "commands/Who.hpp"
 #include "commands/Part.hpp"
+#include "commands/Quit.hpp"
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/select.h>
@@ -59,8 +60,6 @@ class Server {
 
 		void addUser( User* user );
 		void addCommand( ACommand* name );
-		void deleteUser(User*);
-		void deleteUser(int cli_fd);
 		void login( std::string const & buffer, int step, int cli_fd );
 		void dispatch( std::string const & recv_msg, int cli_fd );
 		int createSocketServer();
@@ -88,6 +87,8 @@ class Server {
 		void loginError( int cli_fd, std::string num_error, std::string message );
 		void addChannel( Channel* channel );
 		void deleteChannel( std::string const & name );
+		void deleteUser(User*);
+		void deleteUser(int cli_fd);
 		void run();
         void exit();
 

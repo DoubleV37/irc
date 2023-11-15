@@ -6,11 +6,12 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:24:58 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/15 14:17:46 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Topic.hpp"
+#include <cstddef>
 
 /**
  * NAME : TOPC
@@ -53,7 +54,13 @@ bool Topic::execute( std::vector<std::string> args, User* user, Server* server )
         return false;
     }
 
-	channelTarget->setTopic(args[1]);
-	server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " TOPIC " + channelTarget->getName() + " :" + args[1] + "\r\n");
+	std:: string topic = "";
+
+	for (size_t i = 1; i < args.size(); i++)
+	{
+		topic.append(args[i] + (i + 1 != args.size() ? " " : ""));
+	}
+	channelTarget->setTopic(topic);
+	server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " TOPIC " + channelTarget->getName() + " :" + topic + "\r\n");
     return true;
 }
