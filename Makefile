@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/11/04 13:17:06 by gazzopar         ###   ########.fr        #
+#    Updated: 2023/11/15 15:13:37 by ltuffery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC			:=	srcs/main.cpp \
 				srcs/commands/Who.cpp	\
 				srcs/commands/Message.cpp \
 				srcs/commands/Part.cpp \
+				srcs/commands/Quit.cpp \
 				srcs/utils/CmdUtils.cpp
 				
 OBJ			:= $(SRC:.cpp=.o)
