@@ -34,32 +34,52 @@ void Bot::run()
 
 void Bot::on()
 {
-	int rec;
+	std::string msg;
 	std::vector<char> buffer(MAX_BUF_LENGTH);
 	listen(this->_socket, 42); // TODO : 42 est une valeur a changer
 	
-	std::string tmp = "/PASS pass";
-	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
-	std::cout << tmp << std::endl;
-	tmp = "/NICK bot";
-	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
-	tmp = "/USER bot_";
-	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
-	tmp = "/JOIN #bot";
-	::send(this->_socket, tmp.c_str(), tmp.size(), 0);
+	std::string connect_cmd = "PASS pass\r\nNICK bot\r\nUSER bot\r\n";
+	::send(this->_socket, connect_cmd.c_str(), connect_cmd.size(), 0);
+	
+	this->exec("JOIN", "#bot", "");
+	this->exec("TOPIC", "#bot", "ceci est un topic");
 
 	for (;;)
 	{
-		rec = recv(this->_socket, &buffer[0], buffer.size(), 0);
-		std::cout << "value : " << rec << std::endl;
-		std::cout << "buff : " << buffer[0] << std::endl;
+		recv(this->_socket, &buffer[0], buffer.size(), 0);
+		msg = this->compact(buffer);
+		if (msg.find("!quoi") != std::string::npos)
+		{
+			this->send("#bot", "feur");
+		}
 	}
+}
+
+void Bot::exec(const std::string & cmd, const std::string & channel, const std::string & arg)
+{
+	std::string buf = cmd + " " + channel;
+	if (!arg.empty())
+	{
+		buf.append(" " + arg);
+	}
+	buf.append("\r\n");
+	::send(this->_socket, buf.c_str(), buf.size(), 0);
+}
+
+std::string Bot::compact(const std::vector<char> & vector) const
+{
+	std::string str = "";
+
+	for (size_t i = 0; i < vector.size(); i++)
+	{
+		str += vector[i];
+	}
+	return str;
 }
 
 void Bot::send(const std::string & channel, const std::string & content)
 {
-	(void) channel;
-	(void) content;
+	this->exec("PRIVMSG", channel, content);
 }
 
 void Bot::close()
