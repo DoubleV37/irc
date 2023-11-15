@@ -19,7 +19,9 @@ void	Message::sendBroadcastMessage(Server *server, Channel *channel, std::string
 	for (std::map<User*, int>::iterator it = users.begin(); it != users.end(); ++it)
 	{
 		if (it->first != origin_user)
+		{
 			server->sendMessage(it->first->getFd(), message);
+		}
 	}
 }
 

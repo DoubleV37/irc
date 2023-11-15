@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/15 15:14:23 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/15 15:40:56 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,8 @@ int	Server::recvMessage()
 			if (user->getBufferMsg().size() > 0 && (user->getBufferMsg()[user->getBufferMsg().size() - 2] == '\r' || user->getBufferMsg()[user->getBufferMsg().size() - 1] == '\n'))
 			{
 				dispatch(user->getBufferMsg(), this->_all_connections[i]);
-				user->getBufferMsg().clear();
+				if (this->_all_connections[i] > 0)
+					user->getBufferMsg().clear();
 			}
 		}
 	}
@@ -192,6 +193,7 @@ void Server::loginError( int cli_fd, std::string num_error, std::string message)
 {
 	sendMessageError(cli_fd, num_error, message);
 	deleteUser(cli_fd);
+	std::cout << "Client " << cli_fd << " disconnected" << std::endl;
 }
 
 int	Server::isValidUsername(std::string const & str)
@@ -232,6 +234,8 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 
 	for (size_t i = 0; i < split_msg.size(); i++)
 	{
+		if (getUserByFd(cli_fd) == NULL)
+			break ;
 		ACommand* command;
 		std::string	cmd;
 		std::vector<std::string> split_msg_tmp;
@@ -263,7 +267,7 @@ void Server::dispatch( std::string const & recv_msg, int cli_fd )
 
 			User *user = getUserByFd(cli_fd);
 
-			if (command->loginRequired() && !user->isLog())
+			if (command->loginRequired() && user && !user->isLog())
 				this->sendMessageError(cli_fd, "451", "You have not registered");
 			else
 				command->execute(split_msg_tmp, user, this);
@@ -373,17 +377,19 @@ std::string const & Server::getPassword() const {
 	return this->_password;
 }
 
-void Server::deleteUser(User* user) {
+// void Server::deleteUser(User* user) {
 
-	for (size_t i = 0; i < this->_users.size(); i++)
-	{
-		if (this->_users[i] == user)
-		{
-			this->_users.erase(this->_users.begin() + i);
-			break;
-		}
-	}
-}
+// 	for (size_t i = 0; i < this->_users.size(); i++)
+// 	{
+// 		if (this->_users[i] == user)
+// 		{
+// 			close(this->_users[i]->getFd());
+// 			delete this->_users[i];
+// 			this->_users.erase(this->_users.begin() + i);
+// 			break;
+// 		}
+// 	}
+// }
 
 void Server::deleteUser(int cli_fd) {
 
@@ -391,7 +397,10 @@ void Server::deleteUser(int cli_fd) {
 	for (std::map<std::string, Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
 	{
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
+		{
+			sendMessageChannel(it->second, ":" + user->getNickname() + " QUIT\r\n");
 			it->second->getUsers().erase(user);
+		}
 		if (it->second->getUsers().size() == 0)
 			deleteChannel(it->first);
 	}
@@ -399,8 +408,8 @@ void Server::deleteUser(int cli_fd) {
     {
         if (&this->_users[i]->getNickname() == &user->getNickname())
         {
+			delete this->_users[i];
             this->_users.erase(this->_users.begin() + i);
-            delete user;
         }
     }
 	close(cli_fd);
