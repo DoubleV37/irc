@@ -1,14 +1,17 @@
 #ifndef BOT_HPP
 # define BOT_HPP
 
+#include <bits/types/siginfo_t.h>
 #include <string>
 #include <vector>
 
 class Bot {
 
 	private:
-		const int _port;
+		int _port;
 		int _socket;
+		std::string _password;
+		std::string _name;
 
 		void on();
 		void send(const std::string & channel, const std::string & msg);
@@ -16,8 +19,12 @@ class Bot {
 		std::string compact(const std::vector<char> & vector) const;
 
 	public:
-		Bot(int port);
+		Bot();
+		Bot(int port, std::string password, std::string name);
 		~Bot();
+
+		Bot& operator=(const Bot & copy);
+
 		void run();
 		void close();
 
