@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/15 15:18:53 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/15 15:40:56 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,7 +397,10 @@ void Server::deleteUser(int cli_fd) {
 	for (std::map<std::string, Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
 	{
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
+		{
+			sendMessageChannel(it->second, ":" + user->getNickname() + " QUIT\r\n");
 			it->second->getUsers().erase(user);
+		}
 		if (it->second->getUsers().size() == 0)
 			deleteChannel(it->first);
 	}
