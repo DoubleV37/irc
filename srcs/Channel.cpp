@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/07 10:04:46 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/15 15:31:23 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ bool Channel::containsUser(User *user)
     return this->_users.find(user) != this->_users.end();
 }
 
-std::map<User *, int> Channel::getUsers()
+std::map<User *, int> &Channel::getUsers()
 {
  	return this->_users;
 }
