@@ -2,7 +2,11 @@
 
 made by the team
 
+Compile Server :
 ```
 make
 ```
-
+Compile Bot :
+```
+make bot
+```
