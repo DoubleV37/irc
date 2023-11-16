@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/15 15:14:35 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/16 17:10:04 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ class Server {
 		void addUser( User* user );
 		void addCommand( ACommand* name );
 		void login( std::string const & buffer, int step, int cli_fd );
-		void dispatch( std::string const & recv_msg, int cli_fd );
+		void dispatch( std::string const recv_msg, int cli_fd );
 		int createSocketServer();
 		int	addNewConnections();
 		int	recvMessage();
@@ -80,6 +80,7 @@ class Server {
 		std::vector<User*> getUserList() const;
 		std::string const & getPassword() const;
 
+		std::vector<std::string> split(std::string const & str, char separator);
 		int	sendMessage( int cli_fd, std::string const & message );
 		int	sendMessageError( int cli_fd, std::string num_error, std::string const & message );
 		int	sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message);
