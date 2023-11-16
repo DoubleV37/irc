@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/16 12:10:19 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/16 17:09:48 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,77 +210,72 @@ int	Server::isValidUsername(std::string const & str)
 	return (1);
 }
 
-void Server::dispatch( std::string const & recv_msg, int cli_fd )
+std::vector<std::string> Server::split(std::string const & str, char separator)
 {
 	std::vector<std::string> split_msg;
-	std::string arg;
+	std::string tmp;
 
-	if (recv_msg == "CAP LS 302\r\n")
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (str[i] == separator)
+		{
+			split_msg.push_back(tmp);
+			tmp.clear();
+		}
+		else
+			tmp.push_back(str[i]);
+	}
+	if (tmp.size() > 0)
+		split_msg.push_back(tmp);
+	return (split_msg);
+}
+
+void Server::dispatch( std::string const recv_msg, int cli_fd )
+{
+	std::string arg;
+	ACommand* command;
+	User *user = this->getUserByFd(cli_fd);
+	std::vector<std::string> parameters;
+
+	if (user == NULL || recv_msg == "CAP LS 302\r\n")
 		return ;
 	std::cout << "recv_msg : " << recv_msg << std::endl;
 	for (size_t i = 0; i < recv_msg.size(); i++)
 	{
-		if (recv_msg[i] == '\r' && (recv_msg.size() > (i + 1) && recv_msg[i + 1] == '\n'))
+		if ((recv_msg[i] == '\r' && (recv_msg.size() > (i + 1) && recv_msg[i + 1] == '\n')) || recv_msg[i] == '\n')
 		{
+			char tmp = recv_msg[i];
 			if (arg != "CAP LS 302")
-				split_msg.push_back(arg);
-			arg.clear();
-			i++;
-		}
-		else if (recv_msg[i] == '\n')
-		{
-			split_msg.push_back(arg);
+			{
+				// std::cout << "recv size : " << recv_msg.size() << std::endl;
+				parameters = split(arg, ' ');
+				
+				command = this->getCommand(parameters[0]);
+				if (command == NULL)
+				{
+					this->sendMessageError(cli_fd, "421", "invalid command");
+					break ;
+				}
+				// std::cout << "recv size : " << recv_msg.size() << std::endl;
+				parameters.erase(parameters.begin());
+				if (parameters.size() >= 2 && parameters[1][0] == ':')
+					parameters[1].erase(0, 1);
+				// std::cout << "recv size : " << recv_msg.size() << std::endl;
+				if (command->loginRequired() && user && !user->isLog())
+					this->sendMessageError(cli_fd, "451", "You have not registered");
+				else
+					command->execute(parameters, user, this);
+				// std::cout << "recv size : " << recv_msg.size() << std::endl;
+			}
+			
+			// std::cout << "recv size : " << recv_msg.size() << std::endl;
+			// std::cout << "i : " << i << std::endl;
+			if (tmp == '\r')
+				i++;
 			arg.clear();
 		}
 		else
 			arg.push_back(recv_msg[i]);
-	}
-
-	for (size_t i = 0; i < split_msg.size(); i++)
-	{
-		if (getUserByFd(cli_fd) == NULL)
-			break ;
-		ACommand* command;
-		std::string	cmd;
-		std::vector<std::string> split_msg_tmp;
-
-		for (size_t j = 0; j < split_msg[i].size(); j++)
-		{
-			if (split_msg[i][j] == ' ')
-				break;
-			cmd.push_back(split_msg[i][j]);
-		}
-		command = getCommand(cmd);
-		if (command != NULL)
-		{
-			std::string tmp;
-			for (size_t j = cmd.size() + 1 ; j < split_msg[i].size(); j++)
-			{
-				if (split_msg[i][j] == ' ' && !tmp.empty())
-				{
-					split_msg_tmp.push_back(tmp);
-					tmp.clear();
-				}
-				else if (split_msg[i][j] != ' ')
-					tmp.push_back(split_msg[i][j]);
-			}
-			if (tmp.size() > 0)
-				split_msg_tmp.push_back(tmp);
-			if (split_msg_tmp.size() >= 2 && split_msg_tmp[1][0] == ':')
-				split_msg_tmp[1].erase(0, 1);
-
-			User *user = getUserByFd(cli_fd);
-
-			if (command->loginRequired() && user && !user->isLog())
-				this->sendMessageError(cli_fd, "451", "You have not registered");
-			else
-				command->execute(split_msg_tmp, user, this);
-		}
-		else
-		{
-			sendMessageError(cli_fd, "421", "invalid command");
-			break ;
-		}
 	}
 }
 
