@@ -15,6 +15,7 @@
 
 #include <iostream>
 #include <vector>
+#include "Bot.hpp"
 #include "User.hpp"
 #include "Channel.hpp"
 #include "commands/Join.hpp"

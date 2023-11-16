@@ -6,14 +6,16 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/15 15:40:56 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/15 16:12:40 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Server.hpp"
 #include "ACommand.hpp"
+#include "Bot.hpp"
 #include "User.hpp"
 
+#include <iostream>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
@@ -26,7 +28,7 @@ Server::Server(int port, std::string const & password) {
 	this->_port = port; //verifier le port
 	if (!createSocketServer())
 	{
-		std::cerr << "ERROR: socket creation failed" << std::endl;
+	std::cerr << "ERROR: socket creation failed" << std::endl;
 		throw std::exception();
 	}
 	for (int i = 0 ; i < MAX_CONNECTIONS ; i++)
@@ -296,7 +298,6 @@ void Server::addCommand(ACommand* command ) {
 
 void Server::run()
 {
-
 	addCommand(new Pass());
 	addCommand(new Nick());
 	addCommand(new UserName());
@@ -394,6 +395,7 @@ std::string const & Server::getPassword() const {
 void Server::deleteUser(int cli_fd) {
 
 	User* user = this->getUserByFd(cli_fd);
+	std::cout << "SIZE : " << this->_channels.size() << std::endl;
 	for (std::map<std::string, Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
 	{
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
