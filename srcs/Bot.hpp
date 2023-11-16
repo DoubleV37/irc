@@ -12,6 +12,7 @@ class Bot {
 		int _socket;
 		std::string _password;
 		std::string _name;
+		bool exit;
 
 		void on();
 		void send(const std::string & channel, const std::string & msg);

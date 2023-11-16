@@ -14,6 +14,7 @@
 Bot::Bot()
 {
 	this->_port = 0;
+	this->exit = false;
 }
 
 Bot::Bot(int port, std::string password, std::string name)
@@ -21,6 +22,7 @@ Bot::Bot(int port, std::string password, std::string name)
 	this->_port = port;
 	this->_password = password;
 	this->_name = name;
+	this->exit = false;
 }
 
 Bot::~Bot()
@@ -83,7 +85,7 @@ void Bot::on()
 	
 	srand(time(0));
 
-	for (;;)
+	while (!this->exit)
 	{
 		recv(this->_socket, &buffer[0], buffer.size(), 0);
 		msg = this->compact(buffer);
@@ -144,4 +146,5 @@ void Bot::close()
 {
 	this->exec("QUIT", "", "");
 	::close(this->_socket);
+	this->exit = true;
 }
