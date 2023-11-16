@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/15 16:12:40 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/16 11:33:45 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 #include "Bot.hpp"
 #include "User.hpp"
 
+#include <cstddef>
 #include <iostream>
+#include <iterator>
 #include <unistd.h>
 #include <string.h>
 #include <fcntl.h>
@@ -395,9 +397,10 @@ std::string const & Server::getPassword() const {
 void Server::deleteUser(int cli_fd) {
 
 	User* user = this->getUserByFd(cli_fd);
-	std::cout << "SIZE : " << this->_channels.size() << std::endl;
-	for (std::map<std::string, Channel*>::iterator it = this->_channels.begin(); it != this->_channels.end(); ++it)
+	for (size_t i = 0; i < this->_channels.size(); i++)
 	{
+    	std::map<std::string, Channel*>::iterator it = this->_channels.begin();
+		std::advance(it, i);
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
 		{
 			sendMessageChannel(it->second, ":" + user->getNickname() + " QUIT\r\n");
