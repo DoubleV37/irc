@@ -11,7 +11,6 @@ static void	listen(int sig, siginfo_t *info, void *unused)
     (void)info;
     (void)unused;
     bot.close();
-    exit(0);
 }
 
 static void init_ctrl_c()
