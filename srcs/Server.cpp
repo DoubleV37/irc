@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/16 11:33:45 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/16 12:10:19 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,18 +397,28 @@ std::string const & Server::getPassword() const {
 void Server::deleteUser(int cli_fd) {
 
 	User* user = this->getUserByFd(cli_fd);
-	for (size_t i = 0; i < this->_channels.size(); i++)
+    std::map<std::string, Channel*>::iterator it = this->_channels.begin();
+    std::map<std::string, Channel*>::iterator end = this->_channels.end();
+	std::cout << "SIZE : " << this->_channels.size() << std::endl;
+	while (it != end)
 	{
-    	std::map<std::string, Channel*>::iterator it = this->_channels.begin();
-		std::advance(it, i);
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
 		{
 			sendMessageChannel(it->second, ":" + user->getNickname() + " QUIT\r\n");
 			it->second->getUsers().erase(user);
 		}
 		if (it->second->getUsers().size() == 0)
+		{
 			deleteChannel(it->first);
+			it = this->_channels.begin();
+			end = this->_channels.end();
+		}
+		else
+		{
+			it++;
+		}
 	}
+	std::cout << "SIZE : " << this->_channels.size() << std::endl;
     for (size_t i = 0; i < this->_users.size(); i++)
     {
         if (&this->_users[i]->getNickname() == &user->getNickname())
