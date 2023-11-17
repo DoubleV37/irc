@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 11:03:53 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/17 13:55:08 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,26 +375,11 @@ std::string const & Server::getPassword() const {
 	return this->_password;
 }
 
-// void Server::deleteUser(User* user) {
-
-// 	for (size_t i = 0; i < this->_users.size(); i++)
-// 	{
-// 		if (this->_users[i] == user)
-// 		{
-// 			close(this->_users[i]->getFd());
-// 			delete this->_users[i];
-// 			this->_users.erase(this->_users.begin() + i);
-// 			break;
-// 		}
-// 	}
-// }
-
 void Server::deleteUser(int cli_fd) {
 
 	User* user = this->getUserByFd(cli_fd);
     std::map<std::string, Channel*>::iterator it = this->_channels.begin();
     std::map<std::string, Channel*>::iterator end = this->_channels.end();
-	std::cout << "SIZE : " << this->_channels.size() << std::endl;
 	while (it != end)
 	{
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
@@ -413,7 +398,6 @@ void Server::deleteUser(int cli_fd) {
 			it++;
 		}
 	}
-	std::cout << "SIZE : " << this->_channels.size() << std::endl;
     for (size_t i = 0; i < this->_users.size(); i++)
     {
         if (&this->_users[i]->getNickname() == &user->getNickname())
@@ -445,7 +429,7 @@ void Server::deleteChannel( std::string const & name ) {
 
 void Server::exit()
 {
-    std::cout << "Good Bye" << std::endl;
+    std::cout << "Good Bye " << std::endl;
     for (size_t i = 0; i < this->_users.size(); i++)
     {
 		close(this->_users[i]->getFd());

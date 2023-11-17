@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 13:14:49 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:43:54 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,8 +154,6 @@ bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 	}
 
 	size_t ac = 0;
-	std::cout << "AC : " << ac << std::endl;
-
 	for (size_t i = 0; i < args[1].size(); i++)
 	{
 		if (i == 0 && args[1][0] != '+' && args[1][0] != '-')
@@ -200,7 +198,6 @@ bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 			server->sendMessageError(user->getFd(), "472", " :is unknown mode char to me");
 			return false;
 		}
-		std::cout << "AC After : " << ac << std::endl;
 	}
     return true;
 }
