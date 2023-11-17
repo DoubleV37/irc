@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:22 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 13:58:31 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/17 10:25:50 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ class Join : public ACommand {
 	public:
 		Join();
 		~Join();
-		void sendJoinMessage( User* user, Channel* channel, Server* server );
-		bool execute( std::vector<std::string> args, User* user, Server* server );
+		void	sendJoinMessage( User* user, Channel* channel, Server* server );
+		bool	isValidChannelName(std::string channel_name, Server* server, User* user);
+		void	channelCreate(std::string channel_name, Server* server, User* user, std::vector<std::string> &channels_password);
+		bool	execute( std::vector<std::string> args, User* user, Server* server );
 
 };
