@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 10:25:13 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/17 12:07:49 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void Join::sendJoinMessage( User* user, Channel* channel, Server* server )
 
 bool	Join::isValidChannelName(std::string channel_name, Server* server, User* user)
 {
-	if ((channel_name.size() == 0 || channel_name.size() > 200) || (channel_name[0] != '#' && channel_name[0] != '&'))
+	if ((channel_name.size() <= 1 || channel_name.size() > 200) || (channel_name[0] != '#' && channel_name[0] != '&'))
 	{
 		server->sendMessageError(user->getFd(), "403", channel_name + " :No such channel");
 		return false;
