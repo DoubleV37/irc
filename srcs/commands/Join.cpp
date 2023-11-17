@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Join.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/16 16:44:37 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/17 12:07:49 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,34 @@ void Join::sendJoinMessage( User* user, Channel* channel, Server* server )
 		server->sendMessage(user->getFd(), ": 331 " + user->getNickname() + " " + channel->getName() + " :No topic is set\r\n");
 }
 
+bool	Join::isValidChannelName(std::string channel_name, Server* server, User* user)
+{
+	if ((channel_name.size() <= 1 || channel_name.size() > 200) || (channel_name[0] != '#' && channel_name[0] != '&'))
+	{
+		server->sendMessageError(user->getFd(), "403", channel_name + " :No such channel");
+		return false;
+	}
+	return true;
+}
+
+void	Join::channelCreate(std::string channel_name, Server* server, User* user, std::vector<std::string> &channels_password)
+{
+	Channel *channelTarget;
+	if (user->getChannels().size() >= 10)
+	{
+		server->sendMessageError(user->getFd(), "405", channel_name + " :You have joined too many channels");
+		return ;
+	}
+	if (channels_password.size() > 0)
+		channelTarget = new Channel(channel_name, channels_password[0]);
+	else
+		channelTarget = new Channel(channel_name);
+	channelTarget->addUser(user, 1);
+	user->addChannel(channelTarget);
+	server->addChannel(channelTarget);
+	sendJoinMessage(user, channelTarget, server);
+}
+
 bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 {
 	if (args.empty() || args.size() > 2)
@@ -56,38 +84,18 @@ bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 			channel_name.push_back(args[0][i]);
 		else if (args[0][i] == ',')
 		{
-			if ((channel_name[0] != '#' && channel_name[0] != '&') || channel_name.size() == 0 || channel_name.size() > 200 )
-			{
-				server->sendMessageError(user->getFd(), "403", channel_name + " :No such channel");
+			if (!isValidChannelName(channel_name, server, user))
 				return false;
-			}
 			channels_name.push_back(channel_name);
 			channel_name.clear();
 		}
 	}
-	if ((channel_name[0] != '#' && channel_name[0] != '&') || channel_name.size() == 0 || channel_name.size() > 200 )
-	{
-		server->sendMessageError(user->getFd(), "403", channel_name + " :No such channel");
+	if (!isValidChannelName(channel_name, server, user))
 		return false;
-	}
 	else
 		channels_name.push_back(channel_name);
-
 	if (args.size() == 2)
-	{
-		std::string channel_password;
-		for (size_t i = 0; i < args[1].size(); i++)
-		{
-			if (args[1][i] != ',')
-				channel_password.push_back(args[1][i]);
-			else if (args[1][i] == ',')
-			{
-				channels_password.push_back(channel_password);
-				channel_password.clear();
-			}
-		}
-		channels_password.push_back(channel_password);
-	}
+		channels_password = server->split(args[1], ',');
 
 	Channel *channelTarget;
 	for (size_t i = 0; i < channels_name.size(); i++)
@@ -95,19 +103,7 @@ bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 		channelTarget = server->getChannelByName(channels_name[i]);
 		if (channelTarget == NULL)
 		{
-			if (user->getChannels().size() >= 10)
-			{
-				server->sendMessageError(user->getFd(), "405", channels_name[i] + " :You have joined too many channels");
-				continue;
-			}
-			if (channels_password.size() > 0 && channels_password.size() > i)
-				channelTarget = new Channel(channels_name[i], channels_password[i]);
-			else
-				channelTarget = new Channel(channels_name[i]);
-			channelTarget->addUser(user, 1);
-			user->addChannel(channelTarget);
-			server->addChannel(channelTarget);
-			sendJoinMessage(user, channelTarget, server);
+			channelCreate(channels_name[i], server, user, channels_password);
 		}
 		else if (channelTarget->isFull())
 		{
