@@ -6,7 +6,7 @@
 #    By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 14:50:08 by gazzopar          #+#    #+#              #
-#    Updated: 2023/11/17 14:14:19 by gazzopar         ###   ########.fr        #
+#    Updated: 2023/11/17 15:47:45 by ltuffery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,8 +32,7 @@ SRC			:=	srcs/main.cpp \
 				srcs/commands/Who.cpp	\
 				srcs/commands/Message.cpp \
 				srcs/commands/Part.cpp \
-				srcs/commands/Quit.cpp \
-				srcs/utils/CmdUtils.cpp
+				srcs/commands/Quit.cpp
 
 SRC_BOT		:= srcs/main_bot.cpp \
 			   srcs/Bot.cpp

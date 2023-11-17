@@ -6,12 +6,11 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 12:07:49 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/17 15:49:19 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Join.hpp"
-#include "../utils/CmdUtils.hpp"
 #include <cstddef>
 #include <string>
 #include "../ACommand.hpp"
@@ -84,13 +83,13 @@ bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 			channel_name.push_back(args[0][i]);
 		else if (args[0][i] == ',')
 		{
-			if (!isValidChannelName(channel_name, server, user))
+			if (!this->isValidChannelName(channel_name, server, user))
 				return false;
 			channels_name.push_back(channel_name);
 			channel_name.clear();
 		}
 	}
-	if (!isValidChannelName(channel_name, server, user))
+	if (!this->isValidChannelName(channel_name, server, user))
 		return false;
 	else
 		channels_name.push_back(channel_name);
@@ -103,7 +102,7 @@ bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 		channelTarget = server->getChannelByName(channels_name[i]);
 		if (channelTarget == NULL)
 		{
-			channelCreate(channels_name[i], server, user, channels_password);
+			this->channelCreate(channels_name[i], server, user, channels_password);
 		}
 		else if (channelTarget->isFull())
 		{
@@ -129,7 +128,7 @@ bool Join::execute( std::vector<std::string> args, User* user, Server* server )
 		{
 			channelTarget->addUser(user, 0);
 			user->addChannel(channelTarget);
-			sendJoinMessage(user, channelTarget, server);
+			this->sendJoinMessage(user, channelTarget, server);
 		}
 		else
 		{
