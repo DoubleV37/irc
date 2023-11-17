@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/11 16:35:54 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/17 10:52:16 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ User::User()
     this->_userName = "";
     this->_nickName = "";
     this->passIsSet = false;
+	this->_todisconnect = false;
 }
 
 User::User( int fd )
@@ -28,6 +29,7 @@ User::User( int fd )
     this->_userName = "";
     this->_nickName = "";
     this->passIsSet = false;
+	this->_todisconnect = false;
 }
 
 User::User( const User& obj ) {
@@ -80,6 +82,16 @@ void User::setNickName( std::string const & nickName ) {
 void User::setPassToggle( bool status ) {
 
     this->passIsSet = status;
+}
+
+void User::setToDisconnect()
+{
+	this->_todisconnect = true;
+}
+
+bool User::getToDisconnect()
+{
+	return this->_todisconnect;
 }
 
 void User::addChannel( Channel* channel ) {

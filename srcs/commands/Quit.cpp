@@ -16,6 +16,7 @@ Quit::~Quit()
 bool Quit::execute(std::vector<std::string> args, User *user, Server *server)
 {
 	(void)args;
-	server->deleteUser(user->getFd());
+	(void)server;
+	user->setToDisconnect();
 	return true;
 }
