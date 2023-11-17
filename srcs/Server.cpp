@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/16 17:09:48 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:03:53 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,8 +196,8 @@ int	Server::sendMessageChannel(Channel *channel, std::string const & message )
 void Server::loginError( int cli_fd, std::string num_error, std::string message)
 {
 	sendMessageError(cli_fd, num_error, message);
-	deleteUser(cli_fd);
-	std::cout << "Client " << cli_fd << " disconnected" << std::endl;
+	getUserByFd(cli_fd)->setToDisconnect();
+	// std::cout << "Client " << cli_fd << " disconnected" << std::endl;
 }
 
 int	Server::isValidUsername(std::string const & str)
@@ -247,29 +247,29 @@ void Server::dispatch( std::string const recv_msg, int cli_fd )
 			char tmp = recv_msg[i];
 			if (arg != "CAP LS 302")
 			{
-				// std::cout << "recv size : " << recv_msg.size() << std::endl;
 				parameters = split(arg, ' ');
-				
+
 				command = this->getCommand(parameters[0]);
 				if (command == NULL)
 				{
 					this->sendMessageError(cli_fd, "421", "invalid command");
 					break ;
 				}
-				// std::cout << "recv size : " << recv_msg.size() << std::endl;
 				parameters.erase(parameters.begin());
 				if (parameters.size() >= 2 && parameters[1][0] == ':')
 					parameters[1].erase(0, 1);
-				// std::cout << "recv size : " << recv_msg.size() << std::endl;
 				if (command->loginRequired() && user && !user->isLog())
 					this->sendMessageError(cli_fd, "451", "You have not registered");
 				else
+				{
 					command->execute(parameters, user, this);
-				// std::cout << "recv size : " << recv_msg.size() << std::endl;
+					if (user->getToDisconnect())
+					{
+						deleteUser(cli_fd);
+						break ;
+					}
+				}
 			}
-			
-			// std::cout << "recv size : " << recv_msg.size() << std::endl;
-			// std::cout << "i : " << i << std::endl;
 			if (tmp == '\r')
 				i++;
 			arg.clear();

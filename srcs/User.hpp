@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:41 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 11:36:23 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/17 10:52:24 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class User {
     private:
         std::string _userName;
         std::string _nickName;
+		bool _todisconnect;
         std::map<std::string, Channel*> _channels;
 		std::string _bufferMsg;
         int _fd;
@@ -39,6 +40,8 @@ class User {
         void setUserName( std::string const & userName );
         void setNickName( std::string const & nickName );
         void setPassToggle( bool status );
+		void setToDisconnect();
+		bool getToDisconnect();
         void addChannel( Channel* channel );
         void removeChannel( std::string const & name );
         std::map<std::string, Channel*> getChannels();
