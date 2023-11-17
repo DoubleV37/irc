@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:16:35 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/17 13:14:49 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,105 @@ Mode::Mode() : ACommand( "MODE", true )
 
 Mode::~Mode()
 {
+}
+
+void Mode::inviteOnly(std::vector<std::string> &args, User* user, Server* server, Channel* channelTarget) {
+	
+	if (args[1][0] == '+')
+	{
+		channelTarget->setPrivate(true);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +i\r\n");
+	}
+	else
+	{
+		channelTarget->setPrivate(false);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -i\r\n");
+	}
+}
+
+bool Mode::joinLimit(std::vector<std::string> &args, User* user, Server* server, Channel* channelTarget, size_t &ac) {
+
+	if (args[1][0] == '+' && (args.size() < 3 + ac || args[2 + ac].size() == 0))
+	{
+		server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");
+		return false;
+	}
+	if (args[1][0] == '+' && args[2 + ac].size() > 0)
+	{
+		channelTarget->setLimit(std::atoi(args[2 + ac].c_str()));
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +l " + args[2 + ac] + "\r\n");
+	}
+	else if (args[1][0] == '-')
+	{
+		channelTarget->setLimit(0);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -l\r\n");
+	}
+	return(true);
+}
+
+void Mode::topicLimit(std::vector<std::string> &args, User* user, Server* server, Channel* channelTarget) {
+
+	if (args[1][0] == '+')
+	{
+		channelTarget->setTopicProtection(true);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +t\r\n");
+	}
+	else
+	{
+		channelTarget->setTopicProtection(false);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -t\r\n");
+	}
+}
+
+bool Mode::channelPassword(std::vector<std::string> &args, User* user, Server* server, Channel* channelTarget, size_t &ac) {
+
+	if (args[1][0] == '+' && (args.size() < 3 + ac || args[2 + ac].size() == 0))
+	{
+		server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");
+		return false;
+	}
+	if (args[1][0] == '+' && args[2 + ac].size() > 0)
+	{
+		channelTarget->setPassword(args[2 + ac]);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +k " + args[2 + ac] + "\r\n");
+	}
+	else if (args[1][0] == '-')
+	{
+		channelTarget->setPassword("");
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -k\r\n");
+	}
+	return(true);
+}
+
+bool Mode::channelOp(std::vector<std::string> &args, User* user, Server* server, Channel* channelTarget, size_t &ac) {
+
+	if (args.size() < 3 + ac || args[2 + ac].size() == 0)
+	{
+		server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");
+		return false;
+	}
+	User *userTarget = server->getUserByNickname(args[2 + ac]);
+	if (userTarget == NULL)
+	{
+		server->sendMessageError(user->getFd(), "401", args[2 + ac] + " :No such nick/channel");
+		return false;
+	}
+	if (!channelTarget->containsUser(userTarget))
+	{
+		server->sendMessageError(user->getFd(), "441", args[2 + ac] + " " + channelTarget->getName() + " :They aren't on that channel");
+		return false;
+	}
+	if (args[1][0] == '+')
+	{
+		channelTarget->setOp(userTarget);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +o " + args[2 + ac] + "\r\n");
+	}
+	else
+	{
+		channelTarget->deOp(userTarget);
+		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -o " + args[2 + ac] + "\r\n");
+	}
+	return(true);
 }
 
 bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
@@ -55,6 +154,7 @@ bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 	}
 
 	size_t ac = 0;
+	std::cout << "AC : " << ac << std::endl;
 
 	for (size_t i = 0; i < args[1].size(); i++)
 	{
@@ -66,105 +166,41 @@ bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 		else if (i == 0)
 			continue;
 
-		if (args[1][i] == 'i')
+		if (args[1][i] == 'i' )
 		{
-			if (args[1][0] == '+')
-			{
-				channelTarget->setPrivate(true);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +i\r\n");
-			}
-			else
-			{
-				channelTarget->setPrivate(false);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -i\r\n");
-			}
+			inviteOnly(args, user, server, channelTarget);
 		}
-		else if (args[1][i] == 'l' )
+		else if (args[1][i] == 'l')
 		{
-			if (args[1][0] == '+' && (args.size() < 3 + ac || args[2 + ac].size() == 0))
-			{
-				server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");
+			if (joinLimit(args, user, server, channelTarget, ac))
+				ac++;
+			else
 				return false;
-			}
-			if (args[1][0] == '+' && args[2 + ac].size() > 0)
-			{
-				channelTarget->setLimit(std::atoi(args[2 + ac].c_str()));
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +l " + args[2 + ac] + "\r\n");
-			}
-			else if (args[1][0] == '-')
-			{
-				channelTarget->setLimit(0);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -l\r\n");
-			}
-			ac++;
 		}
 		else if (args[1][i] == 't')
 		{
-			if (args[1][0] == '+')
-			{
-				channelTarget->setTopicProtection(true);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +t\r\n");
-			}
-			else
-			{
-				channelTarget->setTopicProtection(false);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -t\r\n");
-			}
+			topicLimit(args, user, server, channelTarget);
 		}
 		else if (args[1][i] == 'k')
 		{
-			if (args[1][0] == '+' && (args.size() < 3 + ac || args[2 + ac].size() == 0))
-			{
-				server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");
+			if (channelPassword(args, user, server, channelTarget, ac))
+				ac++;
+			else
 				return false;
-			}
-			if (args[1][0] == '+' && args[2 + ac].size() > 0)
-			{
-				channelTarget->setPassword(args[2 + ac]);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +k " + args[2 + ac] + "\r\n");
-			}
-			else if (args[1][0] == '-')
-			{
-				channelTarget->setPassword("");
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -k\r\n");
-			}
-			ac++;
 		}
 		else if (args[1][i] == 'o')
 		{
-			if (args.size() < 3 + ac || args[2 + ac].size() == 0)
-			{
-				server->sendMessageError(user->getFd(), "461", "MODE :Not enough parameters");
+			if (channelOp(args, user, server, channelTarget, ac))
+				ac++;
+			else	
 				return false;
-			}
-			User *userTarget = server->getUserByNickname(args[2 + ac]);
-			if (userTarget == NULL)
-			{
-				server->sendMessageError(user->getFd(), "401", args[2 + ac] + " :No such nick/channel");
-				return false;
-			}
-			if (!channelTarget->containsUser(userTarget))
-			{
-				server->sendMessageError(user->getFd(), "441", args[2 + ac] + " " + channelTarget->getName() + " :They aren't on that channel");
-				return false;
-			}
-			if (args[1][0] == '+')
-			{
-				channelTarget->setOp(userTarget);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +o " + args[2 + ac] + "\r\n");
-			}
-			else
-			{
-				channelTarget->deOp(userTarget);
-				server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " -o " + args[2 + ac] + "\r\n");
-			}
-			ac++;
 		}
 		else
 		{
 			server->sendMessageError(user->getFd(), "472", " :is unknown mode char to me");
 			return false;
 		}
+		std::cout << "AC After : " << ac << std::endl;
 	}
     return true;
 }
