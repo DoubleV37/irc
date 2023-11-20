@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Mode.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 15:50:25 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/20 13:36:36 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Mode::~Mode()
 }
 
 void Mode::inviteOnly(std::vector<std::string> &args, User* user, Server* server, Channel* channelTarget) {
-	
+
 	if (args[1][0] == '+')
 	{
 		channelTarget->setPrivate(true);
@@ -147,6 +147,11 @@ bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 		server->sendMessage(user->getFd(), ": 324 " + user->getNickname() + " " + channelTarget->getName() + " " + channelTarget->getModes() + " \r\n");
 		return true;
 	}
+	if (!channelTarget->containsUser(user))
+	{
+		server->sendMessageError(user->getFd(), "482", args[0] + " :You're not on that channel");
+		return true;
+	}
 	if (!channelTarget->isOp(user))
 	{
 		server->sendMessageError(user->getFd(), "482", args[0] + " :You're not channel operator");
@@ -190,7 +195,7 @@ bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 		{
 			if (this->channelOp(args, user, server, channelTarget, ac))
 				ac++;
-			else	
+			else
 				return false;
 		}
 		else
