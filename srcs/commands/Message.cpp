@@ -29,10 +29,6 @@ bool Message::execute(std::vector<std::string> args, User *user, Server *server)
 {
 	std::string message = "";
 
-	for (size_t i = 0; i < args.size(); i++)
-	{
-		std::cout << "arg[" << i << "] = " << args[i] << std::endl;
-	}
 	if (args.size() < 2)
 	{
 		server->sendMessage(user->getFd(), "Usage: PRIVMSG <user | channel> <message> \r\n");

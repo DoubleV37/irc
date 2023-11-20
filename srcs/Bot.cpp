@@ -63,8 +63,8 @@ void Bot::on()
 {
 	std::string msg;
 	std::vector<char> buffer(MAX_BUF_LENGTH);
-	::listen(this->_socket, 42); // TODO : 42 est une valeur a changer
-	
+	::listen(this->_socket, 1); // TODO : 42 est une valeur a changer
+
 	std::string connect_cmd = "";
 	std::string name = !this->_name.empty() ? this->_name : "bot";
 	std::string yodaQuotes[7] = { "No! Try not. Do. Or do not. There is no try", "Size matters not. Look at me. Judge me by my size, do you? Hmm? And well you should not. For my ally is the Force, and a powerful ally it is. Life creates it, makes it grow. Its energy surrounds us and binds us. Luminous beings are we, not this crude matter. You must feel the Force around you. Here, between you, me, the tree, the rock—everywhere, yes. Even between the land and the ship.", "Fear is the path to the dark side. Fear leads to anger. Anger leads to hate. Hate leads to suffering.", "Great warrior. Hmm. Wars not make one great.", "You must unlearn what you have learned.", "Once you start down the dark path, forever will it dominate your destiny. Consume you, it will.", "Smaller in number are we, but larger in mind." };
@@ -76,13 +76,13 @@ void Bot::on()
 	}
 	connect_cmd.append("NICK " + name + "\r\nUSER " + name + "\r\n");
 
-	// :: devant parce qu'appartient aux libc, dans ce cas socket.c, 
+	// :: devant parce qu'appartient aux libc, dans ce cas socket.c,
 	// qu'on ne veut pas confondre avec une autre du même nom
 	::send(this->_socket, connect_cmd.c_str(), connect_cmd.size(), 0);
-	
+
 	this->exec("JOIN", "#bot", "");
 	this->exec("TOPIC", "#bot", "ceci est un topic");
-	
+
 	srand(time(0));
 
 	while (!this->exit)

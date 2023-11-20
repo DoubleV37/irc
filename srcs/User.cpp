@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:39 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 10:52:16 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/20 14:41:48 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ bool User::getToDisconnect()
 
 void User::addChannel( Channel* channel ) {
 
-    // Vérifier en amont si le channel existe déjà
     this->_channels[channel->getName()] = channel;
 }
 
