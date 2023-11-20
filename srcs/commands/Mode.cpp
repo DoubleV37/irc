@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/20 13:36:36 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/20 15:04:34 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ bool Mode::joinLimit(std::vector<std::string> &args, User* user, Server* server,
 	}
 	if (args[1][0] == '+' && args[2 + ac].size() > 0)
 	{
+		int limit = std::atoi(args[2 + ac].c_str());
+		if (limit < 0)
+		{
+			server->sendMessageError(user->getFd(), "461", "MODE :Not valid parameters");
+			return false;
+		}
 		channelTarget->setLimit(std::atoi(args[2 + ac].c_str()));
 		server->sendMessageChannel(channelTarget, ":" + user->getNickname() + " MODE " + channelTarget->getName() + " +l " + args[2 + ac] + "\r\n");
 	}
