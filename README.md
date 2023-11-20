@@ -10,3 +10,7 @@ Compile Bot :
 ```
 make bot
 ```
+Launch :
+```
+./ircserv [port] [pass]
+```
