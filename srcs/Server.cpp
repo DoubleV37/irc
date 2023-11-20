@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/20 09:48:02 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/20 12:59:26 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ void Server::dispatch( std::string const recv_msg, int cli_fd )
 		if ((recv_msg[i] == '\r' && (recv_msg.size() > (i + 1) && recv_msg[i + 1] == '\n')) || recv_msg[i] == '\n')
 		{
 			char tmp = recv_msg[i];
-			if (arg != "CAP LS 302")
+			if (arg != "CAP LS 302" && !arg.empty())
 			{
 				parameters = split(arg, ' ');
 
@@ -281,7 +281,7 @@ void Server::dispatch( std::string const recv_msg, int cli_fd )
 
 ACommand* Server::getCommand( std::string const & name ) const {
 
-	std::cout << "cmd name : " << name << std::endl;
+	// std::cout << "cmd name : " << name << std::endl;
 	if (_command.find(name) != _command.end())
 		return (_command.find(name)->second);
 	std::cout << "NULL" << std::endl;
