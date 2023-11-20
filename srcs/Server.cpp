@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 13:55:08 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/20 09:48:02 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,8 +384,8 @@ void Server::deleteUser(int cli_fd) {
 	{
 		if (it->second->getUsers().find(user) != it->second->getUsers().end())
 		{
-			sendMessageChannel(it->second, ":" + user->getNickname() + " QUIT\r\n");
 			it->second->getUsers().erase(user);
+			sendMessageChannel(it->second, ":" + user->getNickname() + " QUIT\r\n");
 		}
 		if (it->second->getUsers().size() == 0)
 		{
