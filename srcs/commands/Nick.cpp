@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Nick.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/09 15:58:15 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/20 11:47:31 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ Nick::Nick() : ACommand( "NICK", false )
 }
 
 Nick::~Nick()
-{   
+{
 }
 
 bool Nick::execute( std::vector<std::string> args, User* user, Server* server ) {
@@ -46,9 +46,8 @@ bool Nick::execute( std::vector<std::string> args, User* user, Server* server ) 
                 }
                 else
                 {
-                    //autre vérifs de nickname valide ?
-                    server->sendMessage(user->getFd(), "nickname ok\r\n");
                     user->setNickName(args[0]);
+					server->sendMessage(user->getFd(), ": 001 " + user->getNickname() + " :Welcome to the awesome IRC Project " + user->getNickname() + "\r\n");
                     break;
                 }
             }
