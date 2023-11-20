@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:15 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 13:43:54 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/17 15:50:25 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,29 +166,29 @@ bool Mode::execute( std::vector<std::string> args, User* user, Server* server )
 
 		if (args[1][i] == 'i' )
 		{
-			inviteOnly(args, user, server, channelTarget);
+			this->inviteOnly(args, user, server, channelTarget);
 		}
 		else if (args[1][i] == 'l')
 		{
-			if (joinLimit(args, user, server, channelTarget, ac))
+			if (this->joinLimit(args, user, server, channelTarget, ac))
 				ac++;
 			else
 				return false;
 		}
 		else if (args[1][i] == 't')
 		{
-			topicLimit(args, user, server, channelTarget);
+			this->topicLimit(args, user, server, channelTarget);
 		}
 		else if (args[1][i] == 'k')
 		{
-			if (channelPassword(args, user, server, channelTarget, ac))
+			if (this->channelPassword(args, user, server, channelTarget, ac))
 				ac++;
 			else
 				return false;
 		}
 		else if (args[1][i] == 'o')
 		{
-			if (channelOp(args, user, server, channelTarget, ac))
+			if (this->channelOp(args, user, server, channelTarget, ac))
 				ac++;
 			else	
 				return false;
