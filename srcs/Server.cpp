@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/20 12:59:26 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/20 14:41:08 by vviovi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,6 @@ void Server::loginError( int cli_fd, std::string num_error, std::string message)
 {
 	sendMessageError(cli_fd, num_error, message);
 	getUserByFd(cli_fd)->setToDisconnect();
-	// std::cout << "Client " << cli_fd << " disconnected" << std::endl;
 }
 
 int	Server::isValidUsername(std::string const & str)
@@ -281,7 +280,6 @@ void Server::dispatch( std::string const recv_msg, int cli_fd )
 
 ACommand* Server::getCommand( std::string const & name ) const {
 
-	// std::cout << "cmd name : " << name << std::endl;
 	if (_command.find(name) != _command.end())
 		return (_command.find(name)->second);
 	std::cout << "NULL" << std::endl;
