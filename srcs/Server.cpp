@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/22 12:08:27 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:48:37 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,8 @@ void Server::addCommand(ACommand* command ) {
 
 void Server::run()
 {
+	std::cout << "Server start" << std::endl;
+
 	addCommand(new Pass());
 	addCommand(new Nick());
 	addCommand(new UserName());
