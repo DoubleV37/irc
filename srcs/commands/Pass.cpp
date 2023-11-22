@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/22 11:06:33 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/22 18:33:21 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ bool Pass::execute( std::vector<std::string> args, User* user, Server* server ) 
     
     static int tries = 0;
     
-	if (args.size() == 0)
+	if (args.size() != 1)
 	{
-        server->sendMessageError(user->getFd(), "461", "not enough parameters. Please retry.");
+        server->sendMessageError(user->getFd(), "461", "not enough or too many parameters");
 		return true;
 	}
     if (server->isValidPass(args[0]) == 0)
     {
-        server->sendMessageError(user->getFd(), "464", "password must contain only printable characters. Please retry.");
+        server->sendMessageError(user->getFd(), "464", "password must contain only printable characters");
         return true;
     }
     if (server->getPassword() == "")
@@ -50,7 +50,7 @@ bool Pass::execute( std::vector<std::string> args, User* user, Server* server ) 
     }
     else if (tries < 3)
     {
-        server->sendMessageError(user->getFd(), "464", "password incorrect. Please retry.");
+        server->sendMessageError(user->getFd(), "464", "password incorrect");
         tries++;
     }
     else 

@@ -6,11 +6,12 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 13:55:34 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/22 19:04:08 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Topic.hpp"
+#include <cctype>
 #include <cstddef>
 
 /**

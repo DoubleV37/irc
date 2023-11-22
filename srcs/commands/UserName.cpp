@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/22 10:57:04 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/22 18:48:19 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool UserName::execute( std::vector<std::string> args, User* user, Server* serve
 
 	if (args.size() == 0)
 	{
-        server->sendMessageError(user->getFd(), "461", "username is empty");
+        server->sendMessageError(user->getFd(), "461", "Not enough parameters");
 		return true;
 	}
 
