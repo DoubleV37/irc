@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/20 14:41:08 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/22 12:08:27 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	Server::addNewConnections()
 					this->_all_connections[i] = new_fd;
 					User* user = new User(new_fd);
 					this->_users.push_back(user);
+					sendMessage(new_fd, "Welcome to our awesome IRC server\nTo login please use commands: PASS (if required) | NICK (12 chars. max) | USER (12 chars. max) in this order.\r\n");
 					this->_nb_connections++;
 					break;
 				}
@@ -204,6 +205,16 @@ int	Server::isValidUsername(std::string const & str)
 	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (!isalnum(str[i]))
+			return (0);
+	}
+	return (1);
+}
+
+int	Server::isValidPass(std::string const & str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (!isprint(str[i]))
 			return (0);
 	}
 	return (1);
