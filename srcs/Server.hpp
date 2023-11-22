@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:37 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/17 10:50:26 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/22 10:54:18 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ class Server {
 		int	sendMessageBetweenUsers(int start_fd, std::string target, std::string const & message);
 		int	sendMessageChannel(Channel *channel, std::string const & message );
 		int	isValidUsername(std::string const & str);
+		int	isValidPass(std::string const & str);
 		void loginError( int cli_fd, std::string num_error, std::string message );
 		void addChannel( Channel* channel );
 		void deleteChannel( std::string const & name );

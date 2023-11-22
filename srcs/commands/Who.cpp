@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/07 14:09:51 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/22 11:12:18 by gazzopar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,11 @@ bool Who::execute( std::vector<std::string> args, User* user, Server* server ) {
     if (channel == NULL)
     {
         server->sendMessage(user->getFd(), ": 403 " + user->getNickname() + " " + args[0] + " :No such channel\r\n");
+        return false;
+    }
+    if (channel->containsUser(user) == false)
+    {
+        server->sendMessage(user->getFd(), ": 442 " + user->getNickname() + " " + args[0] + " :You're not on that channel\r\n");
         return false;
     }
     server->sendMessage(user->getFd(), ": 353 " + user->getNickname() + " = " + channel->getName() + " :" + channel->getUsersList() + "\r\n");
