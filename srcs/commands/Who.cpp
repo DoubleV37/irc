@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/22 11:12:18 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/22 18:07:32 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ Who::~Who()
 bool Who::execute( std::vector<std::string> args, User* user, Server* server ) {
     std::string parameter;
 
-	if (args.size() == 0)
+	if (args.size() != 1)
 	{
-		server->sendMessageError(user->getFd(), "461", "WHO :Not enough parameters");
+		server->sendMessageError(user->getFd(), "461", "WHO :Not enough or too many parameters");
 		return false;
 	}
     Channel *channel = server->getChannelByName(args[0]);

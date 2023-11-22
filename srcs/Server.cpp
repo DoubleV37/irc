@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:34 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/22 14:48:37 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/22 18:34:47 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,7 +178,7 @@ int	Server::sendMessageError( int cli_fd, std::string num_error, std::string con
 	std::string error_msg;
 
 	num_error_msg = ": " + num_error + " " + getUserByFd(cli_fd)->getNickname() + "\r\n";
-	error_msg = "ERROR :" + message + "\r\n";
+	error_msg = "ERROR :" + message + ". Please retry.\r\n";
 	send(cli_fd, num_error_msg.c_str(), num_error_msg.size(), 0);
 	send(cli_fd, error_msg.c_str(), error_msg.size(), 0);
 	return (1);
@@ -202,6 +202,8 @@ void Server::loginError( int cli_fd, std::string num_error, std::string message)
 
 int	Server::isValidUsername(std::string const & str)
 {
+	if (str.empty())
+		return (0);
 	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (!isalnum(str[i]))
@@ -212,6 +214,8 @@ int	Server::isValidUsername(std::string const & str)
 
 int	Server::isValidPass(std::string const & str)
 {
+	if (str.empty())
+		return (0);
 	for (size_t i = 0; i < str.size(); i++)
 	{
 		if (!isprint(str[i]))

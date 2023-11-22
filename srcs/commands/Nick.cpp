@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/22 12:06:26 by gazzopar         ###   ########.fr       */
+/*   Updated: 2023/11/22 19:04:38 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,21 @@ Nick::~Nick()
 bool Nick::execute( std::vector<std::string> args, User* user, Server* server ) {
     
 	if (args.size() == 0)
-        server->sendMessageError(user->getFd(), "431", "nickname is empty. Please retry.");
+        server->sendMessageError(user->getFd(), "431", "nickname is empty");
+	else if (args.size() > 1)
+		server->sendMessageError(user->getFd(), "461", "too many parameters");
     else if (server->getPassword() != "" && user->passIsSet == false)
         server->sendMessageError(user->getFd(), "464", "password required, Please use command PASS.");
     else if ((user->passIsSet == true && server->getPassword() != "") || (user->passIsSet == false && server->getPassword() == ""))
     {
         if (server->isValidUsername(args[0]) == 0) 
         {
-            server->sendMessageError(user->getFd(), "432", "username must contain only alphanumeric characters. Please retry.");
+            server->sendMessageError(user->getFd(), "432", "nickname must contain only alphanumeric characters");
             return true;
         }
         if (args[0].size() > MAX_NICK_LENGTH) 
         {
-            server->sendMessageError(user->getFd(), "432", "nickname is more than 12 characters. Please retry.");
+            server->sendMessageError(user->getFd(), "432", "nickname is more than 12 characters");
             return true;
         }
         if (args[0] != "" && args[0].size() <= MAX_NICK_LENGTH)
@@ -48,7 +50,7 @@ bool Nick::execute( std::vector<std::string> args, User* user, Server* server ) 
             {
                 if (args[0] == server->getUserList()[i]->getNickname())
                 {
-                    server->sendMessageError(user->getFd(), "433", "nickname already taken. Please retry.");
+                    server->sendMessageError(user->getFd(), "433", "nickname already taken");
                     return true;
                 }
             }
