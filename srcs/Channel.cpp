@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2023/11/15 15:31:23 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/24 12:31:48 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #include <sstream>
 
 Channel::Channel(std::string name) : _name(name) {
-    this->_hasLimit = false;
 	this->_limit = 0;
 	this->_isPrivate = false;
 	this->_hasTopicProtection = false;
@@ -26,7 +25,6 @@ Channel::Channel(std::string name) : _name(name) {
 }
 
 Channel::Channel(std::string name, std::string password) : _name(name) {
-    this->_hasLimit = false;
 	this->_limit = 0;
 	this->_isPrivate = false;
 	this->_hasTopicProtection = false;
@@ -89,7 +87,7 @@ bool Channel::isOp(User* user ) {
 
 bool Channel::hasLimit() {
 
-    return this->_hasLimit;
+    return this->getLimit() > 0;
 }
 
 size_t  Channel::getLimit() {
@@ -145,7 +143,7 @@ std::map<User *, int> &Channel::getUsers()
 
 bool Channel::isFull()
 {
-    return this->hasLimit() && this->getUsers().size() == this->getLimit();
+    return this->hasLimit() && this->getUsers().size() >= this->getLimit();
 }
 
 void Channel::setPrivate(bool isPrivate)
