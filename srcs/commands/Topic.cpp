@@ -6,7 +6,7 @@
 /*   By: gazzopar <gazzopar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 15:53:20 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/22 19:04:08 by ltuffery         ###   ########.fr       */
+/*   Updated: 2023/11/24 12:37:12 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,11 @@ bool Topic::execute( std::vector<std::string> args, User* user, Server* server )
     if (channelTarget == NULL)
     {
 		server->sendMessageError(user->getFd(), "403", "No such channel");
+        return false;
+    }
+    if (channelTarget->containsUser(user) == false)
+    {
+        server->sendMessage(user->getFd(), ": 442 " + user->getNickname() + " " + args[0] + " :You're not on that channel\r\n");
         return false;
     }
     if (channelTarget->hasTopicProtection() && !channelTarget->isOp(user))
