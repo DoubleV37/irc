@@ -6,7 +6,7 @@
 /*   By: vviovi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 11:21:32 by gazzopar          #+#    #+#             */
-/*   Updated: 2023/11/15 15:32:00 by vviovi           ###   ########.fr       */
+/*   Updated: 2023/11/24 12:31:23 by ltuffery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ class Channel {
         std::string _password;
 		std::string _topic;
         bool _isPrivate;
-        bool _hasLimit;
         bool _hasTopicProtection;
         int  _limit;
 
